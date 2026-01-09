@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="wrap_content"
+    android:layout_margin="5dp"
+    android:layout_height="wrap_content"
+>
+
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/imageLayout"
+        android:layout_width="wrap_content"
+        app:strokeColor="@color/transparent"
+        android:layout_height="wrap_content"
+        app:cardCornerRadius="12dp"
+        android:backgroundTint="@color/cardBgColor">
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:id="@+id/icon"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:padding="5dp"
+                android:scaleType="centerCrop"
+                android:src="@drawable/blurbg"/>
+
+
+            <ImageView
+                android:id="@+id/premiumIcon"
+                android:layout_width="16dp"
+                android:layout_height="16dp"
+                android:src="@drawable/premiumicon"
+                android:layout_alignTop="@id/icon"
+                android:layout_alignEnd="@id/icon"/>
+
+        </RelativeLayout>
+
+    </com.google.android.material.card.MaterialCardView>
+
+    <TextView
+        android:id="@+id/iconName"
+        android:gravity="center_horizontal"
+        style="@style/iconText"
+        android:text="Icon Name"
+        app:layout_constraintTop_toBottomOf="@id/imageLayout"
+        app:layout_constraintStart_toStartOf="@id/imageLayout"
+        app:layout_constraintEnd_toEndOf="@id/imageLayout"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

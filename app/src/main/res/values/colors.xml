@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="black">#FF000000</color>
+    <color name="white">#FFFFFFFF</color>
+    <color name="appBgColor">#000528 </color>
+    <color name="buttonColor">#1a2744</color>
+    <color name="dividerColor">#00D0FF</color>
+    <color name="cardBgColor">#1e3a52</color>
+    <color name="transparent">#00FFFFFF </color>
+    <color name="premiumColor">#FFC999 </color>
+    <color name="red">#FF0000</color>
+    <color name="strokeColor">#FF284A66</color>
+    <color name="rbunselectedColor">#979AA6</color>
+    <color name="black_40">#66000000</color>
+
+
+
+</resources>

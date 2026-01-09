@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="24dp"
+    android:layout_gravity="center_vertical"
+    app:cardCornerRadius="16dp"
+    app:cardElevation="8dp"
+ >
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="24dp">
+
+        <ImageView
+            android:id="@+id/closeButton"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_alignParentEnd="true"
+            android:src="@drawable/close_btn"
+            android:clickable="true"
+            android:focusable="true" />
+
+
+        <LinearLayout
+            android:id="@+id/fingerprintContainer"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_below="@id/closeButton"
+            android:layout_marginTop="16dp"
+            android:orientation="vertical"
+            android:gravity="center">
+
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                app:cardCornerRadius="12dp"
+                app:cardElevation="0dp"
+                android:backgroundTint="#E3F5F9">
+
+                    <ImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_centerInParent="true"
+                        android:src="@drawable/fingerprint"
+            />
+
+            </androidx.cardview.widget.CardView>
+        </LinearLayout>
+
+
+        <TextView
+            android:id="@+id/titleText"
+
+            android:layout_below="@id/fingerprintContainer"
+            android:layout_centerHorizontal="true"
+            android:text="@string/Fingerprint_lock_text"
+            style="@style/BoldText"
+            android:textColor="@color/black"
+            android:textStyle="bold"
+            android:layout_margin="8dp"
+
+       />
+
+
+        <TextView
+            android:id="@+id/descriptionText"
+            android:layout_below="@id/titleText"
+            android:layout_centerHorizontal="true"
+            style="@style/DescriptionText"
+
+            android:text="@string/description"
+            android:gravity="center"
+           />
+
+
+    <Button
+        android:layout_margin="10dp"
+        android:id="@+id/AdBiometric"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/descriptionText"
+        style="@style/Button"
+        android:text="@string/enable_now"/>
+
+    </RelativeLayout>
+
+</androidx.cardview.widget.CardView>
+

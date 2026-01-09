@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:padding="16dp"
+    android:gravity="center">
+
+    <!-- Card itself stays wrap_content -->
+    <com.google.android.material.card.MaterialCardView
+        android:layout_gravity="center"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:cardCornerRadius="16dp"
+        app:cardBackgroundColor="@color/appBgColor"
+        app:strokeColor="@color/dividerColor"
+        app:strokeWidth="2dp"
+        app:cardElevation="8dp">
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="24dp">
+
+            <LinearLayout
+                android:id="@+id/cameraImageContainer"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:orientation="vertical">
+
+                <com.google.android.material.card.MaterialCardView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:cardCornerRadius="18dp">
+
+                    <ImageView
+                        android:id="@+id/permissionIcon"
+                        android:layout_width="150dp"
+                        android:layout_height="150dp"
+                        android:background="@color/appBgColor"
+                        android:src="@drawable/solar_camera_bold"/>
+                </com.google.android.material.card.MaterialCardView>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/above"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/cameraImageContainer"
+                android:orientation="vertical"
+                android:gravity="center_horizontal"
+                android:paddingTop="24dp">
+
+                <TextView
+                    android:id="@+id/permissionTitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    style="@style/ToobarTitle"
+                    android:textSize="18sp"
+                    android:textStyle="bold"
+                    android:text="@string/alarmtitle"/>
+
+                <TextView
+                    android:id="@+id/permissionDescription"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    style="@style/subtitle"
+                    android:text="@string/attempt"/>
+            </LinearLayout>
+
+        </RelativeLayout>
+
+    </com.google.android.material.card.MaterialCardView>
+
+</FrameLayout>

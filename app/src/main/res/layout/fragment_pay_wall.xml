@@ -1,0 +1,193 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="10dp">
+
+    <RelativeLayout
+        android:id="@+id/reltive"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="parent">
+
+
+        <ImageView
+            android:id="@+id/cancel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:background="@color/transparent"
+            android:src="@drawable/close_btn_paywall" />
+
+
+        <ImageView
+            android:id="@+id/icon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/cancel"
+            android:layout_centerHorizontal="true"
+            android:layout_margin="10dp"
+            android:src="@drawable/paywallicon" />
+
+        <LinearLayout
+            android:id="@+id/layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/icon"
+            android:gravity="center_horizontal"
+            android:orientation="horizontal"
+            android:padding="5dp">
+
+            <TextView
+
+                android:id="@+id/title"
+                style="@style/ToobarTitle"
+                android:layout_below="@id/icon"
+                android:layout_alignParentLeft="true"
+                android:layout_marginRight="10dp"
+                android:text="Intruder Selfie"
+                android:textSize="22sp"
+                android:textStyle="bold" />
+
+            <com.google.android.material.button.MaterialButton
+                style="@style/premiumButtonPayall"
+                android:layout_below="@id/icon"
+                android:text="PRO"
+                app:icon="@drawable/premiumiconblack"
+                app:iconGravity="textStart"
+                app:iconTint="@null" />
+
+
+        </LinearLayout>
+
+        <TextView
+            android:padding="5dp"
+            android:id="@+id/text"
+            style="@style/DescriptionText"
+            android:layout_below="@id/layout"
+            android:layout_centerHorizontal="true"
+            android:text="@string/enjoy" />
+
+        <LinearLayout
+
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/text"
+            android:layout_marginBottom="10dp"
+            android:orientation="vertical"
+            android:padding="15dp">
+
+            <TextView
+                style="@style/Paywalltext"
+                android:drawableLeft="@drawable/tick"
+                android:text="@string/adfre" />
+
+            <TextView
+                style="@style/Paywalltext"
+                android:drawableLeft="@drawable/tick"
+                android:text="@string/unlimited" />
+
+            <TextView
+
+                style="@style/Paywalltext"
+                android:drawableLeft="@drawable/tick"
+                android:text="@string/hide" />
+
+
+        </LinearLayout>
+
+
+    </RelativeLayout>
+
+
+    <RadioGroup
+        android:id="@+id/rgPlans"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toTopOf="@id/des"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/reltive" />
+
+    <TextView
+        android:id="@+id/des"
+        style="@style/renewabletext"
+        android:gravity="center_horizontal"
+        android:text="@string/sub"
+        app:layout_constraintBottom_toTopOf="@id/btnContinue" />
+
+
+    <Button
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:id="@+id/btnContinue"
+        style="@style/premiumButton"
+        android:layout_margin="15dp"
+        android:text="@string/continue_btn_text"
+        app:layout_constraintBottom_toTopOf="@id/policyTermsLayout" />
+
+    <LinearLayout
+        android:id="@+id/policyTermsLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="5dp"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <!-- Privacy Policy -->
+        <TextView
+            android:id="@+id/privacyPolicyText"
+            style="@style/TextLinkStyle"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:paddingStart="8dp"
+            android:paddingEnd="8dp"
+            android:text="@string/privacy_policy" />
+
+        <!-- Divider -->
+        <View
+            android:layout_width="1dp"
+            android:layout_height="match_parent"
+            android:background="@color/white" />
+
+        <!-- Terms & Conditions -->
+        <TextView
+            android:id="@+id/termsText"
+            style="@style/TextLinkStyle"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:paddingStart="8dp"
+            android:paddingEnd="8dp"
+            android:text="@string/term_of_service" />
+
+        <!-- Divider -->
+        <View
+            android:layout_width="1dp"
+            android:layout_height="match_parent"
+            android:background="@color/white" />
+
+        <!-- Refund Policy -->
+        <TextView
+            android:id="@+id/refundPolicyText"
+            style="@style/TextLinkStyle"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:paddingStart="8dp"
+            android:paddingEnd="8dp"
+            android:text="@string/detail" />
+
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/app_nav_graph"
+    app:startDestination="@id/payWallFragment">
+
+    <fragment
+        android:id="@+id/alarmFragment"
+        android:name="com.example.thirdeye.ui.alarm.AlarmFragment"
+        android:label="fragment_alarm"
+        tools:layout="@layout/fragment_alarm" />
+    <fragment
+        android:id="@+id/homeFragment"
+        android:name="com.example.thirdeye.ui.main.HomeFragment"
+        android:label="HomeFragment" >
+        <action
+            android:id="@+id/action_homeFragment_to_alarmFragment"
+            app:destination="@id/alarmFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:popExitAnim="@anim/slide_out_right"
+            />
+        <action
+            android:id="@+id/action_homeFragment_to_settingFragment"
+            app:destination="@id/settingFragment"
+            app:enterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_left"
+ />
+        <action
+            android:id="@+id/action_homeFragment_to_intrudersFragment"
+            app:destination="@id/intrudersFragment"
+            app:enterAnim="@anim/slide_in_bottom"
+            app:popExitAnim="@anim/slide_out_bottom"/>
+        <action
+            android:id="@+id/action_homeFragment_to_camouflageFragment"
+            app:destination="@id/camouflageFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:popExitAnim="@anim/slide_out_right"
+
+ />
+
+        <action
+            android:id="@+id/action_homeFragment_to_widgetFragment"
+            app:destination="@id/widgetFragment"
+            app:enterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_left"
+            />
+        <action
+            android:id="@+id/action_homeFragment_to_languageSelectionFragment"
+            app:destination="@id/languageSelectionFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_payWallFragment"
+            app:destination="@id/payWallFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_intruderDetailFragment"
+            app:destination="@id/intruderDetailFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/camouflageFragment"
+        android:name="com.example.thirdeye.ui.camouflage.CamouflageFragment"
+        android:label="fragment_camouflage"
+        tools:layout="@layout/fragment_camouflage" />
+    <fragment
+        android:id="@+id/settingFragment"
+        android:name="com.example.thirdeye.ui.settings.SettingFragment"
+        android:label="fragment_setting"
+        tools:layout="@layout/fragment_setting" />
+    <fragment
+        android:id="@+id/intrudersFragment"
+        android:name="com.example.thirdeye.ui.intruders.IntrudersFragment"
+        android:label="IntrudersFragment"
+        >
+        <action
+            android:id="@+id/action_intrudersFragment_to_camouflageFragment"
+            app:destination="@id/camouflageFragment"
+            app:enterAnim="@anim/slide_in_right"
+            />
+        <action
+            android:id="@+id/action_intrudersFragment_to_intruderDetailFragment"
+            app:destination="@id/intruderDetailFragment" />
+        <action
+            android:id="@+id/action_intrudersFragment_to_historyFragment"
+            app:destination="@id/historyFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/intruderDetailFragment"
+        android:name="com.example.thirdeye.ui.intruders.IntruderDetail.IntruderDetailFragment"
+        android:label="fragment_intruder_detail"
+        tools:layout="@layout/fragment_intruder_detail" >
+        <argument
+            android:name="images"
+            app:argType="com.example.thirdeye.data.models.IntrudersImages"
+            app:nullable="true"
+            android:defaultValue="@null" />
+        <action
+            android:id="@+id/action_intruderDetailFragment_to_historyFragment"
+            app:destination="@id/historyFragment" />
+        <action
+            android:id="@+id/action_intruderDetailFragment_to_intrudersFragment"
+            app:destination="@id/intrudersFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/historyFragment"
+        android:name="com.example.thirdeye.ui.intruders.IntruderDetail.history.HistoryFragment"
+        android:label="fragment_history"
+        tools:layout="@layout/fragment_history" >
+        <action
+            android:id="@+id/action_historyFragment_to_intruderDetailFragment"
+            app:destination="@id/intruderDetailFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/widgetFragment"
+        android:name="com.example.thirdeye.ui.widget.WidgetFragment"
+        android:label="fragment_widget"
+        tools:layout="@layout/fragment_widget" />
+    <fragment
+        android:id="@+id/languageSelectionFragment"
+        tools:layout="@layout/fragment_language_selection"
+        android:name="com.example.thirdeye.ui.onboarding.LanguageSelectionFragment"
+        android:label="LanguageSelectionFragment" >
+        <action
+            android:id="@+id/action_languageSelectionFragment_to_gettingStartedFragment"
+            app:destination="@id/gettingStartedFragment" />
+        <action
+            android:id="@+id/action_languageSelectionFragment_to_homeFragment"
+            app:destination="@id/homeFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/payWallFragment"
+        android:name="com.example.thirdeye.ui.onboarding.paywall.PayWallFragment"
+        android:label="PayWallFragment" >
+        <action
+            android:id="@+id/action_payWallFragment_to_homeFragment"
+            app:destination="@id/homeFragment"
+          />
+    </fragment>
+    <fragment
+        android:id="@+id/gettingStartedFragment"
+        android:name="com.example.thirdeye.ui.onboarding.GettingStartedFragment"
+        android:label="fragment_getting_started"
+        tools:layout="@layout/fragment_getting_started" >
+        <action
+            android:id="@+id/action_gettingStartedFragment_to_homeFragment"
+            app:destination="@id/homeFragment" />
+        <action
+            android:id="@+id/action_gettingStartedFragment_to_languageSelectionFragment"
+            app:destination="@id/languageSelectionFragment" />
+    </fragment>
+</navigation>
