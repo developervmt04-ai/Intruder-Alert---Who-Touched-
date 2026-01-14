@@ -9,6 +9,7 @@ import android.content.Intent
 import android.graphics.BitmapFactory
 import android.widget.RemoteViews
 import com.example.thirdeye.R
+import com.example.thirdeye.R.layout.intruder_widget
 import com.example.thirdeye.ui.splash.SplashActivity
 
 import java.io.File
@@ -27,7 +28,7 @@ class IntruderWidget : AppWidgetProvider() {
             val awm = AppWidgetManager.getInstance(context)
             val ids = awm.getAppWidgetIds(ComponentName(context, IntruderWidget::class.java))
 
-            val views = RemoteViews(context.packageName, R.layout.intruder_widget)
+            val views = RemoteViews(context.packageName, intruder_widget)
             views.setTextViewText(R.id.tvIntrusionState, state)
             views.setTextViewText(R.id.tvLastIntrusionTime, dataTime)
 

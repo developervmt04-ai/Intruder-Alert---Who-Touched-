@@ -1,42 +1,41 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/widget"
-    android:layout_height="wrap_content"
+    android:layout_width="125dp"
+    android:layout_height="125dp"
     android:clickable="true"
     android:focusable="true"
-    android:padding="12dp">
+    android:background="@drawable/widget_card_bg">
 
-    <!-- Image -->
     <ImageView
         android:id="@+id/ivIntruder"
-        android:layout_width="80dp"
-        android:layout_height="80dp"
+        android:layout_width="125dp"
+        android:layout_height="125dp"
         android:scaleType="centerCrop"
-        android:layout_alignParentStart="true"
-        android:layout_centerVertical="true"
         android:src="@drawable/blurbg" />
 
-
-    <TextView
-        android:id="@+id/tvIntrusionState"
+    <LinearLayout
+        android:layout_margin="5dp"
+        android:layout_gravity="bottom"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/no_intrusions"
-        android:textColor="@color/white"
-        android:textStyle="bold"
-        android:layout_toEndOf="@id/ivIntruder"
-        android:layout_marginStart="12dp"/>
+        android:orientation="vertical">
 
+        <TextView
+            android:id="@+id/tvIntrusionState"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/no_intrusions"
+            android:textSize="10sp"
+            android:textColor="@color/white" />
 
-    <TextView
-        android:id="@+id/tvLastIntrusionTime"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text=""
-        android:textColor="@color/white"
-        android:layout_below="@id/tvIntrusionState"
-        android:layout_toEndOf="@id/ivIntruder"
-        android:layout_marginStart="12dp"
-        android:layout_marginTop="4dp"/>
+        <TextView
+            android:id="@+id/tvLastIntrusionTime"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text=""
+            android:textSize="8sp"
+            android:textColor="@color/white"
+            android:layout_marginTop="2dp" />
+    </LinearLayout>
 
-</RelativeLayout>
+</FrameLayout>

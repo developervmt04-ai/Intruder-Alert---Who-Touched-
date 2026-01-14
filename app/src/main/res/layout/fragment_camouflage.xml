@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:ads="http://schemas.android.com/apk/res-auto"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -9,40 +8,38 @@
     android:padding="5dp"
     tools:ignore="UselessParent">
 
-    <!-- Toolbar -->
     <com.google.android.material.appbar.MaterialToolbar
         android:id="@+id/mainToolbar"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
         android:background="@color/appBgColor"
+        android:clipChildren="false"
+        android:clipToPadding="false"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:title="@string/Alarm"
-        android:clipChildren="false"
-        android:clipToPadding="false">
+        app:title="@string/Alarm">
 
         <RelativeLayout
             android:id="@+id/toolbarContainer"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:gravity="center_vertical"
             android:clipChildren="false"
-            android:clipToPadding="false">
+            android:clipToPadding="false"
+            android:gravity="center_vertical">
 
             <ImageView
                 android:id="@+id/backIcon"
                 android:layout_width="30dp"
                 android:layout_height="30dp"
+                android:layout_alignParentStart="true"
+                android:layout_centerVertical="true"
                 android:clickable="true"
                 android:focusable="true"
-                android:src="@drawable/ep_back"
                 android:importantForAccessibility="yes"
-                android:layout_alignParentStart="true"
-                android:layout_centerVertical="true" />
+                android:src="@drawable/ep_back" />
 
             <TextView
-                android:gravity="center"
                 android:id="@+id/toolbarTitle"
                 style="@style/ToobarTitle"
                 android:layout_width="wrap_content"
@@ -51,6 +48,7 @@
                 android:layout_alignParentBottom="true"
                 android:layout_marginStart="12dp"
                 android:layout_toEndOf="@id/backIcon"
+                android:gravity="center"
                 android:importantForAccessibility="yes"
                 android:singleLine="true"
                 android:text="Icon Camouflage" />
@@ -59,111 +57,205 @@
 
     <!-- Divider -->
     <View
+
         android:id="@+id/divider"
         android:layout_width="match_parent"
         android:layout_height="0.6dp"
         android:background="@color/strokeColor"
         app:layout_constraintTop_toBottomOf="@id/mainToolbar" />
 
-    <!-- Preview container -->
-    <FrameLayout
+    <LinearLayout
         android:id="@+id/previewContainer"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_margin="5dp"
-        android:layout_marginTop="16dp"
         android:background="@drawable/squre"
-        android:padding="10dp"
+        android:clipChildren="false"
+        android:clipToPadding="false"
+        android:orientation="vertical"
+        android:padding="12dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/divider"
-        android:clipChildren="false"
-        android:clipToPadding="false">
+        app:layout_constraintTop_toBottomOf="@id/divider">
 
-        <ImageView
-            android:id="@+id/icon"
-            android:layout_width="65dp"
-            android:layout_height="65dp"
-            android:layout_margin="10dp"
-            android:padding="5dp"
-            android:scaleType="centerCrop"
-            android:src="@drawable/blurbg"
-            android:importantForAccessibility="yes"
-        />
-    </FrameLayout>
+        <!-- Dummy Search Bar -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_marginBottom="5dp"
+            android:background="@drawable/rounded_card"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:paddingStart="12dp"
+            android:paddingEnd="12dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Search"
+                android:textColor="#888888"
+                android:textSize="14sp" />
+
+        </LinearLayout>
+
+        <!-- 3x3 Grid -->
+        <GridLayout
+            android:layout_gravity="center"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:columnCount="3"
+            android:gravity="center"
+            android:rowCount="3"
+            >
+
+            <ImageView
+                android:id="@+id/icon"
+                android:layout_width="55dp"
+
+                android:layout_height="55dp"
+                android:layout_margin="5dp"
+                android:padding="5dp"
+                android:scaleType="centerCrop"
+                android:src="@drawable/blurbg" />
+
+            <View
+                android:layout_width="55dp"
+
+                android:layout_height="55dp"
+                android:layout_margin="5dp"
+                android:background="@drawable/rounded_card" />
+
+            <View
+                android:layout_width="55dp"
+
+                android:layout_height="55dp"
+                android:layout_margin="5dp"
+                android:background="@drawable/rounded_card" />
+
+            <!-- Row 2 -->
+            <View
+                android:layout_width="55dp"
+
+                android:layout_height="55dp"
+                android:layout_margin="5dp"
+                android:background="@drawable/rounded_card" />
+
+            <View
+                android:layout_width="55dp"
+
+                android:layout_height="55dp"
+                android:layout_margin="5dp"
+                android:background="@drawable/rounded_card" />
+
+            <View
+                android:layout_width="55dp"
+
+                android:layout_height="55dp"
+                android:layout_margin="5dp"
+                android:background="@drawable/rounded_card" />
+
+            <!-- Row 3 -->
+            <View
+                android:layout_width="55dp"
+
+                android:layout_height="55dp"
+
+                android:layout_margin="5dp"
+                android:background="@drawable/rounded_card" />
+
+            <View
+                android:layout_width="55dp"
+
+                android:layout_height="55dp"
+                android:layout_margin="5dp"
+                android:background="@drawable/rounded_card" />
+
+            <View
+                android:layout_width="55dp"
+
+                android:layout_height="55dp"
+                android:layout_margin="5dp"
+                android:background="@drawable/rounded_card" />
+
+        </GridLayout>
+
+    </LinearLayout>
+
 
     <TextView
-        android:layout_margin="5dp"
+
         android:id="@+id/iconsText"
         style="@style/DescriptionText"
-        ads:layout_constraintStart_toStartOf="parent"
         android:padding="5dp"
         android:text="@string/icons"
-        ads:layout_constraintTop_toBottomOf="@+id/previewContainer"
-      />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/previewContainer" />
 
-
-
+    <!-- Icons RecyclerView -->
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/iconRV"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:padding="10dp"
         android:clipChildren="false"
         android:clipToPadding="false"
-        app:layout_constraintTop_toBottomOf="@id/iconsText"
         app:layout_constraintBottom_toTopOf="@id/premiumIconRv"
-        app:layout_constraintStart_toStartOf="parent"/>
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/iconsText" />
 
     <!-- Premium Icons RecyclerView -->
-
-    <!-- Buttons container -->
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/premiumIconRv"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:clipChildren="false"
         android:clipToPadding="false"
-        android:padding="10dp"
+
+
         app:layout_constraintBottom_toTopOf="@id/buttons"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/iconRV" />
 
+    <!-- Buttons container - Above ad space -->
     <FrameLayout
         android:id="@+id/buttons"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:clipChildren="false"
         android:layout_margin="5dp"
+        android:clipChildren="false"
         android:clipToPadding="false"
-        app:layout_constraintTop_toBottomOf="@id/premiumIconRv"
-        app:layout_constraintBottom_toTopOf="@id/adView"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent">
+        app:layout_constraintBottom_toTopOf="@id/adContainer"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
 
         <Button
             android:id="@+id/applyBtn"
             style="@style/Button2"
-            android:text="@string/applied"/>
+            android:text="@string/applied" />
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/premiumBtnapply"
             style="@style/premiumButton"
             android:text="@string/apply"
+            android:textAllCaps="false"
             android:visibility="gone"
             app:icon="@drawable/premiumicon"
-            app:iconGravity="textStart"/>
+            app:iconGravity="textStart" />
     </FrameLayout>
 
-    <!-- AdView -->
-    <com.google.android.gms.ads.AdView
-        android:id="@+id/adView"
+    <FrameLayout
+        android:id="@+id/adContainer"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        ads:adSize="BANNER"
-        ads:adUnitId="ca-app-pub-3940256099942544/6300978111"
-        app:layout_constraintTop_toBottomOf="@id/buttons"
+        android:layout_height="50dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"/>
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <com.google.android.gms.ads.AdView
+            android:id="@+id/adView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            ads:adSize="BANNER"
+            ads:adUnitId="ca-app-pub-3940256099942544/6300978111" />
+    </FrameLayout>
+
 </androidx.constraintlayout.widget.ConstraintLayout>

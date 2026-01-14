@@ -9,6 +9,8 @@ import com.example.thirdeye.ui.dialogs.permissionsDialog.PermissionDialog
 
 class Permissions(private val activity: AppCompatActivity, private val deviceAdminManager: DeviceAdminManager) {
 
+    private var permissionDialog: PermissionDialog? = null
+
     private val requiredPermissions = buildList {
         add(android.Manifest.permission.CAMERA)
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
@@ -20,8 +22,13 @@ class Permissions(private val activity: AppCompatActivity, private val deviceAdm
 
     private val singlePermissionLauncher =
         activity.registerForActivityResult(ActivityResultContracts.RequestPermission()) { granted ->
+            if (granted) {
+                permissionDialog?.moveToNext()
+            } else {
 
+            }
         }
+
 
     fun checkAndRequest() {
         val notGranted = requiredPermissions.filter {
@@ -57,4 +64,6 @@ class Permissions(private val activity: AppCompatActivity, private val deviceAdm
         val deviceAdminMissing = !deviceAdminManager.isDeviceAdminActive()
         return !missingPermission && !deviceAdminMissing
     }
+
+
 }

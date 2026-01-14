@@ -1,20 +1,15 @@
 package com.example.thirdeye.ui.alarm
 
-import android.R.style.Animation
 import android.app.Activity
 import android.content.Intent
-import android.graphics.Color
-import android.media.Ringtone
 import android.media.RingtoneManager
 import android.net.Uri
 import android.os.Bundle
-import android.provider.CalendarContract
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.animation.AnimationUtils
-import android.widget.ImageView
+
 import androidx.activity.result.contract.ActivityResultContracts
 
 import androidx.navigation.fragment.findNavController
@@ -37,7 +32,6 @@ class AlarmFragment : Fragment() {
                     ringtonePrefs.saveAlarmTone(uri.toString())
                     showSavedRingtoneName()
                     return@registerForActivityResult
-
 
                 }
             }

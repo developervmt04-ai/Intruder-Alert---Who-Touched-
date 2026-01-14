@@ -1,10 +1,10 @@
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/dialog_root"
-    android:padding="15dp"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="400dp"
     android:background="@color/white"
+    android:layout_gravity="center"
     app:cardCornerRadius="20dp"
     app:cardElevation="8dp"
     >
@@ -12,7 +12,8 @@
     <RelativeLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:padding="10dp"
+        android:padding="15dp"
+        android:layout_margin="5dp"
         android:background="@color/white">
 
         <!-- Close button -->
@@ -35,7 +36,7 @@
             android:layout_marginTop="8dp"
             android:text="@string/delay"
             android:textColor="@color/black"
-            android:textSize="18sp"
+            android:textSize="20sp"
             android:textStyle="bold" />
         <TextView
             android:layout_alignStart="@id/dialogTitle"
@@ -43,10 +44,11 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/dialogTitle"
+            android:gravity="center_horizontal"
             android:layout_centerHorizontal="true"
             android:text="@string/wait"
-            android:textColor="@color/black"
-            style="@style/DescriptionText" />
+
+            style="@style/DescriptionTextSplash2" />
 
         <RadioGroup
             android:id="@+id/delayRadioGroup"

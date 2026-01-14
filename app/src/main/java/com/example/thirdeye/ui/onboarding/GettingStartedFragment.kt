@@ -7,11 +7,14 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.text.HtmlCompat
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.example.thirdeye.MainActivity
 import com.example.thirdeye.R
+import com.example.thirdeye.billing.AdController
 import com.example.thirdeye.data.localData.SecurityPrefs
 import com.example.thirdeye.databinding.FragmentGettingStartedBinding
+import com.google.android.gms.ads.AdRequest
 
 class GettingStartedFragment : Fragment() {
 
@@ -35,7 +38,6 @@ class GettingStartedFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         binding.btnNext.setOnClickListener {
-            securityPrefs.isFirstLaunch = false
             findNavController().navigate(R.id.action_gettingStartedFragment_to_languageSelectionFragment)
         }
         binding.tvPolicyTerms.text= HtmlCompat.fromHtml(
@@ -43,5 +45,22 @@ class GettingStartedFragment : Fragment() {
             HtmlCompat.FROM_HTML_MODE_LEGACY
         )
         binding.tvPolicyTerms.movementMethod= LinkMovementMethod.getInstance()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        if (AdController.shouldShowAdd()){
+            binding.adView.visibility=View.VISIBLE
+            viewLifecycleOwner.lifecycleScope.launchWhenResumed {
+                binding.adView.loadAd(AdRequest.Builder().build())
+            }
+
+
+        }
+        else{
+            binding.adView.visibility=View.GONE
+
+
+        }
     }
 }

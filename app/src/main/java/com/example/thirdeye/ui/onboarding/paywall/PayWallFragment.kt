@@ -1,5 +1,7 @@
 package com.example.thirdeye.ui.onboarding.paywall
 
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -12,6 +14,9 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import com.example.thirdeye.R
+import com.example.thirdeye.constants.Constants.DETAILS
+import com.example.thirdeye.constants.Constants.PRIVACY
+import com.example.thirdeye.constants.Constants.TERMS
 import com.example.thirdeye.data.localData.PlansData
 import com.example.thirdeye.databinding.FragmentPayWallBinding
 import kotlinx.coroutines.launch
@@ -35,7 +40,6 @@ class PayWallFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        // moved here (same call, earlier lifecycle)
         planViewModel.loadPlans()
     }
 
@@ -50,6 +54,36 @@ class PayWallFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+
+
+        binding.privacyPolicyText.setOnClickListener {
+            val privacy= Intent(Intent.ACTION_PICK, Uri.parse(PRIVACY))
+            requireContext().startActivity(privacy)
+
+
+
+        }
+        binding.termsText.setOnClickListener {
+            val terms= Intent(Intent.ACTION_PICK, Uri.parse(TERMS))
+            requireContext().startActivity(terms)
+
+
+
+        }
+
+        binding.detailsText.setOnClickListener {
+            val details= Intent(Intent.ACTION_PICK, Uri.parse(DETAILS))
+            requireContext().startActivity(details)
+
+
+
+
+
+
+        }
+
+
 
         binding.cancel.setOnClickListener {
             isExiting = true
@@ -84,7 +118,7 @@ class PayWallFragment : Fragment() {
 
         binding.rgPlans.removeAllViews()
 
-        plans.forEach { plan ->
+        plans.forEachIndexed { index,plan ->
             val row =
                 layoutInflater.inflate(R.layout.paywall_item, binding.rgPlans, false)
             val card = row as com.google.android.material.card.MaterialCardView
@@ -109,6 +143,9 @@ class PayWallFragment : Fragment() {
             }
 
             binding.rgPlans.addView(row)
+            if (index == 2 && selectedPlan == null) {
+                handleSelection(card, radioBtn, plan)
+            }
         }
     }
 
@@ -119,6 +156,7 @@ class PayWallFragment : Fragment() {
         rb: RadioButton,
         plan: PlansData
     ) {
+
         selectedRadioButton?.isChecked = false
         selectedCard?.strokeColor = resources.getColor(
             R.color.strokeColor,

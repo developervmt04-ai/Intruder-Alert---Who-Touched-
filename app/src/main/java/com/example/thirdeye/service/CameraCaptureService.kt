@@ -79,7 +79,9 @@ class CameraCaptureService : Service() {
 
         repo= EncryptedStorageRepository(applicationContext)
         Notifications.createChannels(this)
-        startForeground(NOTIF_ID, Notifications.persistentNotification(this))
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            startForeground(NOTIF_ID, Notifications.persistentNotification(this))
+        }
 
 
 

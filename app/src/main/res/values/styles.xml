@@ -4,13 +4,13 @@
 
     <style name="Button" parent="Widget.MaterialComponents.Button">
         <item name="android:layout_width">match_parent</item>
-        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_height">55dp</item>
         <item name="android:background">@drawable/mainbtnbg</item>
         <item name="backgroundTint">@null</item> <!-- important -->
         <item name="android:textColor">#FFFFFF</item>
         <item name="android:textSize">16sp</item>
         <item name="android:textStyle">bold</item>
-        <item name="android:padding">14dp</item>
+        <item name="android:padding">8dp</item>
         <item name="android:textAllCaps">false</item>
         <item name="shapeAppearance">@null</item>
         <item name="shapeAppearanceOverlay">@null</item>
@@ -57,28 +57,32 @@
     </style>
     <style name="premiumButton" parent="Widget.MaterialComponents.Button">
         <item name="android:layout_width">match_parent</item>
-        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_height">55dp</item>
+        <item name="android:padding">8dp</item>
+        <item name="android:layout_margin">5dp</item>
         <item name="android:background">@drawable/premium_btn_bg</item>
         <item name="backgroundTint">@null</item>
         <item name="iconTint">@null</item>
-        <item name="android:padding">10dp</item>
+
         <item name="android:textColor">@color/black</item>
         <item name="android:textSize">16sp</item>
         <item name="shapeAppearanceOverlay">@null</item>
     </style>
     <style name="Button2" parent="Widget.MaterialComponents.Button">
         <item name="android:layout_width">match_parent</item>
-        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_height">55dp</item>
+        <item name="android:layout_margin">5dp</item>
         <item name="android:background">@drawable/dividerbtnbg</item>
         <item name="backgroundTint">@null</item> <!-- important -->
         <item name="android:textColor">@color/black</item>
-        <item name="android:padding">5dp</item>
+        <item name="android:padding">8dp</item>
         <item name="android:textSize">16sp</item>
 
         <item name="android:textAllCaps">false</item>
         <item name="shapeAppearance">@null</item>
         <item name="shapeAppearanceOverlay">@null</item>
     </style>
+
     <style name="PermissionButton" parent="Widget.MaterialComponents.Button">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
@@ -108,7 +112,30 @@
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:textColor">#797C80</item>
+        <item name="android:textSize">12sp</item>
+
+    </style>
+    <style name="DescriptionTextSplash2">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textColor">#797C80</item>
         <item name="android:textSize">14sp</item>
+
+    </style>
+    <style name="Descriptionperm">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:textSize">14sp</item>
+
+    </style>
+
+
+    <style name="DescriptionTextSplash">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textColor">#797C80</item>
+        <item name="android:textSize">16sp</item>
 
     </style>
     <style name="iconText">
@@ -123,19 +150,28 @@
         <item name="android:layout_height">wrap_content</item>
         <item name="android:textColor">#797C80</item>
         <item name="android:layout_margin">6dp</item>
-        <item name="android:padding">10dp</item>
+        <item name="android:padding">8dp</item>
         <item name="android:textSize">12sp</item>
 
     </style>
     <style name="subtitle">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
-        <item name="android:textColor">#FFFFFF</item>
-        <item name="android:textSize">16sp</item>
+        <item name="android:textColor">#797C80</item>
+        <item name="android:textSize">14sp</item>
         <item name="android:gravity">center</item>
-        <item name="android:lineSpacingExtra">2dp</item>
+
     </style>
     <style name="BoldText">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:gravity">center</item>
+
+
+    </style>
+    <style name="SplashTitle">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:textColor">@color/white</item>
@@ -149,10 +185,21 @@
     <item name="android:layout_height">wrap_content</item>
     <item name="android:textColor">@color/white</item>
     <item name="android:textSize">16sp</item>
+        <item name="fontFamily">Robo</item>
     <item name="android:gravity">center</item>
 
 
 </style>
+    <style name="premiumTitleText">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:textSize">16sp</item>
+        <item name="fontFamily">Robo</item>
+        <item name="android:gravity">center</item>
+
+
+    </style>
 
     <style name="PermissionsTitle">
         <item name="android:layout_width">wrap_content</item>
@@ -197,10 +244,10 @@
     </style>
 
     <style name="premiumButtonPayall" parent="Widget.MaterialComponents.Button">
-        <item name="android:layout_height">26dp</item>
+        <item name="android:layout_height">30dp</item>
         <item name="android:layout_width">wrap_content</item>
         <item name="backgroundTint">@color/premiumColor</item>
-        <item name="cornerRadius">10dp</item>
+        <item name="cornerRadius">8dp</item>
 
         <item name="android:textSize">14sp</item>
         <item name="android:textColor">@color/black</item>
@@ -214,9 +261,33 @@
         <item name="android:textColor">@color/dividerColor</item>
         <item name="android:textSize">12sp</item>
         <item name="android:clickable">true</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
         <item name="android:focusable">true</item>
         <item name="android:linksClickable">true</item>
     </style>
+
+    <style name="TopRoundedCard">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSizeTopLeft">16dp</item>
+        <item name="cornerSizeTopRight">16dp</item>
+
+        <!-- Bottom corners sharp -->
+        <item name="cornerSizeBottomLeft">0dp</item>
+        <item name="cornerSizeBottomRight">0dp</item>
+    </style>
+
+    <style name="BottomDialogAnimation">
+        <item name="android:windowEnterAnimation">@anim/slide_in_bottom</item>
+        <item name="android:windowExitAnimation">@anim/slide_out_bottom</item>
+    </style>
+    <style name="EnterDialog">
+        <item name="android:windowEnterAnimation">@anim/slide_in_right</item>
+        <item name="android:windowExitAnimation">@anim/slide_out_right</item>
+
+    </style>
+
+
 
 
 

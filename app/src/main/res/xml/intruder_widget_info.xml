@@ -1,7 +1,9 @@
 <appwidget-provider xmlns:android="http://schemas.android.com/apk/res/android"
-    android:minWidth="200dp"
-    android:minHeight="100dp"
-    android:updatePeriodMillis="0"
+    android:minWidth="125dp"
+    android:minHeight="125dp"
+    android:updatePeriodMillis="1"
+    android:targetCellWidth="1"
+    android:targetCellHeight="1"
     android:initialLayout="@layout/intruder_widget"
     android:resizeMode="horizontal|vertical"
     android:widgetCategory="home_screen"/>

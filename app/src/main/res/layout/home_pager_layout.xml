@@ -1,4 +1,3 @@
-<?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -7,31 +6,40 @@
     android:background="@color/appBgColor"
     android:fitsSystemWindows="true">
 
-
+    <!-- LOCKED CARD -->
     <androidx.cardview.widget.CardView
         android:visibility="gone"
         android:id="@+id/lokcedCard"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:cardCornerRadius="12dp">
+        app:cardCornerRadius="12dp"
+        app:cardElevation="4dp">
 
-        <ImageView
-            android:id="@+id/lockedImage"
-            android:scaleType="centerCrop"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:src="@drawable/blurbg"/>
-
-        <RelativeLayout
-            android:padding="10dp"
+        <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
+            <!-- Image -->
+            <ImageView
+                android:id="@+id/lockedImage"
+                android:scaleType="centerCrop"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:src="@drawable/blurbg" />
+
+            <!-- Bottom fade overlay -->
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/botttom_fade"/>
+
+            <!-- Content -->
             <LinearLayout
                 android:orientation="vertical"
                 android:gravity="center"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:padding="10dp"
                 android:showDividers="middle"
                 android:divider="@drawable/vertical_spacing">
 
@@ -62,23 +70,23 @@
                     android:drawableLeft="@drawable/premiumicon"
                     android:drawablePadding="8dp"
                     style="@style/premiumButton" />
-
             </LinearLayout>
-        </RelativeLayout>
-    </androidx.cardview.widget.CardView>
 
+        </FrameLayout>
+    </androidx.cardview.widget.CardView>
 
     <androidx.cardview.widget.CardView
         android:id="@+id/unlockedCard"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:cardCornerRadius="12dp">
-
+        app:cardCornerRadius="12dp"
+        app:cardElevation="4dp">
 
         <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
+            <!-- Image -->
             <ImageView
                 android:id="@+id/homeImage"
                 android:layout_width="match_parent"
@@ -86,10 +94,14 @@
                 android:scaleType="centerCrop"
                 android:src="@drawable/blurbg" />
 
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+            android:layout_gravity="bottom"
+            android:background="@drawable/fadding_gradient" />
 
             <RelativeLayout
                 android:id="@+id/intruderDetails"
-                android:orientation="vertical"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:padding="10dp"
@@ -103,31 +115,25 @@
                     android:text="@string/details" />
 
                 <TextView
-                    android:layout_below="@id/detail"
                     android:id="@+id/date"
+                    android:layout_below="@id/detail"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/date"
                     android:textColor="@color/white" />
 
                 <TextView
-                    android:layout_below="@id/date"
                     android:id="@+id/time"
+                    android:layout_below="@id/date"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/time"
                     android:textColor="@color/white" />
-                <ImageView
-                    android:layout_alignParentRight="true"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:src="@drawable/moreicon"/>
             </RelativeLayout>
-
-
 
         </FrameLayout>
 
     </androidx.cardview.widget.CardView>
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

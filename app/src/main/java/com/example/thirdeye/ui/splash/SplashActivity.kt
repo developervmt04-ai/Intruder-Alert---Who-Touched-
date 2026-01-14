@@ -11,8 +11,11 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import com.example.thirdeye.MainActivity
 import com.example.thirdeye.R
+import com.example.thirdeye.billing.AdController
+import com.example.thirdeye.billing.BillingManager
 import com.example.thirdeye.biometrics.BiometricHelper
 import com.example.thirdeye.data.localData.BiometricPrefs
+import com.example.thirdeye.data.localData.PurchasePrefs
 import com.example.thirdeye.data.localData.SecurityPrefs
 import com.example.thirdeye.databinding.ActivitySplashBinding
 import com.example.thirdeye.ui.dialogs.NoInternetDialog
@@ -30,19 +33,24 @@ class SplashActivity : AppCompatActivity() {
     private lateinit var biometricPrefs: BiometricPrefs
     private lateinit var dialog: UnlockDialog
     private lateinit var binding: ActivitySplashBinding
+    private lateinit var purchasePrefs: PurchasePrefs
+    private lateinit var billingManager: BillingManager
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding= ActivitySplashBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        purchasePrefs= PurchasePrefs(this)
+        billingManager= BillingManager(this,purchasePrefs)
+        billingManager.startConnection {
+            AdController.init(billingManager)
+        }
 
 
-        val rotateAnim = ObjectAnimator.ofFloat(binding.loader, "rotation", 0f, 360f)
-        rotateAnim.duration = 1000
-        rotateAnim.repeatCount = ValueAnimator.INFINITE
-        rotateAnim.interpolator = LinearInterpolator()
-        rotateAnim.start()
+
+
 
         biometricHelper = BiometricHelper(this)
         biometricPrefs = BiometricPrefs(this)
@@ -51,7 +59,6 @@ class SplashActivity : AppCompatActivity() {
 
     override fun onResume() {
         super.onResume()
-        binding.adView.loadAd(AdRequest.Builder().build())
 
 
 
@@ -95,7 +102,11 @@ class SplashActivity : AppCompatActivity() {
 
             }
             else{
+
+
                 startActivity(Intent(this, MainActivity::class.java))
+                finish()
+
             }
         }, )
     }

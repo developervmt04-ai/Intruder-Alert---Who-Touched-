@@ -8,13 +8,16 @@ import android.widget.ImageView
 import android.widget.RadioButton
 import android.widget.TextView
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.example.thirdeye.MainActivity
 import com.example.thirdeye.R
+import com.example.thirdeye.billing.AdController
 import com.example.thirdeye.data.localData.SecurityPrefs
 import com.example.thirdeye.data.models.LanguageData
 import com.example.thirdeye.databinding.FragmentLanguageSelectionBinding
 import com.example.thirdeye.utils.LocaleHelper
+import com.google.android.gms.ads.AdRequest
 
 class LanguageSelectionFragment : Fragment() {
 
@@ -28,7 +31,9 @@ class LanguageSelectionFragment : Fragment() {
         LanguageData("English", R.drawable.englishicon),
         LanguageData("Urdu", R.drawable.hindiicon),
         LanguageData("Arabic", R.drawable.arabicicon),
-        LanguageData("Spanish", R.drawable.spanishicon)
+        LanguageData("Spanish", R.drawable.spanishicon),
+        LanguageData("Portuguese ", R.drawable.portaguesicon),
+        LanguageData("Korean ", R.drawable.koreanicon),
     )
 
     override fun onCreateView(
@@ -54,7 +59,7 @@ class LanguageSelectionFragment : Fragment() {
                 securityPrefs.isLanguageSelected = true
                 LocaleHelper.setLocale(requireActivity(), langCode)
 
-                (requireActivity() as MainActivity).requestPermissions()
+
 
                 findNavController().navigate(R.id.action_languageSelectionFragment_to_homeFragment)
             }
@@ -122,5 +127,22 @@ class LanguageSelectionFragment : Fragment() {
         "Arabic" -> "ar"
         "Spanish" -> "es"
         else -> "en"
+    }
+
+    override fun onResume() {
+        super.onResume()
+//        if (AdController.shouldShowAdd()){
+//            binding.adView.visibility=View.VISIBLE
+//            viewLifecycleOwner.lifecycleScope.launchWhenResumed {
+//                binding.adView.loadAd(AdRequest.Builder().build())
+//            }
+//
+//
+//        }
+//        else{
+//            binding.adView.visibility=View.GONE
+//
+//
+//        }
     }
 }

@@ -68,7 +68,7 @@
     <string name="unlimited">Unlimited Intruder Detection</string>
     <string name="hide">Hide App behind smart fake icons</string>
     <string name="sub">Auto renewable ,Cancel anytime before 24 hours subscription ends</string>
-    <string name="limit">Set wrong attempts limit to capture intruder image</string>
+    <string name="limit">Set wrong attempts limit to capture intruder images</string>
     <string name="safa">Confirm your identity using your figner print to unlock app safely and quickly</string>
     <string name="details">Details</string>
     <string name="date">Date</string>
@@ -78,12 +78,11 @@
     <string name="apply">Apply</string>
     <string name="please_wait">Please Wait</string>
     <string name="intruder_attempts">Intruder Selfie</string>
-    <string name="notificPerm">Notification Permission Needed</string>
-    <string name="cameraPerm">Camera Access Needed</string>
-    <string name="imagePerm">Read Images Permission Needed</string>
+    <string name="notificPerm">Notification Permission </string>
+    <string name="cameraPerm">Camera permission</string>
     <string name="adminPerm">Administrator Access Needed</string>
-    <string name="notifDesc">We need to send you notifications.</string>
-    <string name="camreaDes">We need camera access to take intruder photos.</string>
+    <string name="notifDesc">Get instant alerts when an intrusion attempt or important security event is detected.</string>
+    <string name="camreaDes">Used only to capture an intruder’s photo after an incorrect password attempt. Photos stay securely inside the app..</string>
     <string name="imagesDesc">We need storage access to save intruder images.</string>
     <string name="adminPermDesc">Administrator access is required.</string>
     <string name="permission_default_title">Permission Required.</string>
@@ -107,6 +106,10 @@ Please read <a href="https://yourwebsite.com/privacy"><u>Privacy Policy</u></a> 
     <string name="grantall">Please grant all required permissions</string>
     <string name="applied">Applied</string>
     <string name="icons">Icons</string>
+    <string name="exit_app">Exit App</string>
+    <string name="tap_again_to_exit">Tap again to exit</string>
+    <string name="no">NO</string>
+    <string name="yes">Yes\n</string>
 
 
 </resources>

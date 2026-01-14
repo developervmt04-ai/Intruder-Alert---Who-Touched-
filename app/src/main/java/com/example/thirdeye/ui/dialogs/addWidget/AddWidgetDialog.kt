@@ -1,9 +1,10 @@
 package com.example.thirdeye.ui.dialogs.addWidget
 
-import android.R
+
 import android.app.Dialog
 import android.content.Context
 import android.view.LayoutInflater
+import com.example.thirdeye.R
 import com.example.thirdeye.databinding.GeneralDialogBinding
 
 class AddWidgetDialog(context: Context) {
@@ -20,6 +21,13 @@ class AddWidgetDialog(context: Context) {
 
         binding.closeButton.setOnClickListener {
             dialog.dismiss()
+
+
+        }
+
+        binding.howToAdd.setOnClickListener {
+
+            
 
 
         }
@@ -58,7 +66,7 @@ class AddWidgetDialog(context: Context) {
                 android.view.ViewGroup.LayoutParams.WRAP_CONTENT
             )
             setGravity(android.view.Gravity.BOTTOM)
-            setWindowAnimations(android.R.style.Animation_Dialog)
+            setWindowAnimations(R.style.BottomDialogAnimation)
         }
 
         return this

@@ -17,12 +17,15 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.example.thirdeye.MainActivity
 import com.example.thirdeye.R
+import com.example.thirdeye.billing.AdController
 import com.example.thirdeye.data.localData.ButtonPrefs
 import com.example.thirdeye.data.localData.RingtonePrefs
+import com.example.thirdeye.data.localData.SecurityPrefs
 import com.example.thirdeye.databinding.FragmentHomeBinding
 import com.example.thirdeye.service.CameraCaptureService
 import com.example.thirdeye.ui.dialogs.addWidget.AddWidgetDialog
 import com.example.thirdeye.ui.dialogs.AudibleDialog
+import com.example.thirdeye.ui.dialogs.biometricDialogs.FingerPrintDialog
 import com.example.thirdeye.ui.intruders.IntruderPhotosViewModel
 import com.example.thirdeye.ui.timer.TimerViewModel
 import com.example.thirdeye.ui.widget.AddWidget
@@ -50,6 +53,9 @@ class HomeFragment : Fragment() {
     private var interstitialAd: InterstitialAd? = null
 
     private lateinit var ringtonePrefs: RingtonePrefs
+    private lateinit var prefs: SecurityPrefs
+
+
 
 
     override fun onCreateView(
@@ -63,15 +69,20 @@ class HomeFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        prefs= SecurityPrefs(requireContext())
+
 
         view.post {
             setupUi()
         }
     }
 
+
     private fun setupUi() {
 
         btnPrefs = ButtonPrefs(requireContext())
+
+
 
         observeTimer()
 
@@ -83,9 +94,21 @@ class HomeFragment : Fragment() {
             viewModel.loadImages()
         }
 
-        viewLifecycleOwner.lifecycleScope.launchWhenResumed {
-            binding.adView.loadAd(AdRequest.Builder().build())
+//
+        if (AdController.shouldShowAdd()){
+            binding.adView.visibility=View.VISIBLE
+            viewLifecycleOwner.lifecycleScope.launchWhenResumed {
+                binding.adView.loadAd(AdRequest.Builder().build())
+            }
+
+
         }
+        else{
+            binding.adView.visibility=View.GONE
+
+
+        }
+
 
 
         viewLifecycleOwner.lifecycleScope.launchWhenStarted {
@@ -236,15 +259,21 @@ class HomeFragment : Fragment() {
                 return@setOnClickListener
             }
 
+            if (!ringtonePrefs.isAlarmEnabled()){
+
             AudibleDialog(requireContext())
                 .setTitle(getString(R.string.alarmtitle))
                 .setMessage(getString(R.string.attempt))
                 .onClick {
+
+
                     findNavController().navigate(
                         R.id.action_homeFragment_to_alarmFragment
                     )
                 }
                 .show()
+        }
+            else findNavController().navigate(R.id.action_homeFragment_to_alarmFragment)
         }
 
         binding.settingIcon.setOnClickListener {
@@ -289,6 +318,20 @@ class HomeFragment : Fragment() {
 
     override fun onResume() {
         super.onResume()
+
+        viewLifecycleOwner.lifecycleScope.launchWhenResumed {
+            val mainActivity = requireActivity() as MainActivity
+
+            if (!mainActivity.permissions.allGranted()) {
+                mainActivity.requestPermissions()
+            }
+
+        if (mainActivity.permissions.allGranted() && prefs.isFirstLaunch) {
+            val dialog = FingerPrintDialog(requireContext())
+            dialog.show()
+            prefs.isFirstLaunch = false
+        }
+        }
 
         view?.postDelayed({
             preloadInterstitialAd()

@@ -1,5 +1,6 @@
 package com.example.thirdeye.ui.intruders.IntruderDetail
 
+import android.media.tv.AdRequest
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -10,6 +11,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.example.thirdeye.R
+import com.example.thirdeye.billing.AdController
 import com.example.thirdeye.databinding.FragmentIntruderDetailBinding
 import com.example.thirdeye.ui.dialogs.DeleteDialog
 import com.example.thirdeye.ui.intruders.IntruderPhotosViewModel
@@ -59,8 +61,14 @@ class IntruderDetailFragment : Fragment() {
 
         }
         binding.historyIcon.setOnClickListener {
-            findNavController().navigate(R.id.action_intruderDetailFragment_to_historyFragment)
-
+            findNavController().navigate(
+                R.id.historyFragment,
+                null,
+                androidx.navigation.NavOptions.Builder()
+                    .setPopUpTo(R.id.intruderDetailFragment, true)
+                    .setLaunchSingleTop(true)
+                    .build()
+            )
 
 
         }
@@ -81,8 +89,15 @@ class IntruderDetailFragment : Fragment() {
         }
 
         binding.showGrid.setOnClickListener {
-            findNavController().navigate(R.id.action_intruderDetailFragment_to_intrudersFragment)
 
+            findNavController().navigate(
+                R.id.intrudersFragment,
+                null,
+                androidx.navigation.NavOptions.Builder()
+                    .setPopUpTo(R.id.intruderDetailFragment, true)
+                    .setLaunchSingleTop(true)
+                    .build()
+            )
         }
         val dateFormater= SimpleDateFormat("dd MMMM yyyy", Locale.ENGLISH)
 
@@ -101,6 +116,24 @@ class IntruderDetailFragment : Fragment() {
 
 
 
+    }
+
+    override fun onResume() {
+        super.onResume()
+
+        if (AdController.shouldShowAdd()){
+            binding.adView.visibility=View.VISIBLE
+            viewLifecycleOwner.lifecycleScope.launchWhenResumed {
+                binding.adView.loadAd(com.google.android.gms.ads.AdRequest.Builder().build())
+            }
+
+
+        }
+        else{
+            binding.adView.visibility=View.GONE
+
+
+        }
     }
 
 }

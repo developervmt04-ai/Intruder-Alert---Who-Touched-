@@ -53,63 +53,75 @@
 
         </RelativeLayout>
     </com.google.android.material.appbar.MaterialToolbar>
-
-
-    <FrameLayout
+    <View
+        android:id="@+id/toolbarDivider"
+        android:layout_width="match_parent"
+        android:layout_height=".7dp"
+        android:layout_below="@id/mainToolbar"
         app:layout_constraintTop_toBottomOf="@id/mainToolbar"
+        android:background="@color/strokeColor"
+        app:layout_constraintBottom_toTopOf="@id/imageContainer"/>
+
+
+    <com.google.android.material.card.MaterialCardView
         android:id="@+id/imageContainer"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/mainToolbar"
+        app:cardCornerRadius="12dp"
+        app:strokeColor="@color/transparent"
+        app:cardElevation="4dp"
+        app:cardUseCompatPadding="true">
 
-        <ImageView
-            android:id="@+id/homeImage"
+        <FrameLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:scaleType="centerCrop"
-            android:src="@drawable/blurbg" />
+            android:layout_height="wrap_content">
 
-
-        <RelativeLayout
-            android:id="@+id/intruderDetails"
-            android:orientation="vertical"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:padding="10dp"
-            android:layout_gravity="bottom|start">
-
-            <TextView
-                android:id="@+id/detail"
-                style="@style/BoldText"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/details" />
-
-            <TextView
-                android:layout_below="@id/detail"
-                android:id="@+id/date"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/date"
-                android:textColor="@color/white" />
-
-            <TextView
-                android:layout_below="@id/date"
-                android:id="@+id/time"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/time"
-                android:textColor="@color/white" />
             <ImageView
-                android:layout_alignParentRight="true"
-                android:layout_width="wrap_content"
+                android:id="@+id/homeImage"
+                android:layout_width="match_parent"
+                android:layout_height="400dp"
+                android:scaleType="centerCrop"
+                android:src="@drawable/blurbg" />
+
+            <RelativeLayout
+                android:id="@+id/intruderDetails"
+                android:orientation="vertical"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:src="@drawable/moreicon"/>
-        </RelativeLayout>
+                android:padding="10dp"
+                android:layout_gravity="bottom|start">
 
+                <TextView
+                    android:id="@+id/detail"
+                    style="@style/BoldText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/details" />
 
+                <TextView
+                    android:layout_below="@id/detail"
+                    android:id="@+id/date"
+                    android:textSize="12sp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/date"
+                    android:textColor="@color/white" />
 
-    </FrameLayout>
+                <TextView
+                    android:layout_below="@id/date"
+                    android:id="@+id/time"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/time"
+                    android:textSize="12sp"
+                    android:textColor="@color/white" />
 
+            </RelativeLayout>
+
+        </FrameLayout>
+
+    </com.google.android.material.card.MaterialCardView>
     <LinearLayout
         android:id="@+id/linearLayout"
         android:layout_width="match_parent"
@@ -120,6 +132,7 @@
 
         <ImageView
             android:id="@+id/showGrid"
+            android:layout_weight="1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@drawable/gridviewicon" />
@@ -157,7 +170,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayout"></com.google.android.gms.ads.AdView>
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout" />
 
 
 

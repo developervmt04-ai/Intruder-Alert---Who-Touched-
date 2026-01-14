@@ -4,10 +4,13 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
 import com.example.thirdeye.R
+import com.example.thirdeye.billing.AdController
 import com.example.thirdeye.constants.Constants.BOOK_ICON
 import com.example.thirdeye.constants.Constants.CALCULATOR_ICON
 import com.example.thirdeye.constants.Constants.COMPASS_ICON
@@ -20,6 +23,7 @@ import com.example.thirdeye.data.localData.AppIcons
 import com.example.thirdeye.data.localData.IconPrefs
 import com.example.thirdeye.databinding.FragmentCamouflageBinding
 import com.example.thirdeye.ui.dialogs.IconApplyingDialog
+import com.google.android.gms.ads.AdRequest
 
 class CamouflageFragment : androidx.fragment.app.Fragment() {
 
@@ -49,6 +53,8 @@ class CamouflageFragment : androidx.fragment.app.Fragment() {
         val freeIcons = listOf(
             AppIcons(R.mipmap.ic_launcher, DEFAULT_ICON, "Default"),
             AppIcons(R.drawable.weathericon, WEATHER_ICON, "Weather"),
+            AppIcons(R.drawable.weathericon, WEATHER_ICON, "Weather"),
+            AppIcons(R.drawable.calculatoricon, CALCULATOR_ICON, "Calculator"),
             AppIcons(R.drawable.calculatoricon, CALCULATOR_ICON, "Calculator"),
             AppIcons(R.drawable.compass, COMPASS_ICON, "Compass"),
             AppIcons(R.drawable.compass, COMPASS_ICON, "Compass")
@@ -57,6 +63,8 @@ class CamouflageFragment : androidx.fragment.app.Fragment() {
         val premiumIcons = listOf(
             AppIcons(R.drawable.notesicon, NOTES_ICON, "Notes"),
             AppIcons(R.drawable.book, BOOK_ICON, "Book"),
+            AppIcons(R.drawable.book, BOOK_ICON, "Book"),
+            AppIcons(R.drawable.health, HEALTH_ICON, "Health"),
             AppIcons(R.drawable.health, HEALTH_ICON, "Health"),
             AppIcons(R.drawable.music, MUSIC_ICON, "Music"),
             AppIcons(R.drawable.music, MUSIC_ICON, "Music")
@@ -80,14 +88,26 @@ class CamouflageFragment : androidx.fragment.app.Fragment() {
 
     override fun onResume() {
         super.onResume()
-        // Load ad AFTER fragment is visible
-        binding.adView.loadAd(com.google.android.gms.ads.AdRequest.Builder().build())
+        if (AdController.shouldShowAdd()){
+            binding.adView.visibility=View.VISIBLE
+            viewLifecycleOwner.lifecycleScope.launchWhenResumed {
+                binding.adView.loadAd(AdRequest.Builder().build())
+            }
+
+
+        }
+        else{
+            binding.adView.visibility=View.GONE
+
+
+        }
     }
 
     private fun setupFreeIconsRv(icons: List<AppIcons>) {
         freeIconsAdapter = IconsAdapter()
         binding.iconRV.apply {
-            layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
+            layoutManager =
+                LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
             adapter = freeIconsAdapter
             setHasFixedSize(true)
             setItemViewCacheSize(10)
@@ -96,6 +116,7 @@ class CamouflageFragment : androidx.fragment.app.Fragment() {
         freeIconsAdapter.differ.submitList(icons)
 
         freeIconsAdapter.onFreeIconClick = { icon, previousPosition ->
+            premiumIconAdapter.clearSelection()
             selectedIconRes = icon.icon
             selectedIconAlias = icon.alias
             binding.icon.setImageResource(selectedIconRes!!)
@@ -111,7 +132,8 @@ class CamouflageFragment : androidx.fragment.app.Fragment() {
     private fun setupPremiumIconsRv(icons: List<AppIcons>) {
         premiumIconAdapter = PremiumIconAdapter(icons)
         binding.premiumIconRv.apply {
-            layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
+            layoutManager =
+                LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
             adapter = premiumIconAdapter
             setHasFixedSize(true)
             setItemViewCacheSize(8)
@@ -121,11 +143,9 @@ class CamouflageFragment : androidx.fragment.app.Fragment() {
             freeIconsAdapter.clearSelection()
             selectedIconRes = icon.icon
             selectedIconAlias = icon.alias
+            binding.icon.setImageResource(selectedIconRes!!)
 
-            Glide.with(this)
-                .load(icon.icon)
-                .placeholder(R.drawable.blurbg)
-                .into(binding.icon)
+
 
             binding.premiumBtnapply.visibility = View.VISIBLE
             binding.applyBtn.visibility = View.INVISIBLE
@@ -136,35 +156,46 @@ class CamouflageFragment : androidx.fragment.app.Fragment() {
         val isApplied = selectedIconRes == appliedIconRes
 
         binding.applyBtn.isEnabled = !isApplied
-        binding.applyBtn.alpha = if (isApplied) 0.5f else 1f
-        binding.applyBtn.text = if (isApplied) getString(R.string.applied) else getString(R.string.apply)
+
+        binding.applyBtn.text =
+            if (isApplied) getString(R.string.applied)
+            else getString(R.string.apply)
+
+        binding.applyBtn.background =
+            ContextCompat.getDrawable(
+                requireContext(),
+                if (isApplied) R.drawable.disabled_btn
+                else R.drawable.enabled_btn
+            )
+
+        binding.applyBtn.alpha = if (isApplied) .5f else 1f
+
 
         binding.applyBtn.setOnClickListener {
             if (isApplied) return@setOnClickListener
 
             IconApplyingDialog.showIconApplyingDialog(requireContext())
 
-            // Check if this is the laggy part - IconChanger might be slow
             IconChanger.changeIcon(requireContext(), selectedIconAlias!!)
 
             appliedIconRes = selectedIconRes!!
             iconPrefs.saveAppliedIcon(appliedIconRes)
             updateApplyButton()
 
-            freeIconsAdapter.differ.currentList.indexOfFirst { it.icon == appliedIconRes }.let { index ->
-                if (index != -1) {
-                    val prev = freeIconsAdapter.selectedPosition
-                    freeIconsAdapter.selectedPosition = index
-                    freeIconsAdapter.notifyItemChanged(prev)
-                    freeIconsAdapter.notifyItemChanged(index)
+            freeIconsAdapter.differ.currentList.indexOfFirst { it.icon == appliedIconRes }
+                .let { index ->
+                    if (index != -1) {
+                        val prev = freeIconsAdapter.selectedPosition
+                        freeIconsAdapter.selectedPosition = index
+                        freeIconsAdapter.notifyItemChanged(prev)
+                        freeIconsAdapter.notifyItemChanged(index)
+                    }
                 }
-            }
         }
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
-        // Simple cleanup
         binding.iconRV.adapter = null
         binding.premiumIconRv.adapter = null
     }

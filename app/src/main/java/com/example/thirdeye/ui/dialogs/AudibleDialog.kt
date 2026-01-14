@@ -4,6 +4,7 @@ import android.app.Dialog
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.Window
+import com.example.thirdeye.R
 import com.example.thirdeye.databinding.AudibleDialogBinding
 
 class AudibleDialog(context: Context) {
@@ -49,8 +50,9 @@ class AudibleDialog(context: Context) {
                 android.view.ViewGroup.LayoutParams.MATCH_PARENT,
                 android.view.ViewGroup.LayoutParams.WRAP_CONTENT
             )
+
             setGravity(android.view.Gravity.BOTTOM)
-            setWindowAnimations(android.R.style.Animation_Dialog)
+            setWindowAnimations(R.style.BottomDialogAnimation)
         }
         dialog.show()
         return this

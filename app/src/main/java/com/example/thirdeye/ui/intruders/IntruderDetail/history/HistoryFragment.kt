@@ -39,10 +39,18 @@ class HistoryFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding.backIcon.setOnClickListener {
 
-            findNavController().navigateUp()
-        }
+            binding.backIcon.setOnClickListener {
+                findNavController().navigate(
+                    R.id.homeFragment,
+                    null,
+                    androidx.navigation.NavOptions.Builder()
+                        .setPopUpTo(R.id.homeFragment, true)
+                        .build()
+                )
+            }
+
+
 
         setUpRv()
 

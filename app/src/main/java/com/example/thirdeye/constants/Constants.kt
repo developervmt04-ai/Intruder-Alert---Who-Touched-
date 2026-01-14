@@ -75,7 +75,14 @@ object Constants {
     const val PREMIUM_KEY="premium_key"
 
     ///dummy privacy policy
-    const val WEB_URI="https://www.youtube.com/watch?v=6nvH1zoo3wQ"
+    const val PRIVACY="https://yourwebsite.com/privacy"
+
+    const val TERMS="https://yourwebsite.com/terms"
+
+    const val DETAILS="https://yourwebsite.com/terms"
+
+
+
 
     // playStore
     const val PLAY_STORE="https://play.google.com/store/account/subscriptions"
@@ -95,6 +102,16 @@ object Constants {
 
     const val APPLIED_ICON="applied_icon"
 
+
+
+    //user prefs premium or not
+    const val USER_PREF="user_prefs"
+    const val PREMIUM="premium"
+
+
+    //SKU stock keep unit
+    const val SKU_REMOVE_ADS = "remove_ads"
+    const val SKU_UNLOCK_FEATURE = "feature_unlock"
 
 
 

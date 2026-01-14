@@ -1,6 +1,5 @@
 package com.example.thirdeye.ui.settings
 
-import android.app.AlertDialog
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
@@ -12,13 +11,14 @@ import android.widget.Toast
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import androidx.navigation.NavOptions
 import androidx.navigation.fragment.findNavController
 import com.example.thirdeye.MainActivity
 import com.example.thirdeye.R
 import com.example.thirdeye.biometrics.BiometricHelper
 import com.example.thirdeye.constants.Constants.PACKAGE
 import com.example.thirdeye.constants.Constants.PLAY_STORE
-import com.example.thirdeye.constants.Constants.WEB_URI
+import com.example.thirdeye.constants.Constants.PRIVACY
 import com.example.thirdeye.databinding.FragmentSettingBinding
 import com.example.thirdeye.data.localData.BiometricPrefs
 import com.example.thirdeye.data.localData.DelayPrefs
@@ -90,7 +90,7 @@ class SettingFragment : Fragment() {
         }
 
         binding.delayLayout.setOnClickListener {
-            DelayDialog.DelayDialog(requireContext()) { selectedDelay ->
+            DelayDialog.showDelayDialog(requireContext()) { selectedDelay ->
                 val delay = delayPrefs.getCaptureDelay()
                 binding.delayDescription.text =
                     "Current Delay is ${delay}Setting this value to less than 1000ms may cause"
@@ -109,6 +109,13 @@ class SettingFragment : Fragment() {
 
 
         binding.premiumLayout.setOnClickListener {
+
+            findNavController().navigate(
+                R.id.payWallFragment,
+                null,
+                NavOptions.Builder().setLaunchSingleTop(true).setPopUpTo(R.id.homeFragment, true)
+                    .build()
+            )
 
         }
         binding.addwidgeteLayout.setOnClickListener {
@@ -135,12 +142,12 @@ class SettingFragment : Fragment() {
 
 
         binding.privacyPolicyLayout.setOnClickListener {
-            val intent = Intent(Intent.ACTION_VIEW, Uri.parse(WEB_URI))
+            val intent = Intent(Intent.ACTION_VIEW, Uri.parse(PRIVACY))
             requireContext().startActivity(intent)
         }
 
         binding.subscriptionLayout.setOnClickListener {
-            val intent= Intent(Intent.ACTION_VIEW).apply {
+            val intent = Intent(Intent.ACTION_VIEW).apply {
                 data = Uri.parse(PLAY_STORE)
                 setPackage(PACKAGE)
             }
@@ -148,5 +155,10 @@ class SettingFragment : Fragment() {
 
 
         }
+    }
+
+    override fun onResume() {
+        super.onResume()
+
     }
 }

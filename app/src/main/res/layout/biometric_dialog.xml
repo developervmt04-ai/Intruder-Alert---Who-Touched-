@@ -40,7 +40,7 @@
                 android:layout_height="80dp"
                 app:cardCornerRadius="12dp"
                 app:cardElevation="0dp"
-                android:backgroundTint="#E3F5F9">
+              >
 
                     <ImageView
                         android:layout_width="match_parent"
@@ -86,6 +86,9 @@
         android:layout_below="@id/descriptionText"
         style="@style/Button"
         android:text="@string/enable_now"/>
+
+
+
 
     </RelativeLayout>
 

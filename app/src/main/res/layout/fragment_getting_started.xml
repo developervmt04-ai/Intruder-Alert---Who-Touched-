@@ -28,15 +28,15 @@
 
         <ImageView
             android:id="@+id/imageView2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
             android:layout_marginTop="10dp"
             android:contentDescription="@null"
             android:src="@drawable/intrudericon" />
 
         <TextView
             android:id="@+id/textView"
-            style="@style/BoldText"
+            style="@style/SplashTitle"
             android:textStyle="bold"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -45,7 +45,7 @@
             android:text="@string/intruder_selfie" />
 
         <TextView
-            style="@style/subtitle"
+            style="@style/DescriptionTextSplash"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
@@ -57,9 +57,8 @@
     <Button
         android:id="@+id/btnNext"
         style="@style/Button2"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
         android:text="@string/get_started"
+        android:textStyle="bold"
 
         app:layout_constraintBottom_toTopOf="@+id/tvPolicyTerms"
         app:layout_constraintEnd_toEndOf="parent"
@@ -86,7 +85,7 @@
 
         android:id="@+id/adView"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="55dp"
         android:layout_alignParentBottom="true"
         ads:adSize="BANNER"
         ads:adUnitId="ca-app-pub-3940256099942544/6300978111" />

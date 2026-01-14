@@ -3,75 +3,68 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:padding="16dp"
     android:gravity="center">
 
-    <!-- Card itself stays wrap_content -->
-    <com.google.android.material.card.MaterialCardView
-        android:layout_gravity="center"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:cardCornerRadius="16dp"
-        app:cardBackgroundColor="@color/appBgColor"
-        app:strokeColor="@color/dividerColor"
-        app:strokeWidth="2dp"
-        app:cardElevation="8dp">
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="300dp"
+        android:layout_gravity="center">
 
-        <RelativeLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:padding="24dp">
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/permissionCard"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            app:cardCornerRadius="16dp"
+            app:cardBackgroundColor="@color/appBgColor"
+            app:strokeColor="@color/dividerColor"
+            app:strokeWidth="2dp"
+            app:cardElevation="8dp"
+            app:layout_constraintWidth_percent="0.94"
+            app:layout_constraintHeight_percent="0.6"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
 
             <LinearLayout
-                android:id="@+id/cameraImageContainer"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerHorizontal="true"
-                android:orientation="vertical">
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:padding="10dp"
+                android:gravity="center">
 
-                <com.google.android.material.card.MaterialCardView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    app:cardCornerRadius="18dp">
+
 
                     <ImageView
                         android:id="@+id/permissionIcon"
-                        android:layout_width="150dp"
-                        android:layout_height="150dp"
+                        android:layout_width="100dp"
+                        android:layout_height="100dp"
                         android:background="@color/appBgColor"
                         android:src="@drawable/solar_camera_bold"/>
-                </com.google.android.material.card.MaterialCardView>
 
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/above"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/cameraImageContainer"
-                android:orientation="vertical"
-                android:gravity="center_horizontal"
-                android:paddingTop="24dp">
-
+                <!-- Title below image -->
                 <TextView
                     android:id="@+id/permissionTitle"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     style="@style/ToobarTitle"
+                    android:gravity="center"
                     android:textSize="18sp"
+                    android:padding="6dp"
                     android:textStyle="bold"
-                    android:text="@string/alarmtitle"/>
+                    android:text="@string/notifDesc"/>
 
+                <!-- Description below title -->
                 <TextView
                     android:id="@+id/permissionDescription"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    style="@style/subtitle"
-                    android:text="@string/attempt"/>
+                    android:gravity="center"
+                    style="@style/Descriptionperm"
+
+                    android:text="@string/camreaDes"/>
+
             </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
 
-        </RelativeLayout>
-
-    </com.google.android.material.card.MaterialCardView>
-
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </FrameLayout>

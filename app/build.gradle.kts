@@ -93,8 +93,13 @@ dependencies {
 
     implementation(libs.hilt.android)
     kapt(libs.hilt.compiler)
-    implementation("com.android.billingclient:billing:6.0.0")
+    implementation("com.android.billingclient:billing:6.0.1")
     implementation("com.google.android.gms:play-services-ads:22.2.0")
+
+    implementation("com.airbnb.android:lottie:6.5.0")
+
+    implementation("com.google.android.flexbox:flexbox:3.0.0")
+
 
 
 }

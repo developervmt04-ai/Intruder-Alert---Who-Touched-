@@ -1,5 +1,6 @@
 package com.example.thirdeye.ui.dialogs.permissionsDialog
 
+import android.content.pm.PackageManager
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -35,15 +36,19 @@ class PermissionDialog(
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        setupPager()
+        setupButton()
+    }
 
-
+    private fun setupPager() {
         adapter = PermissionPagerAdapter(mutablePermissions)
         binding.permissionPager.adapter = adapter
-
         if (!dm.isDeviceAdminActive()) {
             adapter.addAdminPage(binding.permissionPager)
         }
+    }
 
+    private fun setupButton() {
         binding.allowPermissionbotnowBtn.setOnClickListener {
             val currentItem = binding.permissionPager.currentItem
             val currentPermission = mutablePermissions[currentItem]
@@ -55,19 +60,25 @@ class PermissionDialog(
             }
 
             onRequest(currentPermission)
-
-            if (currentItem < mutablePermissions.size - 1) {
-                binding.permissionPager.setCurrentItem(currentItem + 1, true)
-            } else {
-                dismiss()
-            }
         }
     }
 
+    override fun onResume() {
+        super.onResume()
+        checkAndDismissIfAllGranted()
+    }
 
-
-
-
+    fun checkAndDismissIfAllGranted() {
+        val allGranted = mutablePermissions.all { perm ->
+            when (perm) {
+                "DEVICE_ADMIN" -> dm.isDeviceAdminActive()
+                else -> requireContext().checkSelfPermission(perm) == PackageManager.PERMISSION_GRANTED
+            }
+        }
+        if (allGranted && isAdded && dialog?.isShowing == true) {
+            dismiss()
+        }
+    }
 
     override fun onStart() {
         super.onStart()
@@ -76,4 +87,17 @@ class PermissionDialog(
             ViewGroup.LayoutParams.MATCH_PARENT
         )
     }
+    fun moveToNext() {
+        val currentItem = binding.permissionPager.currentItem
+        if (currentItem < mutablePermissions.size - 1) {
+            binding.permissionPager.setCurrentItem(currentItem + 1, true)
+        } else {
+
+            binding.permissionPager.setCurrentItem(currentItem, false)
+            dismiss()
+        }
+    }
+
+
+
 }

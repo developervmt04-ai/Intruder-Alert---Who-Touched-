@@ -40,7 +40,6 @@ class IconsAdapter : RecyclerView.Adapter<IconsAdapter.ViewHolder>() {
         holder.binding.icon.setImageResource(icon.icon)
         holder.binding.iconName.text = icon.name
 
-        // Highlight selected item
         if (position == selectedPosition) {
             holder.binding.imageLayout.setStrokeColor(
                 ContextCompat.getColor(holder.itemView.context, R.color.dividerColor)
@@ -51,14 +50,12 @@ class IconsAdapter : RecyclerView.Adapter<IconsAdapter.ViewHolder>() {
             )
         }
 
-        // Click handling
         holder.binding.root.setOnClickListener {
             if (position == selectedPosition) return@setOnClickListener // already selected
 
             val previousPosition = selectedPosition
             selectedPosition = position
 
-            // Notify only the changed items (old and new)
             if (previousPosition != -1) {
                 notifyItemChanged(previousPosition)
             }

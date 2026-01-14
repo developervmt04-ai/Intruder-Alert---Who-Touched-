@@ -9,8 +9,10 @@
     <style name="Theme.ThirdEye" parent="Theme.Material3.DayNight.NoActionBar">
         <item name="android:windowBackground">@color/appBgColor</item>
         <item name="android:statusBarColor">@color/appBgColor</item>
+
         <item name="android:windowSplashScreenBackground">@android:color/transparent</item>
         <item name="android:windowSplashScreenAnimatedIcon">@mipmap/ic_launcher</item>
+
 
 
 

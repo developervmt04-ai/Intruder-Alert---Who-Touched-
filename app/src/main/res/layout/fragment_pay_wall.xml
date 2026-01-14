@@ -24,19 +24,20 @@
 
         <ImageView
             android:id="@+id/icon"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
             android:layout_below="@id/cancel"
             android:layout_centerHorizontal="true"
             android:layout_margin="10dp"
             android:src="@drawable/paywallicon" />
 
         <LinearLayout
+
             android:id="@+id/layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/icon"
-            android:gravity="center_horizontal"
+            android:gravity="center"
             android:orientation="horizontal"
             android:padding="5dp">
 
@@ -56,7 +57,6 @@
                 android:layout_below="@id/icon"
                 android:text="PRO"
                 app:icon="@drawable/premiumiconblack"
-                app:iconGravity="textStart"
                 app:iconTint="@null" />
 
 
@@ -65,7 +65,7 @@
         <TextView
             android:padding="5dp"
             android:id="@+id/text"
-            style="@style/DescriptionText"
+            style="@style/DescriptionTextSplash2"
             android:layout_below="@id/layout"
             android:layout_centerHorizontal="true"
             android:text="@string/enjoy" />
@@ -115,7 +115,8 @@
     <TextView
         android:id="@+id/des"
         style="@style/renewabletext"
-        android:gravity="center_horizontal"
+        app:layout_constraintTop_toBottomOf="@id/rgPlans"
+        android:gravity="center|center_vertical"
         android:text="@string/sub"
         app:layout_constraintBottom_toTopOf="@id/btnContinue" />
 
@@ -125,7 +126,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         android:id="@+id/btnContinue"
         style="@style/premiumButton"
-        android:layout_margin="15dp"
+        android:layout_margin="10dp"
         android:text="@string/continue_btn_text"
         app:layout_constraintBottom_toTopOf="@id/policyTermsLayout" />
 
@@ -144,6 +145,8 @@
         <TextView
             android:id="@+id/privacyPolicyText"
             style="@style/TextLinkStyle"
+            android:clickable="true"
+            android:focusable="true"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -163,6 +166,8 @@
             android:id="@+id/termsText"
             style="@style/TextLinkStyle"
             android:layout_width="0dp"
+            android:clickable="true"
+            android:focusable="true"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:gravity="center"
@@ -178,7 +183,9 @@
 
         <!-- Refund Policy -->
         <TextView
-            android:id="@+id/refundPolicyText"
+            android:clickable="true"
+            android:focusable="true"
+            android:id="@+id/detailsText"
             style="@style/TextLinkStyle"
             android:layout_width="0dp"
             android:layout_height="wrap_content"

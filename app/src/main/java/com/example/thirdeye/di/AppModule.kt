@@ -1,8 +1,10 @@
 package com.example.thirdeye.di
 
 import android.content.Context
+import androidx.fragment.app.FragmentActivity
 import androidx.room.Room
 import com.android.billingclient.api.BillingClient
+import com.example.thirdeye.billing.BillingManager
 import com.example.thirdeye.data.localData.LockImagePrefs
 import com.example.thirdeye.data.localData.PurchasePrefs
 import com.example.thirdeye.data.localData.db.IntruderDB
@@ -51,7 +53,7 @@ object AppModule {
 
     @Provides
     @Singleton
-    fun providePurchasePrefs(context: Context): PurchasePrefs{
+    fun providePurchasePrefs(@ApplicationContext context: Context): PurchasePrefs{
 
         return PurchasePrefs(context)
     }
@@ -62,6 +64,15 @@ object AppModule {
     }
 
 
+
+    @Provides
+    @Singleton
+    fun provideBillingManager(
+        @ApplicationContext context: Context,
+        prefs: PurchasePrefs
+    ): BillingManager {
+        return BillingManager(context, prefs)
+    }
 
 
 

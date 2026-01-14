@@ -62,4 +62,5 @@ class PermissionPagerAdapter(
             notifyItemInserted(permissions.lastIndex)
         }
     }
+
 }

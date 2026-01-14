@@ -14,13 +14,13 @@ import com.example.thirdeye.databinding.PremiumIconItemBinding.*
 
 class PremiumIconAdapter(
     val icons: List<AppIcons>
-): RecyclerView.Adapter<PremiumIconAdapter.ViewHolder>() {
-    var selectedPosition=-1
+) : RecyclerView.Adapter<PremiumIconAdapter.ViewHolder>() {
+    var selectedPosition = -1
     override fun onCreateViewHolder(
         parent: ViewGroup,
         viewType: Int
     ): ViewHolder {
-      val binding = inflate(from(parent.context),parent,false)
+        val binding = inflate(from(parent.context), parent, false)
         return ViewHolder(binding)
     }
 
@@ -35,8 +35,8 @@ class PremiumIconAdapter(
         if (position == selectedPosition) {
             holder.binding.imageLayout.setStrokeColor(
                 ContextCompat.getColor(holder.itemView.context, R.color.dividerColor)
-            )        }
-        else {
+            )
+        } else {
 
             holder.binding.imageLayout.setStrokeColor(
                 ContextCompat.getColor(holder.itemView.context, R.color.transparent)
@@ -53,7 +53,7 @@ class PremiumIconAdapter(
     }
 
     override fun getItemCount(): Int {
-      return icons.size
+        return icons.size
     }
 
 
@@ -63,11 +63,10 @@ class PremiumIconAdapter(
         if (previousPosition != -1) notifyItemChanged(previousPosition)
     }
 
-    var onPremiumIconClick:((AppIcons)-> Unit)?=null
+    var onPremiumIconClick: ((AppIcons) -> Unit)? = null
 
-    inner class ViewHolder(val binding: PremiumIconItemBinding): RecyclerView.ViewHolder(binding.root){
-
-
+    inner class ViewHolder(val binding: PremiumIconItemBinding) :
+        RecyclerView.ViewHolder(binding.root) {
 
 
     }
