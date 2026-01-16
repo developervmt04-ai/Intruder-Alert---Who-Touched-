@@ -2,8 +2,10 @@ package com.example.thirdeye.ui.dialogs
 
 import android.app.Dialog
 import android.content.Context
+import android.os.Build
 import android.view.LayoutInflater
 import android.view.Window
+import android.view.WindowManager
 import com.example.thirdeye.R
 import com.example.thirdeye.databinding.AudibleDialogBinding
 
@@ -44,18 +46,31 @@ class AudibleDialog(context: Context) {
     }
 
     fun show(): AudibleDialog {
+        dialog.window?.let { window ->
+            val params = window.attributes
 
-        dialog.window?.apply {
-            setLayout(
+
+            window.addFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND)
+            params.dimAmount = 0.4f
+
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+                window.addFlags(WindowManager.LayoutParams.FLAG_BLUR_BEHIND)
+                params.blurBehindRadius = 24
+            }
+
+
+            window.setLayout(
                 android.view.ViewGroup.LayoutParams.MATCH_PARENT,
                 android.view.ViewGroup.LayoutParams.WRAP_CONTENT
             )
+            window.setGravity(android.view.Gravity.BOTTOM)
+            window.setWindowAnimations(R.style.BottomDialogAnimation)
 
-            setGravity(android.view.Gravity.BOTTOM)
-            setWindowAnimations(R.style.BottomDialogAnimation)
+
+            window.attributes = params
         }
+
         dialog.show()
         return this
     }
-
 }

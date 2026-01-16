@@ -57,7 +57,6 @@
 
     <!-- Divider -->
     <View
-
         android:id="@+id/divider"
         android:layout_width="match_parent"
         android:layout_height="0.6dp"
@@ -68,6 +67,7 @@
         android:id="@+id/previewContainer"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_margin="5dp"
         android:background="@drawable/squre"
         android:clipChildren="false"
         android:clipToPadding="false"
@@ -80,37 +80,33 @@
         <!-- Dummy Search Bar -->
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="40dp"
-            android:layout_marginBottom="5dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="15dp"
             android:background="@drawable/rounded_card"
             android:gravity="center_vertical"
             android:orientation="horizontal"
-            android:paddingStart="12dp"
-            android:paddingEnd="12dp">
+            android:padding="8dp">
 
             <TextView
+                style="@style/DescriptionTextSplash2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Search"
-                android:textColor="#888888"
-                android:textSize="14sp" />
+                android:text="Search" />
 
         </LinearLayout>
 
         <!-- 3x3 Grid -->
         <GridLayout
-            android:layout_gravity="center"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_gravity="center"
             android:columnCount="3"
             android:gravity="center"
-            android:rowCount="3"
-            >
+            android:rowCount="3">
 
             <ImageView
                 android:id="@+id/icon"
                 android:layout_width="55dp"
-
                 android:layout_height="55dp"
                 android:layout_margin="5dp"
                 android:padding="5dp"
@@ -119,14 +115,12 @@
 
             <View
                 android:layout_width="55dp"
-
                 android:layout_height="55dp"
                 android:layout_margin="5dp"
                 android:background="@drawable/rounded_card" />
 
             <View
                 android:layout_width="55dp"
-
                 android:layout_height="55dp"
                 android:layout_margin="5dp"
                 android:background="@drawable/rounded_card" />
@@ -134,21 +128,18 @@
             <!-- Row 2 -->
             <View
                 android:layout_width="55dp"
-
                 android:layout_height="55dp"
                 android:layout_margin="5dp"
                 android:background="@drawable/rounded_card" />
 
             <View
                 android:layout_width="55dp"
-
                 android:layout_height="55dp"
                 android:layout_margin="5dp"
                 android:background="@drawable/rounded_card" />
 
             <View
                 android:layout_width="55dp"
-
                 android:layout_height="55dp"
                 android:layout_margin="5dp"
                 android:background="@drawable/rounded_card" />
@@ -156,22 +147,18 @@
             <!-- Row 3 -->
             <View
                 android:layout_width="55dp"
-
-                android:layout_height="55dp"
-
-                android:layout_margin="5dp"
-                android:background="@drawable/rounded_card" />
-
-            <View
-                android:layout_width="55dp"
-
                 android:layout_height="55dp"
                 android:layout_margin="5dp"
                 android:background="@drawable/rounded_card" />
 
             <View
                 android:layout_width="55dp"
+                android:layout_height="55dp"
+                android:layout_margin="5dp"
+                android:background="@drawable/rounded_card" />
 
+            <View
+                android:layout_width="55dp"
                 android:layout_height="55dp"
                 android:layout_margin="5dp"
                 android:background="@drawable/rounded_card" />
@@ -180,21 +167,20 @@
 
     </LinearLayout>
 
-
     <TextView
-
         android:id="@+id/iconsText"
         style="@style/DescriptionText"
-        android:padding="5dp"
+        android:layout_marginStart="5dp"
+        android:padding="3dp"
         android:text="@string/icons"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/previewContainer" />
-
     <!-- Icons RecyclerView -->
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/iconRV"
         android:layout_width="match_parent"
         android:layout_height="0dp"
+
         android:clipChildren="false"
         android:clipToPadding="false"
         app:layout_constraintBottom_toTopOf="@id/premiumIconRv"
@@ -206,45 +192,55 @@
         android:id="@+id/premiumIconRv"
         android:layout_width="match_parent"
         android:layout_height="0dp"
+        android:layout_marginBottom="8dp"
+
         android:clipChildren="false"
         android:clipToPadding="false"
-
-
         app:layout_constraintBottom_toTopOf="@id/buttons"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/iconRV" />
 
-    <!-- Buttons container - Above ad space -->
+
+    <!-- Buttons -->
     <FrameLayout
         android:id="@+id/buttons"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_margin="5dp"
-        android:clipChildren="false"
-        android:clipToPadding="false"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp"
+        ads:layout_goneMarginTop="10dp"
         app:layout_constraintBottom_toTopOf="@id/adContainer"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent">
 
-        <Button
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/applyBtn"
             style="@style/Button2"
+            android:minWidth="0dp"
+            android:minHeight="0dp"
+            android:padding="0dp"
+
+
             android:text="@string/applied" />
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/premiumBtnapply"
             style="@style/premiumButton"
-            android:text="@string/apply"
-            android:textAllCaps="false"
+            android:minWidth="0dp"
             android:visibility="gone"
+            android:minHeight="0dp"
+            android:padding="0dp"
+            android:text="@string/apply"
             app:icon="@drawable/premiumicon"
             app:iconGravity="textStart" />
     </FrameLayout>
 
+
     <FrameLayout
         android:id="@+id/adContainer"
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
+        android:layout_width="0dp"
+        android:layout_height="45dp"
+        android:layout_margin="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent">
@@ -252,8 +248,9 @@
         <com.google.android.gms.ads.AdView
             android:id="@+id/adView"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
+            android:layout_height="match_parent"
+            android:layout_margin="0dp"
+            android:padding="0dp"
             ads:adSize="BANNER"
             ads:adUnitId="ca-app-pub-3940256099942544/6300978111" />
     </FrameLayout>

@@ -3,6 +3,7 @@ package com.example.thirdeye.ui.dialogs.addWidget
 
 import android.app.Dialog
 import android.content.Context
+import android.content.Intent
 import android.view.LayoutInflater
 import com.example.thirdeye.R
 import com.example.thirdeye.databinding.GeneralDialogBinding
@@ -27,8 +28,6 @@ class AddWidgetDialog(context: Context) {
 
         binding.howToAdd.setOnClickListener {
 
-            
-
 
         }
     }
@@ -41,7 +40,8 @@ class AddWidgetDialog(context: Context) {
     }
 
     fun setDescription(msg: String): AddWidgetDialog {
-        binding.description.text = msg
+        binding.descriptionWidget.text = msg
+
         return this
 
 

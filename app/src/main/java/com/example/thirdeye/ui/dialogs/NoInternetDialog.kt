@@ -27,7 +27,7 @@ class NoInternetDialog: DialogFragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setStyle(STYLE_NORMAL, R.style.FullScreenDialog) // Use your full screen theme
+        setStyle(STYLE_NORMAL, R.style.FullScreenDialog)
     }
 
     override fun onCreateView(
@@ -51,7 +51,6 @@ class NoInternetDialog: DialogFragment() {
 
         binding.tryAgain.setOnClickListener {
             tryAgainAction?.invoke()
-            dismiss()
         }
     }
 

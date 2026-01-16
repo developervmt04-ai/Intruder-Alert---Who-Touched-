@@ -4,7 +4,10 @@ import android.animation.ObjectAnimator
 import android.animation.ValueAnimator
 import android.content.Context
 import android.content.Intent
+import android.os.Build
 import android.os.Bundle
+import android.provider.Settings
+import android.util.Log
 import android.view.animation.LinearInterpolator
 import android.widget.ImageView
 import androidx.appcompat.app.AppCompatActivity
@@ -24,6 +27,7 @@ import com.example.thirdeye.utils.LocaleHelper
 import com.example.thirdeye.utils.NetworkUtils
 import com.google.android.gms.ads.AdRequest
 import com.google.android.gms.ads.MobileAds
+import com.google.android.material.snackbar.Snackbar
 
 class SplashActivity : AppCompatActivity() {
 
@@ -39,11 +43,11 @@ class SplashActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding= ActivitySplashBinding.inflate(layoutInflater)
+        binding = ActivitySplashBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        purchasePrefs= PurchasePrefs(this)
-        billingManager= BillingManager(this,purchasePrefs)
+        purchasePrefs = PurchasePrefs(this)
+        billingManager = BillingManager(this, purchasePrefs)
         billingManager.startConnection {
             AdController.init(billingManager)
         }
@@ -68,6 +72,7 @@ class SplashActivity : AppCompatActivity() {
             startMain()
         }
     }
+
     override fun attachBaseContext(newBase: Context) {
         val prefs = SecurityPrefs(newBase)
         val langCode = prefs.selectedLanguage ?: "en"
@@ -91,24 +96,43 @@ class SplashActivity : AppCompatActivity() {
     }
 
     private fun startMain() {
-        if (navigated) return
-        navigated = true
-        window.decorView.post({
-            if (!NetworkUtils.isInternetAvailable(this)){
-                val noInternet= NoInternetDialog()
+        window.decorView.post {
+            if (!NetworkUtils.isInternetAvailable(this)) {
+                val noInternet = NoInternetDialog()
                 noInternet.setTitle(getString(R.string.no_internet_connection))
                 noInternet.setDescription(getString(R.string.noIntdes))
+                    .onCheckInternet {
+                                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+                                    startActivity( Intent(Settings.Panel.ACTION_WIFI))
+                                }
+
+
+                    }
+                    .onTryAgain {
+                        if (NetworkUtils.isInternetAvailable(this)) {
+                            noInternet.dismiss()
+                            if (!navigated) {
+                                navigated = true
+                                startActivity(Intent(this, MainActivity::class.java))
+                                finish()
+                            }
+                        } else {
+                            Snackbar.make(
+                                noInternet.requireView(),
+                                "Still no internet!",
+                                Snackbar.LENGTH_SHORT
+                            ).show()
+                        }
+                    }
                 noInternet.show(supportFragmentManager, "NoInternetDialog")
-
+            } else {
+                if (!navigated) { // only navigate if not already
+                    navigated = true
+                    startActivity(Intent(this, MainActivity::class.java))
+                    finish()
+                }
             }
-            else{
-
-
-                startActivity(Intent(this, MainActivity::class.java))
-                finish()
-
-            }
-        }, )
+        }
     }
 
 }

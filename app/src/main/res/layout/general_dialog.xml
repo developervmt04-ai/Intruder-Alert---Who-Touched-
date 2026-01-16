@@ -44,12 +44,14 @@
                 android:textStyle="bold" />
 
             <TextView
-                android:id="@+id/description"
-                style="@style/DescriptionText"
+                android:id="@+id/descriptionWidget"
+                style="@style/DescriptionTextSplash2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:gravity="center"
-                android:text="@string/Add_Widget" />
+                android:gravity="center_horizontal"
+                android:text=""
+
+     />
         </LinearLayout>
 
         <FrameLayout

@@ -113,7 +113,7 @@ class SettingFragment : Fragment() {
             findNavController().navigate(
                 R.id.payWallFragment,
                 null,
-                NavOptions.Builder().setLaunchSingleTop(true).setPopUpTo(R.id.homeFragment, true)
+                NavOptions.Builder().setLaunchSingleTop(true)
                     .build()
             )
 
@@ -134,7 +134,6 @@ class SettingFragment : Fragment() {
             addWidgetDialog = AddWidgetDialog(requireContext())
             addWidgetDialog
                 .setTitle(getString(R.string.addTitle))
-                .setDescription(getString(R.string.add_widget))
                 .onClick { AddWidget.addWidget(requireContext()) }
                 .show()
 

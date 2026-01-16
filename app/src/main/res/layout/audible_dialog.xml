@@ -70,7 +70,7 @@
                 android:layout_width="150dp"
                 android:layout_height="200dp"
                 android:layout_centerInParent="true"
-                android:layout_margin="15dp"
+                android:layout_margin="20dp"
                 android:src="@drawable/alramimg"
                 />
 
@@ -85,6 +85,7 @@
 
 
     </RelativeLayout>
+
 
 
 </com.google.android.material.card.MaterialCardView>

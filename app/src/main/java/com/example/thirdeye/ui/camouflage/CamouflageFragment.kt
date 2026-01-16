@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.NavOptions
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
@@ -22,8 +23,9 @@ import com.example.thirdeye.constants.Constants.WEATHER_ICON
 import com.example.thirdeye.data.localData.AppIcons
 import com.example.thirdeye.data.localData.IconPrefs
 import com.example.thirdeye.databinding.FragmentCamouflageBinding
-import com.example.thirdeye.ui.dialogs.IconApplyingDialog
+import com.example.thirdeye.ui.dialogs.iconsAplying.IconApplyingDialog
 import com.google.android.gms.ads.AdRequest
+import com.google.android.material.snackbar.Snackbar
 
 class CamouflageFragment : androidx.fragment.app.Fragment() {
 
@@ -53,21 +55,21 @@ class CamouflageFragment : androidx.fragment.app.Fragment() {
         val freeIcons = listOf(
             AppIcons(R.mipmap.ic_launcher, DEFAULT_ICON, "Default"),
             AppIcons(R.drawable.weathericon, WEATHER_ICON, "Weather"),
-            AppIcons(R.drawable.weathericon, WEATHER_ICON, "Weather"),
+            AppIcons(R.drawable.notesicon, WEATHER_ICON, "Weather"),
             AppIcons(R.drawable.calculatoricon, CALCULATOR_ICON, "Calculator"),
-            AppIcons(R.drawable.calculatoricon, CALCULATOR_ICON, "Calculator"),
-            AppIcons(R.drawable.compass, COMPASS_ICON, "Compass"),
+            AppIcons(R.drawable.galleryicon2, CALCULATOR_ICON, "Calculator"),
+            AppIcons(R.drawable.calender, COMPASS_ICON, "Compass"),
             AppIcons(R.drawable.compass, COMPASS_ICON, "Compass")
         )
 
         val premiumIcons = listOf(
-            AppIcons(R.drawable.notesicon, NOTES_ICON, "Notes"),
-            AppIcons(R.drawable.book, BOOK_ICON, "Book"),
-            AppIcons(R.drawable.book, BOOK_ICON, "Book"),
-            AppIcons(R.drawable.health, HEALTH_ICON, "Health"),
-            AppIcons(R.drawable.health, HEALTH_ICON, "Health"),
-            AppIcons(R.drawable.music, MUSIC_ICON, "Music"),
-            AppIcons(R.drawable.music, MUSIC_ICON, "Music")
+            AppIcons(R.drawable.logo, NOTES_ICON, "Notes"),
+            AppIcons(R.drawable.themeicon, BOOK_ICON, "Book"),
+            AppIcons(R.drawable.jourallogo, BOOK_ICON, "Book"),
+            AppIcons(R.drawable.browsericon, HEALTH_ICON, "Health"),
+            AppIcons(R.drawable.musisicon, HEALTH_ICON, "Health"),
+            AppIcons(R.drawable.healthicon, MUSIC_ICON, "Music"),
+            AppIcons(R.drawable.translatericon, MUSIC_ICON, "Music")
         )
 
         setupFreeIconsRv(freeIcons)
@@ -88,16 +90,15 @@ class CamouflageFragment : androidx.fragment.app.Fragment() {
 
     override fun onResume() {
         super.onResume()
-        if (AdController.shouldShowAdd()){
-            binding.adView.visibility=View.VISIBLE
+        if (AdController.shouldShowAdd()) {
+            binding.adView.visibility = View.VISIBLE
             viewLifecycleOwner.lifecycleScope.launchWhenResumed {
                 binding.adView.loadAd(AdRequest.Builder().build())
             }
 
 
-        }
-        else{
-            binding.adView.visibility=View.GONE
+        } else {
+            binding.adView.visibility = View.GONE
 
 
         }
@@ -147,6 +148,8 @@ class CamouflageFragment : androidx.fragment.app.Fragment() {
 
 
 
+
+
             binding.premiumBtnapply.visibility = View.VISIBLE
             binding.applyBtn.visibility = View.INVISIBLE
         }
@@ -170,13 +173,43 @@ class CamouflageFragment : androidx.fragment.app.Fragment() {
 
         binding.applyBtn.alpha = if (isApplied) .5f else 1f
 
+        binding.premiumBtnapply.setOnClickListener {
+            if (AdController.shouldShowAdd()) {
+                Snackbar.make(
+                    this.requireView(),
+                    "Premium Icon ,Buy Subscription",
+                    Snackbar.LENGTH_SHORT
+                ).show()
+                findNavController().navigate(
+                    R.id.payWallFragment,
+                    null,
+                    NavOptions.Builder().setLaunchSingleTop(true)
+                    .build()
+                )
+
+
+            }
+
+
+        }
+
 
         binding.applyBtn.setOnClickListener {
             if (isApplied) return@setOnClickListener
 
-            IconApplyingDialog.showIconApplyingDialog(requireContext())
+            val dialog = IconApplyingDialog
+                .showIconApplyingDialog(requireContext())
 
-            IconChanger.changeIcon(requireContext(), selectedIconAlias!!)
+            binding.root.postDelayed({
+
+
+                dialog.showApplied()
+                IconChanger.changeIcon(requireContext(), selectedIconAlias!!)
+
+
+
+            }, 1200)
+
 
             appliedIconRes = selectedIconRes!!
             iconPrefs.saveAppliedIcon(appliedIconRes)

@@ -98,7 +98,9 @@ dependencies {
 
     implementation("com.airbnb.android:lottie:6.5.0")
 
-    implementation("com.google.android.flexbox:flexbox:3.0.0")
+    implementation("com.tbuonomo:dotsindicator:5.1.0")
+
+
 
 
 

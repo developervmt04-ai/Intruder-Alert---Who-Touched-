@@ -94,7 +94,7 @@ class HomeFragment : Fragment() {
             viewModel.loadImages()
         }
 
-//
+
         if (AdController.shouldShowAdd()){
             binding.adView.visibility=View.VISIBLE
             viewLifecycleOwner.lifecycleScope.launchWhenResumed {
@@ -310,7 +310,8 @@ class HomeFragment : Fragment() {
             addWidgetDialog = AddWidgetDialog(requireContext())
             addWidgetDialog
                 .setTitle(getString(R.string.addTitle))
-                .setDescription(getString(R.string.add_widget))
+                .setDescription(getString(R.string.Add_Widget))
+
                 .onClick { AddWidget.addWidget(requireContext()) }
                 .show()
         }

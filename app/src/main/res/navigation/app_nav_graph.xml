@@ -59,7 +59,11 @@
         android:id="@+id/camouflageFragment"
         android:name="com.example.thirdeye.ui.camouflage.CamouflageFragment"
         android:label="fragment_camouflage"
-        tools:layout="@layout/fragment_camouflage" />
+        tools:layout="@layout/fragment_camouflage" >
+        <action
+            android:id="@+id/action_camouflageFragment_to_payWallFragment"
+            app:destination="@id/payWallFragment" />
+    </fragment>
     <fragment
         android:id="@+id/settingFragment"
         android:name="com.example.thirdeye.ui.settings.SettingFragment"

@@ -5,10 +5,12 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TableLayout
 import androidx.fragment.app.DialogFragment
 import androidx.viewpager2.widget.ViewPager2
 import com.example.thirdeye.databinding.PermissionsViewpagerBinding
 import com.example.thirdeye.permissions.DeviceAdminManager
+import com.google.android.material.tabs.TabLayoutMediator
 
 class PermissionDialog(
     pendingPermissions: List<String>,
@@ -46,6 +48,10 @@ class PermissionDialog(
         if (!dm.isDeviceAdminActive()) {
             adapter.addAdminPage(binding.permissionPager)
         }
+       binding. tabDots.attachTo(binding.permissionPager)
+
+
+
     }
 
     private fun setupButton() {
