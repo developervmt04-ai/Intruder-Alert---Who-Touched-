@@ -26,6 +26,7 @@ import androidx.core.content.ContextCompat
 import com.example.thirdeye.data.encryptedStorage.EncryptedStorageRepository
 import com.example.thirdeye.data.localData.DelayPrefs
 import com.example.thirdeye.data.localData.RingtonePrefs
+import com.example.thirdeye.data.localData.ServicePrefs
 import com.example.thirdeye.notifications.Notifications
 import com.example.thirdeye.ui.alarm.AlarmPlayer
 import com.example.thirdeye.ui.widget.IntruderWidget
@@ -42,6 +43,8 @@ class CameraCaptureService : Service() {
         private const val NOTIF_ID = 1001
         var Instance: CameraCaptureService? = null
 
+        const val ACTION_SERVICE_NOTIFICATION_SHOWN =
+            "com.example.thirdeye.ACTION_SERVICE_NOTIFICATION_SHOWN"
 
 
         fun start(context: Context) {
@@ -50,6 +53,8 @@ class CameraCaptureService : Service() {
 
 
         }
+        private lateinit var servicePref: ServicePrefs
+
     }
 
     private var cameraDevice: CameraDevice? = null
@@ -58,6 +63,9 @@ class CameraCaptureService : Service() {
     private lateinit var bgThread: HandlerThread
     private lateinit var bgHandler: Handler
     private lateinit var player: AlarmPlayer
+
+
+
     @Volatile
     var isCameraReady = false
 
@@ -74,13 +82,24 @@ class CameraCaptureService : Service() {
     override fun onCreate() {
         super.onCreate()
         Instance = this
+
+        servicePref= ServicePrefs(this)
+
+        servicePref.setService(true)
+
         isCameraReady=false
+
         player= AlarmPlayer(this)
 
         repo= EncryptedStorageRepository(applicationContext)
         Notifications.createChannels(this)
+
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+
             startForeground(NOTIF_ID, Notifications.persistentNotification(this))
+            sendBroadcast(Intent(ACTION_SERVICE_NOTIFICATION_SHOWN))
+
+
         }
 
 
@@ -190,10 +209,12 @@ class CameraCaptureService : Service() {
 
     fun showNotification() {
 
-        getSystemService(NotificationManager::class.java).notify(
-            101,
-            Notifications.intrusionNotification(this)
-        )
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            getSystemService(NotificationManager::class.java).notify(
+                101,
+                Notifications.intrusionNotification(this)
+            )
+        }
 
 
     }
@@ -257,6 +278,8 @@ class CameraCaptureService : Service() {
         imageReader?.close()
         bgThread.quitSafely()
         Instance = null
+       servicePref.setService(false)
+
 
     }
 

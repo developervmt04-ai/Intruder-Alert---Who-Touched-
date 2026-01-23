@@ -1,9 +1,12 @@
 package com.example.thirdeye.ui.main
 
 import android.animation.ValueAnimator
+import android.app.ActivityManager
+import android.content.Context
 import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
+import android.os.Handler
 import android.os.Looper
 import android.view.LayoutInflater
 import android.view.View
@@ -14,13 +17,16 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.NavOptions
 import androidx.navigation.fragment.findNavController
 import com.example.thirdeye.MainActivity
 import com.example.thirdeye.R
+import com.example.thirdeye.ads.NativeAdController
+import com.example.thirdeye.ads.NativeAdType
 import com.example.thirdeye.billing.AdController
-import com.example.thirdeye.data.localData.ButtonPrefs
 import com.example.thirdeye.data.localData.RingtonePrefs
 import com.example.thirdeye.data.localData.SecurityPrefs
+import com.example.thirdeye.data.localData.ServicePrefs
 import com.example.thirdeye.databinding.FragmentHomeBinding
 import com.example.thirdeye.service.CameraCaptureService
 import com.example.thirdeye.ui.dialogs.addWidget.AddWidgetDialog
@@ -43,9 +49,9 @@ class HomeFragment : Fragment() {
 
     private lateinit var binding: FragmentHomeBinding
     private lateinit var addWidgetDialog: AddWidgetDialog
-    private lateinit var homeAdapter: HomePagerAdapter
-    private lateinit var btnPrefs: ButtonPrefs
-
+    private val homeAdapter by lazy {
+        HomePagerAdapter()
+    }
     private val viewModel: IntruderPhotosViewModel by activityViewModels()
     private val timerViewModel: TimerViewModel by viewModels()
 
@@ -55,7 +61,9 @@ class HomeFragment : Fragment() {
     private lateinit var ringtonePrefs: RingtonePrefs
     private lateinit var prefs: SecurityPrefs
 
+    private lateinit var nativeAdController: NativeAdController
 
+    private var image = 0
 
 
     override fun onCreateView(
@@ -69,7 +77,8 @@ class HomeFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        prefs= SecurityPrefs(requireContext())
+        prefs = SecurityPrefs(requireContext())
+        nativeAdController = NativeAdController(requireContext())
 
 
         view.post {
@@ -80,14 +89,11 @@ class HomeFragment : Fragment() {
 
     private fun setupUi() {
 
-        btnPrefs = ButtonPrefs(requireContext())
-
-
 
         observeTimer()
 
-        homeAdapter = HomePagerAdapter()
         binding.homePager.adapter = homeAdapter
+
 
 
         if (viewModel.images.value.isEmpty()) {
@@ -95,16 +101,11 @@ class HomeFragment : Fragment() {
         }
 
 
-        if (AdController.shouldShowAdd()){
-            binding.adView.visibility=View.VISIBLE
-            viewLifecycleOwner.lifecycleScope.launchWhenResumed {
-                binding.adView.loadAd(AdRequest.Builder().build())
-            }
+        if (AdController.shouldShowAdd()) {
+            nativeAdController.loadNativeAd(binding.nativeAdRoot, adType = NativeAdType.SMALL)
 
 
-        }
-        else{
-            binding.adView.visibility=View.GONE
+        } else {
 
 
         }
@@ -113,6 +114,8 @@ class HomeFragment : Fragment() {
 
         viewLifecycleOwner.lifecycleScope.launchWhenStarted {
             viewModel.images.collect { images ->
+                image = images.size
+
                 if (images.isEmpty()) {
                     binding.emptyIntruders.visibility = View.VISIBLE
                     binding.homePager.visibility = View.INVISIBLE
@@ -134,10 +137,18 @@ class HomeFragment : Fragment() {
             findNavController().navigate(action)
         }
 
-        homeAdapter.onWatchAdClicked = {
+        homeAdapter.onWatchAdClicked = { image ->
             if (interstitialAd != null && NetworkUtils.isInternetAvailable(requireContext())) {
+                interstitialAd?.fullScreenContentCallback =
+                    object : com.google.android.gms.ads.FullScreenContentCallback() {
+                        override fun onAdDismissedFullScreenContent() {
+                            viewModel.unlockImage(image.id)
+                            preloadInterstitialAd()
+                        }
+                    }
+
                 interstitialAd?.show(requireActivity())
-                viewModel.unlockImage(it.id)
+
             } else {
                 Toast.makeText(
                     requireContext(),
@@ -148,6 +159,7 @@ class HomeFragment : Fragment() {
             }
         }
 
+
         homeAdapter.onPremiumClicked = {
             Toast.makeText(requireContext(), "Premium Clicked", Toast.LENGTH_SHORT).show()
         }
@@ -157,27 +169,30 @@ class HomeFragment : Fragment() {
     }
 
     private fun setupPowerButton() {
+        val handler = Handler(Looper.getMainLooper())
 
-        var isOn = btnPrefs.isButtonEnabled()
-        val isServiceRunning =
-            CameraCaptureService.Instance?.isCameraReady == true
-
-        val handler = android.os.Handler(Looper.getMainLooper())
-
-        if (isOn && isServiceRunning) {
-            binding.powerButton.setCardBackgroundColor(Color.parseColor("#00E5FF"))
-            binding.powerIcon.setColorFilter(Color.parseColor("#00E5FF"))
-            binding.outerRing.progress = 100
-        } else {
-            binding.powerButton.setCardBackgroundColor(Color.WHITE)
-            binding.powerIcon.setColorFilter(Color.WHITE)
-            binding.outerRing.progress = 0
-            binding.turnOnText.text = getString(R.string.turn_on_text)
+        // Helper function to update the UI based on actual service state
+        fun renderUI(isRunning: Boolean) {
+            if (isRunning) {
+                binding.powerButton.setCardBackgroundColor(Color.parseColor("#00E5FF"))
+                binding.powerIcon.setColorFilter(Color.parseColor("#00E5FF"))
+                binding.turnOnText.text = getString(R.string.active)
+                binding.outerRing.progress = 100
+            } else {
+                binding.powerButton.setCardBackgroundColor(Color.WHITE)
+                binding.powerIcon.setColorFilter(Color.WHITE)
+                binding.turnOnText.text = getString(R.string.turn_on_text)
+                binding.outerRing.progress = 0
+            }
         }
 
-        binding.powerButton.setOnClickListener {
+        // Always sync UI with service state when fragment starts
+        renderUI(isServiceRunning())
 
+        binding.powerButton.setOnClickListener {
             val mainActivity = requireActivity() as MainActivity
+
+            // Check permissions first
             if (!mainActivity.permissions.allGranted()) {
                 Toast.makeText(
                     requireContext(),
@@ -188,32 +203,28 @@ class HomeFragment : Fragment() {
                 return@setOnClickListener
             }
 
-            if (!isOn) {
-                isOn = true
-                btnPrefs.enableButton(true)
-                binding.turnOnText.text = getString(R.string.active)
+            val isRunning = isServiceRunning() // Always check actual service
 
-
-                binding.powerButton.setCardBackgroundColor(Color.parseColor("#00E5FF"))
-                binding.powerIcon.setColorFilter(Color.parseColor("#00E5FF"))
+            if (!isRunning) {
+                // Start service with ring animation
                 binding.outerRing.progress = 0
-
                 val animator = ValueAnimator.ofInt(0, 100).apply {
                     duration = 4000
                     addUpdateListener {
                         binding.outerRing.progress = it.animatedValue as Int
                     }
+                    start()
                 }
-                animator.start()
 
                 CameraCaptureService.start(requireContext())
 
+                // Wait until camera is ready
                 handler.post(object : Runnable {
                     override fun run() {
-                        val service = CameraCaptureService.Instance
-                        if (service != null && service.isCameraReady) {
+                        if (CameraCaptureService.Instance?.isCameraReady == true) {
                             animator.cancel()
                             binding.outerRing.progress = 100
+                            renderUI(true) // Update UI based on service
                         } else {
                             handler.postDelayed(this, 50)
                         }
@@ -221,20 +232,19 @@ class HomeFragment : Fragment() {
                 })
 
             } else {
-                isOn = false
-                btnPrefs.enableButton(false)
-
-                binding.turnOnText.text = getString(R.string.turn_on_text)
-
-                binding.powerButton.setCardBackgroundColor(Color.WHITE)
-                binding.powerIcon.setColorFilter(Color.WHITE)
-                binding.outerRing.progress = 0
-
-                requireContext().stopService(
-                    Intent(requireContext(), CameraCaptureService::class.java)
-                )
+                // Stop service
+                requireContext().stopService(Intent(requireContext(), CameraCaptureService::class.java))
+                renderUI(false)
             }
         }
+
+        // Optional: keep UI updated if service stops unexpectedly
+        handler.post(object : Runnable {
+            override fun run() {
+                renderUI(isServiceRunning())
+                handler.postDelayed(this, 500) // check every 0.5s
+            }
+        })
     }
 
     private fun setupClicks() {
@@ -245,6 +255,9 @@ class HomeFragment : Fragment() {
         } else {
             binding.alarmOnIndicator.visibility = View.INVISIBLE
         }
+
+
+
 
         binding.alarmBtn.setOnClickListener {
 
@@ -259,28 +272,30 @@ class HomeFragment : Fragment() {
                 return@setOnClickListener
             }
 
-            if (!ringtonePrefs.isAlarmEnabled()){
+            if (!ringtonePrefs.isAlarmEnabled()) {
 
-            AudibleDialog(requireContext())
-                .setTitle(getString(R.string.alarmtitle))
-                .setMessage(getString(R.string.attempt))
-                .onClick {
+                AudibleDialog(requireContext())
+                    .setTitle(getString(R.string.alarmtitle))
+                    .setMessage(getString(R.string.attempt))
+                    .onClick {
 
 
-                    findNavController().navigate(
-                        R.id.action_homeFragment_to_alarmFragment
-                    )
-                }
-                .show()
+                        findNavController().navigate(
+                            R.id.action_homeFragment_to_alarmFragment
+                        )
+                    }
+                    .show()
+            } else findNavController().navigate(R.id.action_homeFragment_to_alarmFragment)
         }
-            else findNavController().navigate(R.id.action_homeFragment_to_alarmFragment)
-        }
+
+        binding.intruderCounter.text = image.toString()
 
         binding.settingIcon.setOnClickListener {
             findNavController().navigate(
                 R.id.action_homeFragment_to_settingFragment
             )
         }
+
 
         binding.intruderDropdown.setOnClickListener {
             findNavController().navigate(
@@ -292,6 +307,17 @@ class HomeFragment : Fragment() {
             findNavController().navigate(
                 R.id.action_homeFragment_to_camouflageFragment
             )
+        }
+
+        binding.premiumIconHome.setOnClickListener {
+            findNavController().navigate(
+                R.id.payWallFragment,
+                null,
+                NavOptions.Builder().setLaunchSingleTop(true)
+                    .build()
+            )
+
+
         }
 
         binding.addWidgetBtn.setOnClickListener {
@@ -313,6 +339,13 @@ class HomeFragment : Fragment() {
                 .setDescription(getString(R.string.Add_Widget))
 
                 .onClick { AddWidget.addWidget(requireContext()) }
+                .onHowToAddClick {
+                    findNavController().navigate(
+                        R.id.action_homeFragment_to_payWallFragment
+
+
+                    )
+                }
                 .show()
         }
     }
@@ -327,11 +360,11 @@ class HomeFragment : Fragment() {
                 mainActivity.requestPermissions()
             }
 
-        if (mainActivity.permissions.allGranted() && prefs.isFirstLaunch) {
-            val dialog = FingerPrintDialog(requireContext())
-            dialog.show()
-            prefs.isFirstLaunch = false
-        }
+            if (mainActivity.permissions.allGranted() && prefs.isFirstLaunch) {
+                val dialog = FingerPrintDialog(requireContext())
+                dialog.show()
+                prefs.isFirstLaunch = false
+            }
         }
 
         view?.postDelayed({
@@ -369,4 +402,15 @@ class HomeFragment : Fragment() {
             }
         }
     }
+
+    private fun isServiceRunning(): Boolean {
+        val activityManager = requireContext().getSystemService(Context.ACTIVITY_SERVICE) as ActivityManager
+        for (service in activityManager.getRunningServices(Int.MAX_VALUE)) {
+            if (service.service.className == CameraCaptureService::class.java.name) {
+                return true
+            }
+        }
+        return false
+    }
+
 }

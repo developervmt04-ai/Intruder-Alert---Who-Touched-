@@ -14,13 +14,18 @@ import androidx.activity.result.contract.ActivityResultContracts
 
 import androidx.navigation.fragment.findNavController
 import com.example.thirdeye.R
+import com.example.thirdeye.ads.NativeAdController
+import com.example.thirdeye.ads.NativeAdType
 import com.example.thirdeye.data.localData.RingtonePrefs
 import com.example.thirdeye.databinding.FragmentAlarmBinding
+import com.google.android.gms.ads.nativead.NativeAdView
 
 
 class AlarmFragment : Fragment() {
     private lateinit var binding: FragmentAlarmBinding
     private lateinit var ringtonePrefs: RingtonePrefs
+
+    private lateinit var nativeAdController: NativeAdController
 
     private val ringTonePickerLauncher =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
@@ -57,6 +62,10 @@ class AlarmFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        nativeAdController = NativeAdController(requireContext())
+
+        loadNativeAd()
+
         ringtonePrefs = RingtonePrefs(requireContext())
         binding.backIcon.setOnClickListener {
             findNavController().navigateUp()
@@ -90,6 +99,11 @@ class AlarmFragment : Fragment() {
 
 
     }
+
+    private fun loadNativeAd() {
+        nativeAdController.loadNativeAd(binding.nativeAdRoot, adType = NativeAdType.LARGE)
+    }
+
 
     private fun showSavedRingtoneName() {
         val uri = ringtonePrefs.getAlarmTone()

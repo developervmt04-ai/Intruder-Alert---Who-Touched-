@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+
+    android:layout_gravity="bottom"
+    app:cardBackgroundColor="@color/white"
+    app:shapeAppearanceOverlay="@style/TopRoundedCard"
+    app:useCompatPadding="true">
+
+    <RelativeLayout
+        android:background="@color/white"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="24dp">
+
+        <ImageView
+            android:id="@+id/closeButton"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+
+            android:layout_alignParentEnd="true"
+            android:src="@drawable/close_btn"
+            android:clickable="true"
+            android:focusable="true" />
+        <LinearLayout
+            android:layout_below="@id/closeButton"
+            android:id="@+id/above"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:gravity="center_horizontal"
+            >
+            <TextView
+
+                android:layout_margin="4dp"
+                android:id="@+id/title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/how_to_add_widget"
+                android:textSize="18sp"
+                android:textStyle="bold"/>
+
+
+
+        </LinearLayout>
+
+
+
+        <LinearLayout
+            android:id="@+id/fingerprintContainer"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_below="@id/above"
+
+            android:orientation="vertical"
+            >
+
+
+            <ImageView
+                android:backgroundTint="@color/transparent"
+                android:layout_width="wrap_content"
+                android:layout_height="400dp"
+                android:layout_centerInParent="true"
+                android:layout_margin="20dp"
+                android:src="@drawable/mobile"
+                />
+
+        </LinearLayout>
+
+        <Button
+            android:layout_below="@id/fingerprintContainer"
+            style="@style/Button"
+            android:text="@string/start"
+            android:id="@+id/addWidget"/>
+
+
+
+    </RelativeLayout>
+
+</com.google.android.material.card.MaterialCardView>

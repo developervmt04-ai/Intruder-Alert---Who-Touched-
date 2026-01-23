@@ -24,7 +24,7 @@
         <item name="android:textColor">#FFFFFF</item>
         <item name="android:textSize">16sp</item>
         <item name="android:textStyle">bold</item>
-        <item name="android:padding">14dp</item>
+        <item name="android:padding">10dp</item>
         <item name="android:textAllCaps">false</item>
         <item name="shapeAppearance">@null</item>
         <item name="shapeAppearanceOverlay">@null</item>
@@ -42,6 +42,7 @@
         <item name="shapeAppearance">@null</item>
         <item name="shapeAppearanceOverlay">@null</item>
     </style>
+
     <style name="transparentCancelBtn" parent="Widget.MaterialComponents.Button">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
@@ -82,6 +83,7 @@
         <item name="android:windowBackground">@android:color/transparent</item>
         <item name="android:windowAnimationStyle">@style/DialogSlideAnimation</item>
     </style>
+
     <style name="DescriptionText">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
@@ -89,13 +91,23 @@
         <item name="android:textSize">12sp</item>
 
     </style>
-    <style name="DescriptionTextSplash2">
+
+    <style name="dialogDes">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:textColor">#797C80</item>
         <item name="android:textSize">14sp</item>
 
     </style>
+
+    <style name="DescriptionTextSplash2">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textColor">#797C80</item>
+        <item name="android:textSize">16sp</item>
+
+    </style>
+
     <style name="Descriptionperm">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
@@ -112,6 +124,7 @@
         <item name="android:textSize">16sp</item>
 
     </style>
+
     <style name="iconText">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
@@ -119,6 +132,7 @@
         <item name="android:textSize">10sp</item>
 
     </style>
+
     <style name="renewabletext">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
@@ -128,6 +142,7 @@
         <item name="android:textSize">12sp</item>
 
     </style>
+
     <style name="subtitle">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
@@ -136,6 +151,7 @@
         <item name="android:gravity">center</item>
 
     </style>
+
     <style name="subtitlePerm">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
@@ -144,6 +160,7 @@
         <item name="android:gravity">center</item>
 
     </style>
+
     <style name="BoldText">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
@@ -153,6 +170,7 @@
 
 
     </style>
+
     <style name="SplashTitle">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
@@ -162,16 +180,18 @@
 
 
     </style>
+
     <style name="SettingTitleText">
-    <item name="android:layout_width">wrap_content</item>
-    <item name="android:layout_height">wrap_content</item>
-    <item name="android:textColor">@color/white</item>
-    <item name="android:textSize">16sp</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:textSize">16sp</item>
         <item name="fontFamily">Robo</item>
-    <item name="android:gravity">center</item>
+        <item name="android:gravity">center</item>
 
 
-</style>
+    </style>
+
     <style name="premiumTitleText">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
@@ -191,6 +211,7 @@
         <item name="android:gravity">center</item>
 
     </style>
+
     <style name="ToobarTitle">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
@@ -207,8 +228,8 @@
         <item name="android:textSize">14sp</item>
 
 
-
     </style>
+
     <style name="FullScreenDialog" parent="Theme.Material3.DayNight.NoActionBar">
         <item name="android:windowNoTitle">true</item>
         <item name="android:windowFullscreen">true</item>
@@ -263,6 +284,7 @@
         <item name="android:windowEnterAnimation">@anim/slide_in_bottom</item>
         <item name="android:windowExitAnimation">@anim/slide_out_bottom</item>
     </style>
+
     <style name="EnterDialog">
         <item name="android:windowEnterAnimation">@anim/slide_in_right</item>
         <item name="android:windowExitAnimation">@anim/slide_out_right</item>
@@ -285,12 +307,22 @@
         <item name="shapeAppearanceOverlay">@null</item>
     </style>
 
+    <style name="smallnativeAdbtn" parent="Widget.MaterialComponents.Button">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">30dp</item>
+        <item name="android:background">@drawable/small_btn_bg</item>
+        <item name="backgroundTint">@null</item> <!-- important -->
+        <item name="android:textColor">@color/black</item>
+        <item name="android:textSize">14sp</item>
+        <item name="android:textAllCaps">false</item>
+        <item name="shapeAppearanceOverlay">@null</item>
+    </style>
+
 
     <style name="premiumButton" parent="Widget.MaterialComponents.Button">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">55dp</item>
-        <item name="android:padding">8dp</item>
-        <item name="android:layout_margin">5dp</item>
+        <item name="android:padding">10dp</item>
         <item name="android:background">@drawable/premium_btn_bg</item>
         <item name="backgroundTint">@null</item>
         <item name="iconTint">@null</item>
@@ -300,5 +332,59 @@
         <item name="android:textSize">16sp</item>
         <item name="shapeAppearanceOverlay">@null</item>
     </style>
+
+
+    <style name="dialogTitle">
+        <item name="android:textColor">@color/black</item>
+        <item name="android:textSize">18sp</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+
+    </style>
+
+    <!-- Base style for all cards -->
+    <style name="BaseCard">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginBottom">8dp</item>
+        <item name="android:backgroundTint">@color/cardBgColor</item>
+        <item name="cardCornerRadius">12dp</item>
+        <item name="android:layout_margin">5dp</item>
+        <item name="cardElevation">4dp</item>
+    </style>
+
+    <!-- Base style for inner RelativeLayouts -->
+    <style name="BaseCardContent">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:padding">16dp</item>
+        <item name="android:background">@drawable/card_stroke</item>
+        <item name="android:foreground">?attr/selectableItemBackground</item>
+    </style>
+    <!-- Title text inside any card -->
+    <style name="CardTitleText">
+        <item name="android:textSize">16sp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textColor">@color/black</item>
+    </style>
+
+    <!-- Description text inside any card -->
+    <style name="CardDescriptionText">
+        <item name="android:textSize">14sp</item>
+        <item name="android:textColor">@color/white</item>
+    </style>
+    <!-- Standard icon size -->
+    <style name="CardIcon">
+        <item name="android:layout_width">40dp</item>
+        <item name="android:layout_height">40dp</item>
+        <item name="android:tint">@color/white</item>
+    </style>
+
+    <!-- Small "next" arrow icon -->
+    <style name="CardNextIcon">
+        <item name="android:layout_width">15dp</item>
+        <item name="android:layout_height">15dp</item>
+    </style>
+
 
 </resources>

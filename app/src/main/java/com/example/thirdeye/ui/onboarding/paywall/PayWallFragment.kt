@@ -12,12 +12,14 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import androidx.navigation.NavOptions
 import androidx.navigation.fragment.findNavController
 import com.example.thirdeye.R
 import com.example.thirdeye.constants.Constants.DETAILS
 import com.example.thirdeye.constants.Constants.PRIVACY
 import com.example.thirdeye.constants.Constants.TERMS
 import com.example.thirdeye.data.localData.PlansData
+import com.example.thirdeye.data.localData.SecurityPrefs
 import com.example.thirdeye.databinding.FragmentPayWallBinding
 import kotlinx.coroutines.launch
 
@@ -29,10 +31,11 @@ class PayWallFragment : Fragment() {
     private var selectedPlan: PlansData? = null
     private var selectedRadioButton: RadioButton? = null
 
-    private var isExiting = false
+
     private var isPlansRendered = false
 
     private val planViewModel: PlanViewModel by activityViewModels()
+    private lateinit var prefs: SecurityPrefs
 
     private var selectedCard: com.google.android.material.card.MaterialCardView? = null
 
@@ -56,54 +59,55 @@ class PayWallFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
 
+        prefs = SecurityPrefs(requireContext())
+
+
 
         binding.privacyPolicyText.setOnClickListener {
-            val privacy= Intent(Intent.ACTION_PICK, Uri.parse(PRIVACY))
+            val privacy = Intent(Intent.ACTION_PICK, Uri.parse(PRIVACY))
             requireContext().startActivity(privacy)
-
 
 
         }
         binding.termsText.setOnClickListener {
-            val terms= Intent(Intent.ACTION_PICK, Uri.parse(TERMS))
+            val terms = Intent(Intent.ACTION_PICK, Uri.parse(TERMS))
             requireContext().startActivity(terms)
-
 
 
         }
 
         binding.detailsText.setOnClickListener {
-            val details= Intent(Intent.ACTION_PICK, Uri.parse(DETAILS))
+            val details = Intent(Intent.ACTION_PICK, Uri.parse(DETAILS))
             requireContext().startActivity(details)
 
 
-
-
-
-
         }
-
 
 
         binding.cancel.setOnClickListener {
-            isExiting = true
 
-            findNavController().navigate(
-                R.id.homeFragment,
-                null,
-                androidx.navigation.NavOptions.Builder()
-                    .setPopUpTo(R.id.payWallFragment, true)
-                    .setLaunchSingleTop(true)
-                    .build()
-            )
+
+            if (findNavController().previousBackStackEntry != null) {
+
+                findNavController().navigateUp()
+            } else {
+                findNavController().navigate(
+                    R.id.homeFragment,
+                    null,
+                    NavOptions.Builder().setLaunchSingleTop(true)
+                        .build()
+                )
+
+
+            }
         }
+
 
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(
                 androidx.lifecycle.Lifecycle.State.STARTED
             ) {
                 planViewModel.plans.collect { planList ->
-                    if (isExiting) return@collect
 
                     plans = planList
                     populatePlans()
@@ -118,7 +122,7 @@ class PayWallFragment : Fragment() {
 
         binding.rgPlans.removeAllViews()
 
-        plans.forEachIndexed { index,plan ->
+        plans.forEachIndexed { index, plan ->
             val row =
                 layoutInflater.inflate(R.layout.paywall_item, binding.rgPlans, false)
             val card = row as com.google.android.material.card.MaterialCardView
@@ -129,17 +133,20 @@ class PayWallFragment : Fragment() {
             val price = row.findViewById<TextView>(R.id.price)
 
             radioBtn.id = View.generateViewId()
-            duration.text = plan.duration
+            duration.text = buildString {
+                append(plan.duration)
+                append(getString(R.string.week_1))
+            }
             description.text = plan.description
             price.text = plan.price
 
             row.setOnClickListener {
 
-                handleSelection(card,radioBtn, plan)
+                handleSelection(card, radioBtn, plan)
             }
 
             radioBtn.setOnClickListener {
-                handleSelection(card,radioBtn, plan)
+                handleSelection(card, radioBtn, plan)
             }
 
             binding.rgPlans.addView(row)
@@ -148,7 +155,6 @@ class PayWallFragment : Fragment() {
             }
         }
     }
-
 
 
     private fun handleSelection(

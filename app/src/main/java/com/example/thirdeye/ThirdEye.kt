@@ -15,6 +15,7 @@ class ThirdEye(): Application() {
 
     override fun onCreate() {
         super.onCreate()
+
         MobileAds.initialize(this)
 
 

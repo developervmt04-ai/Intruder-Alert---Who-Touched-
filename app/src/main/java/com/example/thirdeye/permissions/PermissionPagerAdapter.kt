@@ -1,5 +1,6 @@
-package com.example.thirdeye.ui.dialogs.permissionsDialog
+package com.example.thirdeye.permissions
 
+import android.Manifest
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -35,22 +36,22 @@ class PermissionPagerAdapter(
     override fun getItemCount(): Int = permissions.size
 
     private fun readableName(permission: String,context: Context) = when (permission) {
-        android.Manifest.permission.POST_NOTIFICATIONS -> context.getString(R.string.notificPerm)
-        android.Manifest.permission.CAMERA -> context.getString(R.string.cameraPerm)
+        Manifest.permission.POST_NOTIFICATIONS -> context.getString(R.string.notificPerm)
+        Manifest.permission.CAMERA -> context.getString(R.string.cameraPerm)
         "DEVICE_ADMIN" -> context.getString(R.string.adminPerm)
         else -> "Permission Required"
     }
 
     private fun readableDescription(permission: String,context: Context) = when (permission) {
-        android.Manifest.permission.POST_NOTIFICATIONS -> context.getString(R.string.notifDesc)
-        android.Manifest.permission.CAMERA -> context.getString(R.string.camreaDes)
+        Manifest.permission.POST_NOTIFICATIONS -> context.getString(R.string.notifDesc)
+        Manifest.permission.CAMERA -> context.getString(R.string.camreaDes)
         "DEVICE_ADMIN" -> context.getString(R.string.adminPermDesc)
         else -> "Permission is required to continue."
     }
 
     private fun iconFor(permission: String) = when (permission) {
-        android.Manifest.permission.POST_NOTIFICATIONS -> R.drawable.notificationicon
-        android.Manifest.permission.CAMERA -> R.drawable.solar_camera_bold
+        Manifest.permission.POST_NOTIFICATIONS -> R.drawable.notificationicon
+        Manifest.permission.CAMERA -> R.drawable.solar_camera_bold
         "DEVICE_ADMIN" -> R.drawable.administratoricon
         else -> R.drawable.ic_launcher_background
     }

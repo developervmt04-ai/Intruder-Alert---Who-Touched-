@@ -114,6 +114,17 @@ object Constants {
     const val SKU_UNLOCK_FEATURE = "feature_unlock"
 
 
+    //servicePrefs
+
+    const val SERVICE_PREF="service_pref"
+    const val  SERVICE_RUNNING="service_running"
+
+
+
+//
+    const val NATIVE_AD="ca-app-pub-3940256099942544/2247696110"
+
+
 
 
 

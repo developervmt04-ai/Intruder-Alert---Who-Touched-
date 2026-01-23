@@ -11,6 +11,8 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
 import com.example.thirdeye.R
+import com.example.thirdeye.ads.NativeAdController
+import com.example.thirdeye.ads.NativeAdType
 import com.example.thirdeye.billing.AdController
 import com.example.thirdeye.constants.Constants.BOOK_ICON
 import com.example.thirdeye.constants.Constants.CALCULATOR_ICON
@@ -37,6 +39,8 @@ class CamouflageFragment : androidx.fragment.app.Fragment() {
     private var appliedIconRes: Int = -1
     private lateinit var iconPrefs: IconPrefs
 
+    private lateinit var nativeAdController: NativeAdController
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -48,6 +52,8 @@ class CamouflageFragment : androidx.fragment.app.Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        nativeAdController= NativeAdController(requireContext())
+
         iconPrefs = IconPrefs(requireContext())
 
         binding.backIcon.setOnClickListener { findNavController().navigateUp() }
@@ -57,19 +63,19 @@ class CamouflageFragment : androidx.fragment.app.Fragment() {
             AppIcons(R.drawable.weathericon, WEATHER_ICON, "Weather"),
             AppIcons(R.drawable.notesicon, WEATHER_ICON, "Weather"),
             AppIcons(R.drawable.calculatoricon, CALCULATOR_ICON, "Calculator"),
-            AppIcons(R.drawable.galleryicon2, CALCULATOR_ICON, "Calculator"),
-            AppIcons(R.drawable.calender, COMPASS_ICON, "Compass"),
+            AppIcons(R.drawable.gallery_icon, CALCULATOR_ICON, "Calculator"),
+            AppIcons(R.drawable.calender_icon, COMPASS_ICON, "Compass"),
             AppIcons(R.drawable.compass, COMPASS_ICON, "Compass")
         )
 
         val premiumIcons = listOf(
-            AppIcons(R.drawable.logo, NOTES_ICON, "Notes"),
-            AppIcons(R.drawable.themeicon, BOOK_ICON, "Book"),
-            AppIcons(R.drawable.jourallogo, BOOK_ICON, "Book"),
-            AppIcons(R.drawable.browsericon, HEALTH_ICON, "Health"),
-            AppIcons(R.drawable.musisicon, HEALTH_ICON, "Health"),
-            AppIcons(R.drawable.healthicon, MUSIC_ICON, "Music"),
-            AppIcons(R.drawable.translatericon, MUSIC_ICON, "Music")
+            AppIcons(R.drawable.books_icon, NOTES_ICON, "Notes"),
+            AppIcons(R.drawable.themes_icon, BOOK_ICON, "Book"),
+            AppIcons(R.drawable.journal_icon, BOOK_ICON, "Book"),
+            AppIcons(R.drawable.browser_icon, HEALTH_ICON, "Health"),
+            AppIcons(R.drawable.music_icon, HEALTH_ICON, "Health"),
+            AppIcons(R.drawable.health_icon, MUSIC_ICON, "Music"),
+            AppIcons(R.drawable.translate_icon, MUSIC_ICON, "Music")
         )
 
         setupFreeIconsRv(freeIcons)
@@ -91,14 +97,12 @@ class CamouflageFragment : androidx.fragment.app.Fragment() {
     override fun onResume() {
         super.onResume()
         if (AdController.shouldShowAdd()) {
-            binding.adView.visibility = View.VISIBLE
-            viewLifecycleOwner.lifecycleScope.launchWhenResumed {
-                binding.adView.loadAd(AdRequest.Builder().build())
-            }
+
+            nativeAdController.loadNativeAd(binding.nativeAdRoot, NativeAdType.SMALL)
+
 
 
         } else {
-            binding.adView.visibility = View.GONE
 
 
         }
@@ -184,7 +188,7 @@ class CamouflageFragment : androidx.fragment.app.Fragment() {
                     R.id.payWallFragment,
                     null,
                     NavOptions.Builder().setLaunchSingleTop(true)
-                    .build()
+                        .build()
                 )
 
 
@@ -205,7 +209,6 @@ class CamouflageFragment : androidx.fragment.app.Fragment() {
 
                 dialog.showApplied()
                 IconChanger.changeIcon(requireContext(), selectedIconAlias!!)
-
 
 
             }, 1200)

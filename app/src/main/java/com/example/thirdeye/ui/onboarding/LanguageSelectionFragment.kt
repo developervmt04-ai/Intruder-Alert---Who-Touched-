@@ -1,5 +1,6 @@
 package com.example.thirdeye.ui.onboarding
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -12,6 +13,8 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.example.thirdeye.MainActivity
 import com.example.thirdeye.R
+import com.example.thirdeye.ads.NativeAdController
+import com.example.thirdeye.ads.NativeAdType
 import com.example.thirdeye.billing.AdController
 import com.example.thirdeye.data.localData.SecurityPrefs
 import com.example.thirdeye.data.models.LanguageData
@@ -24,6 +27,8 @@ class LanguageSelectionFragment : Fragment() {
     private lateinit var binding: FragmentLanguageSelectionBinding
     private lateinit var securityPrefs: SecurityPrefs
     private var selectedRadioButton: RadioButton? = null
+
+    private lateinit var nativeAdController: NativeAdController
     private var selectedCard: com.google.android.material.card.MaterialCardView? = null
 
 
@@ -47,6 +52,10 @@ class LanguageSelectionFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         securityPrefs = SecurityPrefs(requireContext())
+
+
+        nativeAdController = NativeAdController(requireContext())
+
         populateLanguages()
         binding.btnContinue.visibility = View.INVISIBLE
 
@@ -59,9 +68,16 @@ class LanguageSelectionFragment : Fragment() {
                 securityPrefs.isLanguageSelected = true
                 LocaleHelper.setLocale(requireActivity(), langCode)
 
+                val intent = Intent(requireContext(), MainActivity::class.java)
+                intent.putExtra("startFragment", "homeFragment")
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK)
+                requireActivity().finish()
+                startActivity(intent)
 
-
-                findNavController().navigate(R.id.action_languageSelectionFragment_to_homeFragment)
+                requireActivity().overridePendingTransition(0, 0)
+                requireActivity().finish()
+                startActivity(intent)
+                requireActivity().overridePendingTransition(0, 0)
             }
         }
     }
@@ -131,18 +147,17 @@ class LanguageSelectionFragment : Fragment() {
 
     override fun onResume() {
         super.onResume()
-//        if (AdController.shouldShowAdd()){
-//            binding.adView.visibility=View.VISIBLE
-//            viewLifecycleOwner.lifecycleScope.launchWhenResumed {
-//                binding.adView.loadAd(AdRequest.Builder().build())
-//            }
-//
-//
-//        }
-//        else{
-//            binding.adView.visibility=View.GONE
-//
-//
-//        }
+        if (AdController.shouldShowAdd()) {
+
+            nativeAdController.loadNativeAd(
+                binding
+                    .nativeAdRoot, NativeAdType.LARGE
+            )
+
+
+        } else {
+
+
+        }
     }
 }

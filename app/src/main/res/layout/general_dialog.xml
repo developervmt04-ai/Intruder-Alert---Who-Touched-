@@ -45,7 +45,7 @@
 
             <TextView
                 android:id="@+id/descriptionWidget"
-                style="@style/DescriptionTextSplash2"
+                style="@style/dialogDes"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="center_horizontal"

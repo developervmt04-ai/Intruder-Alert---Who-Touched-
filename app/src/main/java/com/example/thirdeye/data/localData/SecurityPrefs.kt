@@ -7,7 +7,6 @@ import com.example.thirdeye.constants.Constants.PREF_NAME
 import androidx.core.content.edit
 
 class SecurityPrefs(context: Context) {
-    var shouldRequestPermissionsAfterRecreate: Boolean = false
 
 
     val sharedPref= context.getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE)

@@ -13,37 +13,32 @@
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
         android:background="@color/appBgColor"
-        app:title="@string/Alarm"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent">
+        app:contentInsetEnd="0dp"
+        app:contentInsetStart="5dp">
 
-
-        <RelativeLayout
-            android:id="@+id/toolbarContainer"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:gravity="center_vertical"
-            >
+            android:orientation="horizontal">
+
             <ImageView
                 android:id="@+id/backIcon"
                 android:layout_width="30dp"
                 android:layout_height="30dp"
-                android:src="@drawable/ep_back"
                 android:clickable="true"
-                android:focusable="true"/>
+                android:focusable="true"
+                android:src="@drawable/ep_back" />
+
             <TextView
                 android:id="@+id/toolbarTitle"
                 style="@style/ToobarTitle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_toRightOf="@id/backIcon"
                 android:layout_marginStart="12dp"
-                android:text="@string/history"/>
+                android:text="@string/history" />
 
-
-        </RelativeLayout>
-
+        </LinearLayout>
     </com.google.android.material.appbar.MaterialToolbar>
     <View
         android:id="@+id/divider"

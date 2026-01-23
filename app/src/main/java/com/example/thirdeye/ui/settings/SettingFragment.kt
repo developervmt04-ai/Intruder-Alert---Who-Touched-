@@ -15,6 +15,8 @@ import androidx.navigation.NavOptions
 import androidx.navigation.fragment.findNavController
 import com.example.thirdeye.MainActivity
 import com.example.thirdeye.R
+import com.example.thirdeye.ads.NativeAdController
+import com.example.thirdeye.ads.NativeAdType
 import com.example.thirdeye.biometrics.BiometricHelper
 import com.example.thirdeye.constants.Constants.PACKAGE
 import com.example.thirdeye.constants.Constants.PLAY_STORE
@@ -23,18 +25,23 @@ import com.example.thirdeye.databinding.FragmentSettingBinding
 import com.example.thirdeye.data.localData.BiometricPrefs
 import com.example.thirdeye.data.localData.DelayPrefs
 import com.example.thirdeye.data.localData.IntruderSelfiePrefs
+import com.example.thirdeye.data.localData.ServicePrefs
 import com.example.thirdeye.service.CameraCaptureService
 import com.example.thirdeye.ui.dialogs.addWidget.AddWidgetDialog
 import com.example.thirdeye.ui.dialogs.AttemptsDialog
 import com.example.thirdeye.ui.dialogs.DelayDialog
+import com.example.thirdeye.ui.dialogs.addWidget.HowToAdWidgetLottieDialog
 import com.example.thirdeye.ui.widget.AddWidget
 import com.example.thirdeye.utils.showStopServiceDialog
+import com.google.android.gms.ads.nativead.NativeAd
 import kotlinx.coroutines.launch
 
 class SettingFragment : Fragment() {
 
     private lateinit var binding: FragmentSettingBinding
     private lateinit var addWidgetDialog: AddWidgetDialog
+
+    private lateinit var nativeAdController: NativeAdController
 
 
     override fun onCreateView(
@@ -48,6 +55,7 @@ class SettingFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        nativeAdController = NativeAdController(requireContext())
 
 
         viewLifecycleOwner.lifecycleScope.launch {
@@ -74,19 +82,25 @@ class SettingFragment : Fragment() {
         binding.bioMetricSwitch.isChecked = biometricPref.isBiometricEnabled()
 
         binding.bioMetricSwitch.setOnCheckedChangeListener { _, isChecked ->
-            if (CameraCaptureService.Instance != null) {
-                showStopServiceDialog.showDialog(requireContext(), {
+
+            val isServiceRunning = ServicePrefs(requireContext()).getService()
+
+            if (isServiceRunning) {
+
+                binding.bioMetricSwitch.isChecked = !isChecked
+
+                showStopServiceDialog.showDialog(requireContext()) {
                     requireContext().stopService(
                         Intent(requireContext(), CameraCaptureService::class.java)
                     )
-                })
-                return@setOnCheckedChangeListener
-            } else {
-                biometricHelper.toggleAppLock(isChecked, biometricPref) { switchState ->
-                    binding.bioMetricSwitch.isChecked = switchState
                 }
+
+                return@setOnCheckedChangeListener
             }
 
+            biometricHelper.toggleAppLock(isChecked, biometricPref) { switchState ->
+                binding.bioMetricSwitch.isChecked = switchState
+            }
         }
 
         binding.delayLayout.setOnClickListener {
@@ -154,10 +168,25 @@ class SettingFragment : Fragment() {
 
 
         }
+
+        binding.howToAdd.setOnClickListener {
+            val howToAdd = HowToAdWidgetLottieDialog(requireContext())
+
+            howToAdd.show()
+
+
+        }
     }
 
     override fun onResume() {
         super.onResume()
 
+        nativeAdController.loadNativeAd(
+            binding
+                .nativeAdRoot, NativeAdType.MEDIUM
+        )
+
+
     }
+
 }

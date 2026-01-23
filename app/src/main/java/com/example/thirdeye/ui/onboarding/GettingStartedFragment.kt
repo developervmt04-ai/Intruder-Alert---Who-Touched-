@@ -11,6 +11,8 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.example.thirdeye.MainActivity
 import com.example.thirdeye.R
+import com.example.thirdeye.ads.NativeAdController
+import com.example.thirdeye.ads.NativeAdType
 import com.example.thirdeye.billing.AdController
 import com.example.thirdeye.data.localData.SecurityPrefs
 import com.example.thirdeye.databinding.FragmentGettingStartedBinding
@@ -20,6 +22,8 @@ class GettingStartedFragment : Fragment() {
 
     private lateinit var binding: FragmentGettingStartedBinding
     private lateinit var securityPrefs: SecurityPrefs
+
+    private lateinit var nativeAdController: NativeAdController
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -37,29 +41,27 @@ class GettingStartedFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        nativeAdController = NativeAdController(requireContext())
+
         binding.btnNext.setOnClickListener {
             findNavController().navigate(R.id.action_gettingStartedFragment_to_languageSelectionFragment)
         }
-        binding.tvPolicyTerms.text= HtmlCompat.fromHtml(
+        binding.tvPolicyTerms.text = HtmlCompat.fromHtml(
             getString(R.string.policy_terms_html),
             HtmlCompat.FROM_HTML_MODE_LEGACY
         )
-        binding.tvPolicyTerms.movementMethod= LinkMovementMethod.getInstance()
+        binding.tvPolicyTerms.movementMethod = LinkMovementMethod.getInstance()
     }
 
     override fun onResume() {
         super.onResume()
-        if (AdController.shouldShowAdd()){
-            binding.adView.visibility=View.VISIBLE
-            viewLifecycleOwner.lifecycleScope.launchWhenResumed {
-                binding.adView.loadAd(AdRequest.Builder().build())
-            }
+        if (AdController.shouldShowAdd()) {
+            nativeAdController.loadNativeAd(binding.adView, NativeAdType.SMALL)
+
+//
 
 
-        }
-        else{
-            binding.adView.visibility=View.GONE
-
+        } else {
 
         }
     }

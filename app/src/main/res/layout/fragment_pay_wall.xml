@@ -48,7 +48,7 @@
                 android:layout_below="@id/icon"
                 android:layout_alignParentLeft="true"
                 android:layout_marginRight="10dp"
-                android:text="Intruder Selfie"
+                android:text="@string/intruder_alert"
                 android:textSize="22sp"
                 android:textStyle="bold" />
 
@@ -115,10 +115,11 @@
     <TextView
         android:id="@+id/des"
         style="@style/renewabletext"
-        app:layout_constraintTop_toBottomOf="@id/rgPlans"
         android:gravity="center|center_vertical"
         android:text="@string/sub"
-        app:layout_constraintBottom_toTopOf="@id/btnContinue" />
+        app:layout_constraintBottom_toTopOf="@id/btnContinue"
+        app:layout_constraintStart_toStartOf="@+id/rgPlans"
+        app:layout_constraintTop_toBottomOf="@id/rgPlans" />
 
 
     <Button

@@ -40,7 +40,7 @@
                 android:id="@+id/tvDuration"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="1 week"
+                android:text="@string/week_1"
                 android:textColor="@color/white"
                 android:textSize="16sp"/>
 

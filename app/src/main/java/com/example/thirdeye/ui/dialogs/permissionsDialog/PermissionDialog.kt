@@ -10,6 +10,7 @@ import androidx.fragment.app.DialogFragment
 import androidx.viewpager2.widget.ViewPager2
 import com.example.thirdeye.databinding.PermissionsViewpagerBinding
 import com.example.thirdeye.permissions.DeviceAdminManager
+import com.example.thirdeye.permissions.PermissionPagerAdapter
 import com.google.android.material.tabs.TabLayoutMediator
 
 class PermissionDialog(

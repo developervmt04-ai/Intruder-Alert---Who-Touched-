@@ -62,19 +62,20 @@ object Notifications {
             .setContentText(context.getString(R.string.fgNotifictaionText))
             .setSmallIcon(R.drawable.incognito)
             .setAutoCancel(false)
-            .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+            .setPriority(Notification.PRIORITY_DEFAULT)
             .setOngoing(true)
             .setContentIntent(getPendingIntentForApp(context))
             .build()
     }
 
+    @RequiresApi(Build.VERSION_CODES.O)
     fun intrusionNotification(context: Context): Notification {
         return Notification.Builder(context, CHANNEL_INTRUDER)
             .setContentTitle(context.getString(R.string.IntrusionNotificationTitle))
             .setContentText(context.getString(R.string.intruderNotifiationText))
             .setSmallIcon(R.mipmap.ic_launcher)
             .setAutoCancel(true)
-            .setPriority(NotificationCompat.PRIORITY_HIGH)
+            .setPriority(Notification.PRIORITY_DEFAULT)
             .setDefaults(NotificationCompat.DEFAULT_ALL)
             .setContentIntent(getPendingIntentForIntruder(context))
             .build()

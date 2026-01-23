@@ -13,6 +13,8 @@ import androidx.navigation.NavOptions
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.thirdeye.R
+import com.example.thirdeye.ads.NativeAdController
+import com.example.thirdeye.ads.NativeAdType
 import com.example.thirdeye.billing.AdController
 import com.example.thirdeye.data.encryptedStorage.EncryptedStorageRepository
 import com.example.thirdeye.data.models.IntrudersImages
@@ -25,8 +27,13 @@ import kotlinx.coroutines.launch
 @AndroidEntryPoint
 class IntrudersFragment : Fragment() {
     private lateinit var binding: FragmentIntrudersBinding
-    private lateinit var intruderImageAdapter: IntruderImageAdapter
-    private val viewModel: IntruderPhotosViewModel by activityViewModels ()
+    private val intruderImageAdapter by lazy {
+
+        IntruderImageAdapter()
+    }
+
+    private lateinit var nativeAdController: NativeAdController
+    private val viewModel: IntruderPhotosViewModel by activityViewModels()
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -39,23 +46,37 @@ class IntrudersFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        binding= FragmentIntrudersBinding.inflate(layoutInflater,container,false)
+        binding = FragmentIntrudersBinding.inflate(layoutInflater, container, false)
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        nativeAdController = NativeAdController(requireContext())
 
         binding.backIcon.setOnClickListener {
-                findNavController().popBackStack()
+            findNavController().popBackStack()
 
         }
-        binding.historyIcon.setOnClickListener {
-            findNavController().navigate(R.id.historyFragment,
-                null,
-                NavOptions.Builder().setPopUpTo(R.id.homeFragment,true).setLaunchSingleTop(true).build()
 
-                )
+        binding.premiumLayout.setOnClickListener {
+            findNavController().navigate(
+                R.id.payWallFragment,
+                null,
+                NavOptions.Builder().setLaunchSingleTop(true)
+                    .build()
+            )
+
+
+
+        }
+
+
+
+
+
+        binding.historyIcon.setOnClickListener {
+            findNavController().navigate(R.id.action_intruderDetailFragment_to_historyFragment)
         }
 
 
@@ -63,29 +84,28 @@ class IntrudersFragment : Fragment() {
 
         setUpIntruderRv()
 
-        intruderImageAdapter.onClick={it->
-            val actions= IntrudersFragmentDirections.actionIntrudersFragmentToIntruderDetailFragment(it)
+        intruderImageAdapter.onClick = { it ->
+            val actions =
+                IntrudersFragmentDirections.actionIntrudersFragmentToIntruderDetailFragment(it)
             findNavController().navigate(actions)
 
         }
-        intruderImageAdapter.onLockedClick ={
+        intruderImageAdapter.onLockedClick = {
             lifecycleScope.launch {
-                viewModel.unlockImage(it.id)
+
+
             }
-
-
 
 
         }
 
         lifecycleScope.launchWhenStarted {
             viewModel.images.collect { list ->
-                if (list.isEmpty()){
-                    binding.emptyLayout.visibility= View.VISIBLE
+                if (list.isEmpty()) {
+                    binding.emptyLayout.visibility = View.VISIBLE
 
-                }
-                else{
-                    binding.emptyLayout.visibility= View.INVISIBLE
+                } else {
+                    binding.emptyLayout.visibility = View.INVISIBLE
 
 
                 }
@@ -100,33 +120,20 @@ class IntrudersFragment : Fragment() {
         super.onResume()
 
 
-        if (AdController.shouldShowAdd()){
-            binding.adView.visibility=View.VISIBLE
-            viewLifecycleOwner.lifecycleScope.launchWhenResumed {
-                binding.adView.loadAd(AdRequest.Builder().build())
-            }
+        if (AdController.shouldShowAdd()) {
+            nativeAdController.loadNativeAd(binding.nativeAdRoot, NativeAdType.MEDIUM)
 
 
-        }
-        else{
-            binding.adView.visibility=View.GONE
+        } else {
 
 
         }
     }
 
 
-
-
-
-
-
-
-
     private fun setUpIntruderRv() {
-        intruderImageAdapter= IntruderImageAdapter()
-        binding.intruderRv.layoutManager= GridLayoutManager(requireActivity(),3)
-        binding.intruderRv.adapter=intruderImageAdapter
+        binding.intruderRv.layoutManager = GridLayoutManager(requireActivity(), 3)
+        binding.intruderRv.adapter = intruderImageAdapter
 
     }
 

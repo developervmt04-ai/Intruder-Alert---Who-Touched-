@@ -13,7 +13,7 @@
         android:background="@color/white"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:padding="20dp">
+        android:padding="24dp">
 
         <ImageView
             android:id="@+id/closeButton"
@@ -45,7 +45,7 @@
                 android:id="@+id/description"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                style="@style/DescriptionTextSplash2"
+                style="@style/dialogDes"
                 android:text="@string/attempt"
                 />
 

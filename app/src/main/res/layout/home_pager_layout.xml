@@ -1,5 +1,4 @@
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -8,7 +7,7 @@
 
     <!-- LOCKED CARD -->
     <androidx.cardview.widget.CardView
-        android:visibility="gone"
+
         android:id="@+id/lokcedCard"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -19,29 +18,26 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-            <!-- Image -->
             <ImageView
                 android:id="@+id/lockedImage"
-                android:scaleType="centerCrop"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:scaleType="centerCrop"
                 android:src="@drawable/blurbg" />
 
-            <!-- Bottom fade overlay -->
             <View
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="@drawable/botttom_fade"/>
+                android:background="@drawable/botttom_fade" />
 
-            <!-- Content -->
             <LinearLayout
-                android:orientation="vertical"
-                android:gravity="center"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:padding="10dp"
-                android:showDividers="middle"
-                android:divider="@drawable/vertical_spacing">
+                android:divider="@drawable/vertical_spacing"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:padding="9dp"
+                android:showDividers="middle">
 
                 <ImageView
                     android:id="@+id/img"
@@ -50,26 +46,38 @@
                     android:src="@drawable/lockicon" />
 
                 <TextView
-                    android:textColor="@color/white"
-                    android:textStyle="bold"
-                    android:textSize="16sp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/lockeImg" />
+                    android:text="@string/lockeImg"
+                    android:textColor="@color/white"
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
 
-                <Button
+
+                <com.google.android.material.button.MaterialButton
                     android:id="@+id/watchAdBtn"
-                    android:text="Watch Ad to Unlock"
-                    android:drawableLeft="@drawable/videoicon"
-                    android:drawablePadding="8dp"
-                    style="@style/transparentButton" />
+                    style="@style/transparentButton"
+                    android:gravity="center"
+                    android:text="@string/watch_ad_to_unlock"
+                    app:icon="@drawable/videoicon"
+                    app:iconGravity="textStart"
+                    app:iconPadding="8dp"
+                    app:iconTint="@null" />
 
-                <Button
+
+
+                <com.google.android.material.button.MaterialButton
                     android:id="@+id/premiumBtn"
-                    android:text="Unlock Now"
-                    android:drawableLeft="@drawable/premiumicon"
-                    android:drawablePadding="8dp"
-                    style="@style/premiumButton" />
+                    style="@style/premiumButton"
+                    android:text="@string/unlock_now"
+                    android:textAllCaps="false"
+                    android:textColor="@color/black"
+                    app:icon="@drawable/premiumicon"
+                    app:iconGravity="textStart"
+                    app:iconPadding="8dp"
+                    app:iconTint="@null" />
+
+
             </LinearLayout>
 
         </FrameLayout>
@@ -79,6 +87,7 @@
         android:id="@+id/unlockedCard"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:visibility="gone"
         app:cardCornerRadius="12dp"
         app:cardElevation="4dp">
 
@@ -97,15 +106,15 @@
             <View
                 android:layout_width="match_parent"
                 android:layout_height="60dp"
-            android:layout_gravity="bottom"
-            android:background="@drawable/fadding_gradient" />
+                android:layout_gravity="bottom"
+                android:background="@drawable/fadding_gradient" />
 
             <RelativeLayout
                 android:id="@+id/intruderDetails"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:padding="10dp"
-                android:layout_gravity="bottom|start">
+                android:layout_gravity="bottom|start"
+                android:padding="10dp">
 
                 <TextView
                     android:id="@+id/detail"
@@ -116,17 +125,17 @@
 
                 <TextView
                     android:id="@+id/date"
-                    android:layout_below="@id/detail"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_below="@id/detail"
                     android:text="@string/date"
                     android:textColor="@color/white" />
 
                 <TextView
                     android:id="@+id/time"
-                    android:layout_below="@id/date"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_below="@id/date"
                     android:text="@string/time"
                     android:textColor="@color/white" />
             </RelativeLayout>

@@ -26,10 +26,7 @@ class AddWidgetDialog(context: Context) {
 
         }
 
-        binding.howToAdd.setOnClickListener {
 
-
-        }
     }
 
     fun setTitle(title: String): AddWidgetDialog {
@@ -56,6 +53,16 @@ class AddWidgetDialog(context: Context) {
         }
         return this
     }
+    fun onHowToAddClick(action: () -> Unit): AddWidgetDialog {
+        binding.howToAdd.setOnClickListener {
+            action()
+            dialog.dismiss()
+
+
+        }
+        return this
+    }
+
 
     fun show(): AddWidgetDialog {
         dialog.show()

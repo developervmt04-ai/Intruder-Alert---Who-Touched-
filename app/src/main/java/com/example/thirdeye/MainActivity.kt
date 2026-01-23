@@ -26,6 +26,7 @@ import com.google.android.gms.ads.interstitial.InterstitialAd
 import com.google.android.gms.ads.interstitial.InterstitialAdLoadCallback
 import dagger.hilt.android.AndroidEntryPoint
 import androidx.core.graphics.drawable.toDrawable
+import com.example.thirdeye.ui.main.HomeFragment
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
@@ -39,10 +40,25 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+
+
+
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
+
+
+        val startFragment = intent.getStringExtra("startFragment")
+        if (startFragment != null) {
+            val fragment = when (startFragment) {
+                "homeFragment" -> HomeFragment()
+                else -> HomeFragment()
+            }
+            supportFragmentManager.beginTransaction()
+                .replace(R.id.navHostFragment, fragment)
+                .commit()
+        }
 
         prefs = SecurityPrefs(this)
         deviceAdminManager = DeviceAdminManager(this)
@@ -72,7 +88,7 @@ class MainActivity : AppCompatActivity() {
         val dialogView = layoutInflater.inflate(R.layout.exit_dalog, null)
 
         val ad = dialogView.findViewById<AdView>(R.id.adView)
-        val backPress=dialogView.findViewById<TextView>(R.id.exitText)
+        val backPress = dialogView.findViewById<TextView>(R.id.exitText)
 
 
         ad.loadAd(AdRequest.Builder().build())
