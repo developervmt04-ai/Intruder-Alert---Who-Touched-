@@ -1,61 +1,82 @@
-<?xml version="1.0" encoding="utf-8"?>
 <com.google.android.material.card.MaterialCardView
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:layout_margin="5dp"
+    app:cardBackgroundColor="@color/cardBgColor"
     app:cardCornerRadius="10dp"
     app:cardElevation="4dp"
-    app:strokeWidth="1dp"
+    app:contentPadding="5dp"
     app:strokeColor="@color/strokeColor"
-    app:cardBackgroundColor="@color/cardBgColor"
-    android:layout_margin="5dp"
-    app:contentPadding="4dp">
+    app:strokeWidth="1dp">
 
-    <LinearLayout
-        android:padding="6dp"
+    <!-- ROOT -->
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:gravity="center_vertical">
+        android:layout_height="wrap_content">
 
-
-        <androidx.constraintlayout.widget.ConstraintLayout
+        <!-- MAIN CONTENT -->
+        <LinearLayout
+            android:id="@+id/contentLayout"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="1">
-
-            <ImageView
-                android:id="@+id/ivLanguageIcon"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintBottom_toBottomOf="parent" />
-
-            <TextView
-                android:id="@+id/tvLanguageName"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="1 week"
-                android:textColor="@color/white"
-                android:textSize="16sp"
-                app:layout_constraintStart_toEndOf="@id/ivLanguageIcon"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintBottom_toBottomOf="parent"
-                android:layout_marginStart="12dp" />
-
-        </androidx.constraintlayout.widget.ConstraintLayout>        <RadioButton
-            android:id="@+id/rbLanguage"
-            android:layout_width="18dp"
-            android:layout_height="18dp"
-            android:button="@null"
-            android:background="@drawable/rb_tick_selector"
+            android:orientation="horizontal"
             android:gravity="center_vertical"
-            android:textColor="@color/white"
-            />
+            android:padding="8dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/lottieHint"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent">
 
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1">
 
-    </LinearLayout>
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:id="@+id/ivLanguageIcon"
+                    android:layout_width="35dp"
+                    android:layout_height="35dp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent" />
+
+                <TextView
+                    android:id="@+id/tvLanguageName"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="12dp"
+                    android:text="English"
+                    android:textColor="@color/white"
+                    android:textSize="16sp"
+                    app:layout_constraintStart_toEndOf="@id/ivLanguageIcon"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <RadioButton
+                android:id="@+id/rbLanguage"
+                android:layout_width="18dp"
+                android:layout_height="18dp"
+                android:button="@null"
+                android:background="@drawable/rb_tick_selector" />
+
+        </LinearLayout>
+
+        <com.airbnb.lottie.LottieAnimationView
+            android:id="@+id/lottieHint"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:visibility="gone"
+            app:lottie_rawRes="@raw/hand_click"
+            app:lottie_loop="true"
+            app:lottie_autoPlay="true"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 </com.google.android.material.card.MaterialCardView>

@@ -55,9 +55,25 @@ object Constants {
 
     const val COMPASS_ICON = "com.example.thirdeye.compassIcon"
 
-    const val MUSIC_ICON = "com.example.thirdeye.music"
-    const val BOOK_ICON = "com.example.thirdeye.book"
-    const val HEALTH_ICON = "com.example.thirdeye.health"
+    const val GALLERY_ICON = "com.example.thirdeye.galleryIcon"
+
+    const val CALENDER_ICON = "com.example.thirdeye.calenderIcon"
+
+
+
+    const val BOOK_ICON = "com.example.thirdeye.bookIcon"
+
+
+    const val THEMES_ICON = "com.example.thirdeye.themesIcon"
+
+    const val JOURNAL_ICON = "com.example.thirdeye.journalIcon"
+
+    const val BROWSER_ICON = "com.example.thirdeye.browserIcon"
+
+    const val MUSIC_ICON = "com.example.thirdeye.musicIcon"
+
+    const val HEALTH_ICON = "com.example.thirdeye.healthIcon"
+    const val TRANSLATE_ICON = "com.example.thirdeye.translateIcon"
 
 
 
@@ -126,7 +142,9 @@ object Constants {
 
 
 
-
+//badgePrefs
+    const val BADGE_PREF="badge_pref"
+    const val SEEN="intruder_seen"
 
 
 

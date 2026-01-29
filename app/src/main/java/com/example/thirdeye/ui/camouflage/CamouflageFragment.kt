@@ -15,12 +15,18 @@ import com.example.thirdeye.ads.NativeAdController
 import com.example.thirdeye.ads.NativeAdType
 import com.example.thirdeye.billing.AdController
 import com.example.thirdeye.constants.Constants.BOOK_ICON
+import com.example.thirdeye.constants.Constants.BROWSER_ICON
 import com.example.thirdeye.constants.Constants.CALCULATOR_ICON
+import com.example.thirdeye.constants.Constants.CALENDER_ICON
 import com.example.thirdeye.constants.Constants.COMPASS_ICON
 import com.example.thirdeye.constants.Constants.DEFAULT_ICON
+import com.example.thirdeye.constants.Constants.GALLERY_ICON
 import com.example.thirdeye.constants.Constants.HEALTH_ICON
+import com.example.thirdeye.constants.Constants.JOURNAL_ICON
 import com.example.thirdeye.constants.Constants.MUSIC_ICON
 import com.example.thirdeye.constants.Constants.NOTES_ICON
+import com.example.thirdeye.constants.Constants.THEMES_ICON
+import com.example.thirdeye.constants.Constants.TRANSLATE_ICON
 import com.example.thirdeye.constants.Constants.WEATHER_ICON
 import com.example.thirdeye.data.localData.AppIcons
 import com.example.thirdeye.data.localData.IconPrefs
@@ -52,7 +58,7 @@ class CamouflageFragment : androidx.fragment.app.Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        nativeAdController= NativeAdController(requireContext())
+        nativeAdController = NativeAdController(requireContext())
 
         iconPrefs = IconPrefs(requireContext())
 
@@ -60,22 +66,22 @@ class CamouflageFragment : androidx.fragment.app.Fragment() {
 
         val freeIcons = listOf(
             AppIcons(R.mipmap.ic_launcher, DEFAULT_ICON, "Default"),
+            AppIcons(R.drawable.notesicon, NOTES_ICON, "Notes"),
             AppIcons(R.drawable.weathericon, WEATHER_ICON, "Weather"),
-            AppIcons(R.drawable.notesicon, WEATHER_ICON, "Weather"),
             AppIcons(R.drawable.calculatoricon, CALCULATOR_ICON, "Calculator"),
-            AppIcons(R.drawable.gallery_icon, CALCULATOR_ICON, "Calculator"),
-            AppIcons(R.drawable.calender_icon, COMPASS_ICON, "Compass"),
+            AppIcons(R.drawable.gallery_icon, GALLERY_ICON, "Gallery"),
+            AppIcons(R.drawable.calender_icon, CALENDER_ICON, "Calender"),
             AppIcons(R.drawable.compass, COMPASS_ICON, "Compass")
         )
 
         val premiumIcons = listOf(
-            AppIcons(R.drawable.books_icon, NOTES_ICON, "Notes"),
-            AppIcons(R.drawable.themes_icon, BOOK_ICON, "Book"),
-            AppIcons(R.drawable.journal_icon, BOOK_ICON, "Book"),
-            AppIcons(R.drawable.browser_icon, HEALTH_ICON, "Health"),
-            AppIcons(R.drawable.music_icon, HEALTH_ICON, "Health"),
-            AppIcons(R.drawable.health_icon, MUSIC_ICON, "Music"),
-            AppIcons(R.drawable.translate_icon, MUSIC_ICON, "Music")
+            AppIcons(R.drawable.books_icon, BOOK_ICON, "Book"),
+            AppIcons(R.drawable.themes_icon, THEMES_ICON, "Themes"),
+            AppIcons(R.drawable.journal_icon, JOURNAL_ICON, "Journal"),
+            AppIcons(R.drawable.health_icon, HEALTH_ICON, "Health"),
+            AppIcons(R.drawable.browser_icon, BROWSER_ICON, "Browser"),
+            AppIcons(R.drawable.music_icon, MUSIC_ICON, "Music"),
+            AppIcons(R.drawable.translate_icon, TRANSLATE_ICON, "Music"),
         )
 
         setupFreeIconsRv(freeIcons)
@@ -99,7 +105,6 @@ class CamouflageFragment : androidx.fragment.app.Fragment() {
         if (AdController.shouldShowAdd()) {
 
             nativeAdController.loadNativeAd(binding.nativeAdRoot, NativeAdType.SMALL)
-
 
 
         } else {
@@ -135,7 +140,7 @@ class CamouflageFragment : androidx.fragment.app.Fragment() {
     }
 
     private fun setupPremiumIconsRv(icons: List<AppIcons>) {
-        premiumIconAdapter = PremiumIconAdapter(icons)
+        premiumIconAdapter = PremiumIconAdapter()
         binding.premiumIconRv.apply {
             layoutManager =
                 LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
@@ -143,20 +148,25 @@ class CamouflageFragment : androidx.fragment.app.Fragment() {
             setHasFixedSize(true)
             setItemViewCacheSize(8)
         }
+        premiumIconAdapter.differ.submitList(icons)
+        if (!AdController.shouldShowAdd()){
 
-        premiumIconAdapter.onPremiumIconClick = { icon ->
-            freeIconsAdapter.clearSelection()
-            selectedIconRes = icon.icon
-            selectedIconAlias = icon.alias
-            binding.icon.setImageResource(selectedIconRes!!)
-
-
-
-
-
-            binding.premiumBtnapply.visibility = View.VISIBLE
-            binding.applyBtn.visibility = View.INVISIBLE
+            premiumIconAdapter.hidePremiumLogos()
         }
+
+            premiumIconAdapter.onPremiumIconClick = { icon ->
+                freeIconsAdapter.clearSelection()
+                selectedIconRes = icon.icon
+                selectedIconAlias = icon.alias
+                binding.icon.setImageResource(selectedIconRes!!)
+
+
+
+
+
+                binding.premiumBtnapply.visibility = View.VISIBLE
+                binding.applyBtn.visibility = View.INVISIBLE
+            }
     }
 
     private fun updateApplyButton() {
@@ -174,14 +184,20 @@ class CamouflageFragment : androidx.fragment.app.Fragment() {
                 if (isApplied) R.drawable.disabled_btn
                 else R.drawable.enabled_btn
             )
+        binding.applyBtn.setTextColor(
+            ContextCompat.getColor(
+                requireContext(),
+                if (isApplied) R.color.appliedBtnTextColor
+                else R.color.black
+            )
+        )
 
-        binding.applyBtn.alpha = if (isApplied) .5f else 1f
 
         binding.premiumBtnapply.setOnClickListener {
             if (AdController.shouldShowAdd()) {
                 Snackbar.make(
                     this.requireView(),
-                    "Premium Icon ,Buy Subscription",
+                    getString(R.string.premium_icon_buy_subscription),
                     Snackbar.LENGTH_SHORT
                 ).show()
                 findNavController().navigate(
@@ -192,6 +208,37 @@ class CamouflageFragment : androidx.fragment.app.Fragment() {
                 )
 
 
+            } else {
+
+
+                if (isApplied) return@setOnClickListener
+
+                val dialog = IconApplyingDialog
+                    .showIconApplyingDialog(requireContext())
+
+                binding.root.postDelayed({
+
+
+                    dialog.showApplied()
+                    IconChanger.changeIcon(requireContext(), selectedIconAlias!!)
+
+
+                }, 1200)
+
+
+                appliedIconRes = selectedIconRes!!
+                iconPrefs.saveAppliedIcon(appliedIconRes)
+                updateApplyButton()
+
+                premiumIconAdapter.differ.currentList.indexOfFirst { it.icon == appliedIconRes }
+                    .let { index ->
+                        if (index != -1) {
+                            val prev = premiumIconAdapter.selectedPosition
+                            premiumIconAdapter.selectedPosition = index
+                            premiumIconAdapter.notifyItemChanged(prev)
+                            premiumIconAdapter.notifyItemChanged(index)
+                        }
+                    }
             }
 
 

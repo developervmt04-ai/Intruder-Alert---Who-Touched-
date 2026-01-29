@@ -11,8 +11,8 @@
     <string name="enable_now">Enable Now</string>
     <string name="fgNotificationTitle">Third Eye is Active</string>
     <string name="fgNotifictaionText">Watching for Intrusions\n</string>
-    <string name="IntrusionNotificationTitle">Intruion Detected!</string>
-    <string name="intruderNotifiationText">SomeoneTried To Unlocl Your Phone Check Out!</string>
+    <string name="IntrusionNotificationTitle">Intrusion Detected!</string>
+    <string name="intruderNotifiationText">SomeoneTried To Unlock Your Phone Check Out!</string>
     <string name="finger_print_lock">Finger Print Lock</string>
     <string name="protect_app_from_intruders">Protect App From Intruders</string>
     <string name="advance">Advance</string>
@@ -120,6 +120,14 @@ Please read <a href="https://yourwebsite.com/privacy"><u>Privacy Policy</u></a> 
     <string name="week_1">week</string>
     <string name="watch_ad_to_unlock">Watch Ad to Unlock</string>
     <string name="unlock_now">Unlock Now</string>
+    <string name="selfie_will_be_taken_after_wrong_tries">Selfie will be taken after %1$d wrong tries</string>
+    <string name="current_delay_is_setting_this_value_to_less_than_1000ms_may_cause">Current Delay is %1$dSetting this value to less than 1000ms may cause</string>
+    <string name="wrong_attempts">" %1$d Wrong Attempts "</string>
+    <string name="intrusion_detected">Intrusion Detected</string>
+    <string name="premium_icon_buy_subscription">Premium Icon ,Buy Subscription</string>
+    <string name="alramdes">If someone enters the wrong password, the alarm will start ringing.</string>
+    <string name="enabled">Enabled</string>
+    <string name="disabled">Disabled</string>
 
 
 </resources>

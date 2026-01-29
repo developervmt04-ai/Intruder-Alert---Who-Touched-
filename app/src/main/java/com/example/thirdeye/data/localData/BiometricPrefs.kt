@@ -4,7 +4,7 @@ import android.content.Context
 import com.example.thirdeye.constants.Constants
 
 class BiometricPrefs(context: Context) {
-    private val pref= context.getSharedPreferences(Constants.LOCK_KEY, Context.MODE_PRIVATE)
+    private val pref= context.applicationContext.getSharedPreferences(Constants.LOCK_KEY, Context.MODE_PRIVATE)
 
     fun isBiometricEnabled(): Boolean{
         return pref.getBoolean(Constants.LOCK_KEY,false)

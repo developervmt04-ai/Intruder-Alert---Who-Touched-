@@ -4,7 +4,7 @@
 
     <style name="Button" parent="Widget.MaterialComponents.Button">
         <item name="android:layout_width">match_parent</item>
-        <item name="android:layout_height">55dp</item>
+        <item name="android:layout_height">@dimen/_45sdp</item>
         <item name="android:background">@drawable/mainbtnbg</item>
         <item name="backgroundTint">@null</item> <!-- important -->
         <item name="android:textColor">#FFFFFF</item>
@@ -22,7 +22,7 @@
         <item name="android:background">@drawable/transparent_btn_bg</item>
         <item name="backgroundTint">@null</item> <!-- important -->
         <item name="android:textColor">#FFFFFF</item>
-        <item name="android:textSize">16sp</item>
+        <item name="android:textSize">14sp</item>
         <item name="android:textStyle">bold</item>
         <item name="android:padding">10dp</item>
         <item name="android:textAllCaps">false</item>
@@ -185,7 +185,7 @@
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:textColor">@color/white</item>
-        <item name="android:textSize">16sp</item>
+        <item name="android:textSize">14sp</item>
         <item name="fontFamily">Robo</item>
         <item name="android:gravity">center</item>
 
@@ -223,7 +223,7 @@
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:textColor">#FFFFFF</item>
-        <item name="android:drawablePadding">10dp</item>
+        <item name="android:drawablePadding">12dp</item>
         <item name="android:layout_marginBottom">10dp</item>
         <item name="android:textSize">14sp</item>
 
@@ -292,20 +292,7 @@
     </style>
 
 
-    <style name="Button2" parent="Widget.MaterialComponents.Button">
-        <item name="android:layout_width">match_parent</item>
-        <item name="android:layout_height">55dp</item>
-        <item name="android:background">@drawable/dividerbtnbg</item>
-        <item name="backgroundTint">@null</item> <!-- important -->
-        <item name="android:textColor">@color/black</item>
-        <item name="android:textSize">16sp</item>
-        <item name="android:padding">8dp</item>
 
-        <item name="android:layout_margin">5dp</item>
-
-        <item name="android:textAllCaps">false</item>
-        <item name="shapeAppearanceOverlay">@null</item>
-    </style>
 
     <style name="smallnativeAdbtn" parent="Widget.MaterialComponents.Button">
         <item name="android:layout_width">wrap_content</item>
@@ -317,19 +304,40 @@
         <item name="android:textAllCaps">false</item>
         <item name="shapeAppearanceOverlay">@null</item>
     </style>
+    <style name="largeAdbton" parent="Widget.MaterialComponents.Button">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:background">@drawable/small_btn_bg</item>
+        <item name="backgroundTint">@null</item> <!-- important -->
+        <item name="android:textColor">@color/black</item>
+        <item name="android:textSize">14sp</item>
+        <item name="android:textAllCaps">false</item>
+        <item name="shapeAppearanceOverlay">@null</item>
+    </style>
 
 
+
+    <style name="Button2" parent="Widget.MaterialComponents.Button">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">@dimen/_45sdp</item>
+        <item name="android:background">@drawable/dividerbtnbg</item>
+        <item name="backgroundTint">@null</item> <!-- important -->
+        <item name="android:textColor">@color/black</item>
+        <item name="android:padding">10dp</item>
+        <item name="android:textSize">18sp</item>
+        <item name="android:textAllCaps">false</item>
+        <item name="shapeAppearanceOverlay">@null</item>
+    </style>
     <style name="premiumButton" parent="Widget.MaterialComponents.Button">
         <item name="android:layout_width">match_parent</item>
-        <item name="android:layout_height">55dp</item>
+        <item name="android:layout_height">wrap_content</item>
         <item name="android:padding">10dp</item>
         <item name="android:background">@drawable/premium_btn_bg</item>
         <item name="backgroundTint">@null</item>
         <item name="iconTint">@null</item>
         <item name="android:textColor">@color/black</item>
         <item name="android:textAllCaps">false</item>
-
-        <item name="android:textSize">16sp</item>
+        <item name="android:textSize">18sp</item>
         <item name="shapeAppearanceOverlay">@null</item>
     </style>
 
@@ -386,5 +394,19 @@
         <item name="android:layout_height">15dp</item>
     </style>
 
+    <style name="DialogTitle">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:textSize">18sp</item>
+        <item name="android:gravity">center</item>
+    </style>
 
+    <style name="widgetDialoTitle">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textColor">@color/black</item>
+        <item name="android:textSize">20sp</item>
+        <item name="android:gravity">center</item>
+    </style>
 </resources>

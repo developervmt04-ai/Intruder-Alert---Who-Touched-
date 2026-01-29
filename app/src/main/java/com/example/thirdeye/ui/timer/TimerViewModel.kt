@@ -9,7 +9,7 @@ import kotlinx.coroutines.launch
 
 class TimerViewModel : ViewModel() {
 
-    private val totalMillis = 60 * 60 * 1000L
+    private val totalMillis = 20 * 60 * 1000L
     private val _millisLeft = MutableStateFlow(totalMillis)
     val millisLeft = _millisLeft.asStateFlow()
 

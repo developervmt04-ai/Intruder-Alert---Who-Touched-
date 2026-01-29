@@ -34,11 +34,12 @@ class LanguageSelectionFragment : Fragment() {
 
     private val languages = listOf(
         LanguageData("English", R.drawable.englishicon),
-        LanguageData("Urdu", R.drawable.hindiicon),
+        LanguageData("Hindi", R.drawable.hindiicon),
+        LanguageData("Indonesian", R.drawable.indonesionicon),
         LanguageData("Arabic", R.drawable.arabicicon),
         LanguageData("Spanish", R.drawable.spanishicon),
-        LanguageData("Portuguese ", R.drawable.portaguesicon),
         LanguageData("Korean ", R.drawable.koreanicon),
+
     )
 
     override fun onCreateView(
@@ -82,37 +83,61 @@ class LanguageSelectionFragment : Fragment() {
         }
     }
 
+    private var lastSelectedRadioButton: RadioButton? = null
+
     private fun populateLanguages() {
         binding.rgLanguages.removeAllViews()
 
-        languages.forEach { languageData ->
+        languages.forEachIndexed { index, languageData ->
+
             val row = layoutInflater.inflate(
                 R.layout.language_item,
                 binding.rgLanguages,
                 false
             )
-            val card = row as com.google.android.material.card.MaterialCardView
 
+            val card = row as com.google.android.material.card.MaterialCardView
             val radioButton = row.findViewById<RadioButton>(R.id.rbLanguage)
             val textView = row.findViewById<TextView>(R.id.tvLanguageName)
             val imageView = row.findViewById<ImageView>(R.id.ivLanguageIcon)
+            val lottieHint = row.findViewById<com.airbnb.lottie.LottieAnimationView>(R.id.lottieHint)
+
 
             radioButton.id = View.generateViewId()
             textView.text = languageData.language
             imageView.setImageResource(languageData.img)
-
             radioButton.tag = getLanguageCode(languageData.language)
             radioButton.visibility = View.INVISIBLE
 
-            row.setOnClickListener {
-                radioButton.visibility = View.VISIBLE
 
+            if (index == 0) {
+                lottieHint.visibility = View.VISIBLE
+                lottieHint.playAnimation()
+            } else {
+                lottieHint.visibility = View.GONE
+            }
+
+
+            row.setOnClickListener {
+
+                lastSelectedRadioButton?.visibility = View.INVISIBLE
+
+                radioButton.visibility = View.VISIBLE
+                lastSelectedRadioButton = radioButton
+
+                hideAllLotties()
                 binding.btnContinue.visibility = View.VISIBLE
                 handleSelection(card, radioButton)
             }
-            radioButton.setOnClickListener {
-                radioButton.visibility = View.VISIBLE
 
+            radioButton.setOnClickListener {
+
+                lastSelectedRadioButton?.visibility = View.INVISIBLE
+
+                radioButton.visibility = View.VISIBLE
+                lastSelectedRadioButton = radioButton
+
+                hideAllLotties()
                 binding.btnContinue.visibility = View.VISIBLE
                 handleSelection(card, radioButton)
             }
@@ -139,9 +164,12 @@ class LanguageSelectionFragment : Fragment() {
 
     private fun getLanguageCode(language: String): String = when (language) {
         "English" -> "en"
-        "Urdu" -> "ur"
+        "Hindi" -> "hi"
         "Arabic" -> "ar"
         "Spanish" -> "es"
+        "Indonesian" -> "in"
+
+
         else -> "en"
     }
 
@@ -160,4 +188,13 @@ class LanguageSelectionFragment : Fragment() {
 
         }
     }
+    private fun hideAllLotties() {
+        for (i in 0 until binding.rgLanguages.childCount) {
+            val row = binding.rgLanguages.getChildAt(i)
+            val lottie = row.findViewById<com.airbnb.lottie.LottieAnimationView>(R.id.lottieHint)
+            lottie?.visibility = View.GONE
+            lottie?.cancelAnimation()
+        }
+}
+
 }

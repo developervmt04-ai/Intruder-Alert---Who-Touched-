@@ -2,21 +2,29 @@ package com.example.thirdeye.ui.main
 
 import android.animation.ValueAnimator
 import android.app.ActivityManager
+import android.app.NotificationManager
 import android.content.Context
 import android.content.Intent
 import android.graphics.Color
+import android.os.Build
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.animation.LinearInterpolator
 import android.widget.Toast
+import androidx.core.animation.addListener
+import androidx.core.content.ContextCompat.getSystemService
 import androidx.core.os.postDelayed
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.NavOptions
 import androidx.navigation.fragment.findNavController
 import com.example.thirdeye.MainActivity
@@ -24,9 +32,12 @@ import com.example.thirdeye.R
 import com.example.thirdeye.ads.NativeAdController
 import com.example.thirdeye.ads.NativeAdType
 import com.example.thirdeye.billing.AdController
+import com.example.thirdeye.biometrics.BiometricHelper
+import com.example.thirdeye.data.localData.BiometricPrefs
 import com.example.thirdeye.data.localData.RingtonePrefs
 import com.example.thirdeye.data.localData.SecurityPrefs
 import com.example.thirdeye.data.localData.ServicePrefs
+import com.example.thirdeye.data.localData.badgePrefs
 import com.example.thirdeye.databinding.FragmentHomeBinding
 import com.example.thirdeye.service.CameraCaptureService
 import com.example.thirdeye.ui.dialogs.addWidget.AddWidgetDialog
@@ -42,6 +53,7 @@ import com.google.android.gms.ads.interstitial.InterstitialAd
 import com.google.android.gms.ads.interstitial.InterstitialAdLoadCallback
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Job
+import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
@@ -59,11 +71,14 @@ class HomeFragment : Fragment() {
     private var interstitialAd: InterstitialAd? = null
 
     private lateinit var ringtonePrefs: RingtonePrefs
+    private lateinit var badgePrefs: badgePrefs
     private lateinit var prefs: SecurityPrefs
 
     private lateinit var nativeAdController: NativeAdController
 
-    private var image = 0
+
+    private lateinit var bmHelper: BiometricHelper
+    private lateinit var bmPrefs: BiometricPrefs
 
 
     override fun onCreateView(
@@ -79,6 +94,10 @@ class HomeFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         prefs = SecurityPrefs(requireContext())
         nativeAdController = NativeAdController(requireContext())
+
+        bmHelper = BiometricHelper(requireActivity())
+        bmPrefs = BiometricPrefs(requireContext())
+        badgePrefs = badgePrefs(requireContext())
 
 
         view.post {
@@ -110,25 +129,44 @@ class HomeFragment : Fragment() {
 
         }
 
+        homeAdapter.onPremiumClicked = {
+            findNavController().navigate(R.id.payWallFragment)
+
+
+        }
+
 
 
         viewLifecycleOwner.lifecycleScope.launchWhenStarted {
             viewModel.images.collect { images ->
-                image = images.size
 
-                if (images.isEmpty()) {
-                    binding.emptyIntruders.visibility = View.VISIBLE
-                    binding.homePager.visibility = View.INVISIBLE
+
+                val seenIds = badgePrefs.getSeenIntruderIds()
+                val unseenCount = images.count { it.id !in seenIds }
+
+                if (unseenCount > 0) {
+                    binding.intruderCounter.visibility = View.VISIBLE
+                    binding.intruderCounter.text = images.size.toString()
+                    binding.intruderCounter.text = unseenCount.toString()
                 } else {
-                    binding.emptyIntruders.visibility = View.INVISIBLE
-                    binding.homePager.visibility = View.VISIBLE
+                    binding.intruderCounter.visibility = View.GONE
                 }
+
+
+                binding.emptyIntruders.visibility =
+                    if (images.isEmpty()) View.VISIBLE else View.GONE
+                binding.homePager.visibility =
+                    if (images.isNotEmpty()) View.VISIBLE else View.INVISIBLE
+
+
                 homeAdapter.differ.submitList(images)
             }
         }
 
         homeAdapter.onLockedClick = {
-            lifecycleScope.launch { viewModel.unlockImage(it.id) }
+            findNavController().navigate(R.id.action_homeFragment_to_payWallFragment)
+
+
         }
 
         homeAdapter.onDetailsClicked = {
@@ -161,7 +199,7 @@ class HomeFragment : Fragment() {
 
 
         homeAdapter.onPremiumClicked = {
-            Toast.makeText(requireContext(), "Premium Clicked", Toast.LENGTH_SHORT).show()
+            findNavController().navigate(R.id.action_homeFragment_to_payWallFragment)
         }
 
         setupPowerButton()
@@ -169,82 +207,126 @@ class HomeFragment : Fragment() {
     }
 
     private fun setupPowerButton() {
-        val handler = Handler(Looper.getMainLooper())
+        var progressAnimator: ValueAnimator? = null
 
-        // Helper function to update the UI based on actual service state
-        fun renderUI(isRunning: Boolean) {
-            if (isRunning) {
-                binding.powerButton.setCardBackgroundColor(Color.parseColor("#00E5FF"))
-                binding.powerIcon.setColorFilter(Color.parseColor("#00E5FF"))
-                binding.turnOnText.text = getString(R.string.active)
-                binding.outerRing.progress = 100
-            } else {
+        fun cancelAnimation() {
+            progressAnimator?.cancel()
+            progressAnimator = null
+        }
+
+        fun renderUI(state: CameraCaptureService.Companion.ServiceState, notifPosted: Boolean) {
+            cancelAnimation()
+
+            if (!state.isRunning) {
+
                 binding.powerButton.setCardBackgroundColor(Color.WHITE)
                 binding.powerIcon.setColorFilter(Color.WHITE)
                 binding.turnOnText.text = getString(R.string.turn_on_text)
                 binding.outerRing.progress = 0
+                binding.outerRing.isIndeterminate = false
+                return
+            }
+
+
+            if (notifPosted) {
+                binding.powerButton.setCardBackgroundColor(Color.parseColor("#00E5FF"))
+                binding.powerIcon.setColorFilter(Color.parseColor("#00E5FF"))
+                binding.turnOnText.text = getString(R.string.active)
+                binding.outerRing.isIndeterminate = false
+
+                if (binding.outerRing.progress < 100) {
+                    progressAnimator = ValueAnimator.ofInt(binding.outerRing.progress, 100).apply {
+                        duration = 500L
+                        interpolator = android.view.animation.LinearInterpolator()
+                        addUpdateListener { animation ->
+                            binding.outerRing.progress = animation.animatedValue as Int
+                        }
+                        addListener(onEnd = {
+                            progressAnimator = null
+                        })
+                        start()
+                    }
+                } else {
+
+                    binding.outerRing.progress = 100
+                }
+            } else {
+
+                binding.powerButton.setCardBackgroundColor(Color.parseColor("#B3E5FC"))
+                binding.powerIcon.setColorFilter(Color.parseColor("#B3E5FC"))
+                binding.turnOnText.text = "Starting..."
+
+                if (binding.outerRing.progress == 0) {
+
+                    binding.outerRing.isIndeterminate = false
+                    progressAnimator = ValueAnimator.ofInt(0, 99).apply {
+                        duration = 3000L
+                        interpolator = android.view.animation.LinearInterpolator()
+                        addUpdateListener { animation ->
+                            binding.outerRing.progress = animation.animatedValue as Int
+                        }
+                        addListener(onEnd = {
+                            progressAnimator = null
+
+                        })
+                        start()
+                    }
+                } else {
+
+                    binding.outerRing.isIndeterminate = false
+                }
+            }
+
+            state.error?.let { msg ->
+                Toast.makeText(requireContext(), msg, Toast.LENGTH_LONG).show()
             }
         }
 
-        // Always sync UI with service state when fragment starts
-        renderUI(isServiceRunning())
+        val initialState = CameraCaptureService.state.value
+        val initialNotifPosted = CameraCaptureService.notificationPosted.value
+
+        if (initialState.isRunning && initialNotifPosted) {
+            binding.outerRing.progress = 100
+            binding.powerButton.setCardBackgroundColor(Color.parseColor("#00E5FF"))
+            binding.powerIcon.setColorFilter(Color.parseColor("#00E5FF"))
+            binding.turnOnText.text = getString(R.string.active)
+        } else {
+
+            renderUI(initialState, initialNotifPosted)
+        }
+
+
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                combine(
+                    CameraCaptureService.state,
+                    CameraCaptureService.notificationPosted
+                ) { state, notifPosted ->
+                    state to notifPosted
+                }.collect { (state, notifPosted) ->
+                    renderUI(state, notifPosted)
+                }
+            }
+        }
+
 
         binding.powerButton.setOnClickListener {
-            val mainActivity = requireActivity() as MainActivity
+            val activity = requireActivity() as? MainActivity ?: return@setOnClickListener
 
-            // Check permissions first
-            if (!mainActivity.permissions.allGranted()) {
-                Toast.makeText(
-                    requireContext(),
-                    "Please grant all required permissions",
-                    Toast.LENGTH_SHORT
-                ).show()
-                mainActivity.requestPermissions()
+            if (!activity.permissions.allGranted()) {
+                Toast.makeText(requireContext(), "Grant all permissions first", Toast.LENGTH_SHORT).show()
+                activity.requestPermissions()
                 return@setOnClickListener
             }
 
-            val isRunning = isServiceRunning() // Always check actual service
+            val currentState = CameraCaptureService.state.value
 
-            if (!isRunning) {
-                // Start service with ring animation
-                binding.outerRing.progress = 0
-                val animator = ValueAnimator.ofInt(0, 100).apply {
-                    duration = 4000
-                    addUpdateListener {
-                        binding.outerRing.progress = it.animatedValue as Int
-                    }
-                    start()
-                }
-
+            if (!currentState.isRunning) {
                 CameraCaptureService.start(requireContext())
-
-                // Wait until camera is ready
-                handler.post(object : Runnable {
-                    override fun run() {
-                        if (CameraCaptureService.Instance?.isCameraReady == true) {
-                            animator.cancel()
-                            binding.outerRing.progress = 100
-                            renderUI(true) // Update UI based on service
-                        } else {
-                            handler.postDelayed(this, 50)
-                        }
-                    }
-                })
-
             } else {
-                // Stop service
                 requireContext().stopService(Intent(requireContext(), CameraCaptureService::class.java))
-                renderUI(false)
             }
         }
-
-        // Optional: keep UI updated if service stops unexpectedly
-        handler.post(object : Runnable {
-            override fun run() {
-                renderUI(isServiceRunning())
-                handler.postDelayed(this, 500) // check every 0.5s
-            }
-        })
     }
 
     private fun setupClicks() {
@@ -272,12 +354,14 @@ class HomeFragment : Fragment() {
                 return@setOnClickListener
             }
 
-            if (!ringtonePrefs.isAlarmEnabled()) {
+            if (!ringtonePrefs.isAlarmEnabled() && prefs.isFirstLaunch) {
 
                 AudibleDialog(requireContext())
                     .setTitle(getString(R.string.alarmtitle))
                     .setMessage(getString(R.string.attempt))
                     .onClick {
+                        ringtonePrefs.setAlarmEnabled(true)
+
 
 
                         findNavController().navigate(
@@ -288,7 +372,7 @@ class HomeFragment : Fragment() {
             } else findNavController().navigate(R.id.action_homeFragment_to_alarmFragment)
         }
 
-        binding.intruderCounter.text = image.toString()
+
 
         binding.settingIcon.setOnClickListener {
             findNavController().navigate(
@@ -361,7 +445,20 @@ class HomeFragment : Fragment() {
             }
 
             if (mainActivity.permissions.allGranted() && prefs.isFirstLaunch) {
+
                 val dialog = FingerPrintDialog(requireContext())
+                dialog.onOk {
+                    if (bmHelper.isFingerprintEnrolled()) {
+                        bmPrefs.setBiometricKeyEnabled(true)
+                    } else {
+                        bmHelper.isBiometricAvailable()
+                        bmPrefs.setBiometricKeyEnabled(false)
+
+
+                    }
+
+
+                }
                 dialog.show()
                 prefs.isFirstLaunch = false
             }
@@ -401,16 +498,27 @@ class HomeFragment : Fragment() {
                     String.format("%02d:%02d:%02d", minutes, seconds, centis)
             }
         }
-    }
 
-    private fun isServiceRunning(): Boolean {
-        val activityManager = requireContext().getSystemService(Context.ACTIVITY_SERVICE) as ActivityManager
-        for (service in activityManager.getRunningServices(Int.MAX_VALUE)) {
-            if (service.service.className == CameraCaptureService::class.java.name) {
+    }
+    private fun isMyNotificationActive(): Boolean {
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
+            return true // fallback for older Android
+        }
+
+        val notificationManager = requireContext().getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+        val activeNotifications = notificationManager.activeNotifications
+
+        for (statusBarNotification in activeNotifications) {
+            if (statusBarNotification.id == CameraCaptureService.NOTIF_ID) { // 1001
+                Log.d("NotificationCheck", "Notification ID ${CameraCaptureService.NOTIF_ID} is active")
                 return true
             }
         }
+
+        Log.d("NotificationCheck", "Notification ID ${CameraCaptureService.NOTIF_ID} NOT found yet")
         return false
     }
+
+
 
 }

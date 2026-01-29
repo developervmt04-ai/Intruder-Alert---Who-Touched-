@@ -5,6 +5,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/appBgColor"
+
     android:fitsSystemWindows="true">
 
     <com.google.android.material.appbar.MaterialToolbar
@@ -65,6 +67,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/premiumLayout"
         android:layout_width="match_parent"
+        android:visibility="gone"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/_5sdp"
         android:layout_marginBottom="@dimen/_5sdp"

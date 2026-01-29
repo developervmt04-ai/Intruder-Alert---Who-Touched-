@@ -6,6 +6,7 @@
 
     <FrameLayout
         android:layout_width="match_parent"
+        android:background="@color/detilaCardcolor"
         android:layout_height="wrap_content">
 
         <com.google.android.material.card.MaterialCardView
@@ -15,7 +16,7 @@
             android:backgroundTint="@color/buttonColor"
             android:clipChildren="true"
             android:clipToOutline="true"
-            app:cardCornerRadius="15dp"
+
             app:cardPreventCornerOverlap="true"
             app:cardUseCompatPadding="true"
             app:strokeColor="@color/transparent">
@@ -25,6 +26,7 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
 
+                <!-- Ad label -->
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -51,17 +53,19 @@
                         app:layout_constraintTop_toTopOf="parent" />
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
+                <!-- Media + Text -->
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
-                    android:padding="8dp">
+                    android:padding="5dp">
 
                     <com.google.android.gms.ads.nativead.MediaView
                         android:id="@+id/media_view"
                         android:layout_width="0dp"
-                        android:layout_height="120dp"
+                        android:layout_height="@dimen/_70sdp"
                         android:layout_weight="1"
+                        android:adjustViewBounds="true"
                         android:background="@color/cardBgColor"
                         android:clipToOutline="true" />
 
@@ -92,21 +96,25 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginStart="8dp"
+                                android:ellipsize="end"
+                                android:maxLines="2"
                                 android:textColor="@android:color/white"
-                                android:textSize="12sp"
+                                android:textSize="10sp"
                                 android:textStyle="bold" />
                         </LinearLayout>
 
                         <androidx.appcompat.widget.AppCompatTextView
                             android:id="@+id/ad_body"
+                            style="@style/DescriptionText"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginTop="4dp"
+                            android:layout_marginTop="2dp"
                             android:textColor="@color/white"
                             android:visibility="gone" />
 
                         <androidx.appcompat.widget.AppCompatTextView
                             android:id="@+id/ad_price"
+                            android:textSize="8sp"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:visibility="gone" />
@@ -115,17 +123,16 @@
 
                 <androidx.appcompat.widget.AppCompatButton
                     android:id="@+id/ad_call_to_action"
-                    style="@style/Button2"
+                    style="@style/largeAdbton"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_margin="8dp"
+                    android:padding="@dimen/_6sdp"
                     android:text="Buy Now"
                     android:textColor="@color/black" />
-
             </LinearLayout>
-
         </com.google.android.material.card.MaterialCardView>
 
+        <!-- SHIMMER -->
         <com.facebook.shimmer.ShimmerFrameLayout
             android:id="@+id/shimmerViewContainer"
             android:layout_width="match_parent"
@@ -141,7 +148,6 @@
                 android:orientation="vertical"
                 android:padding="2dp">
 
-                <!-- Top ad label + icon -->
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -159,17 +165,18 @@
                         android:background="@color/cardBgColor" />
                 </LinearLayout>
 
-                <!-- MediaView area -->
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
                     android:padding="8dp">
 
+                    <!-- RESPONSIVE shimmer media -->
                     <View
                         android:layout_width="0dp"
-                        android:layout_height="120dp"
+                        android:layout_height="0dp"
                         android:layout_weight="1"
+                        android:adjustViewBounds="true"
                         android:background="@color/cardBgColor" />
 
                     <LinearLayout
@@ -183,7 +190,6 @@
                         <LinearLayout
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:gravity="center_vertical"
                             android:orientation="horizontal">
 
                             <View
@@ -209,7 +215,6 @@
                             android:layout_height="20dp"
                             android:layout_marginTop="4dp"
                             android:background="@color/cardBgColor" />
-
                     </LinearLayout>
                 </LinearLayout>
 
@@ -219,10 +224,7 @@
                     android:layout_margin="8dp"
                     android:background="@color/cardBgColor" />
             </LinearLayout>
-
         </com.facebook.shimmer.ShimmerFrameLayout>
 
-
     </FrameLayout>
-
 </com.google.android.gms.ads.nativead.NativeAdView>

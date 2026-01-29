@@ -14,6 +14,8 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import com.example.thirdeye.MainActivity
 import com.example.thirdeye.R
+import com.example.thirdeye.ads.NativeAdController
+import com.example.thirdeye.ads.NativeAdType
 import com.example.thirdeye.billing.AdController
 import com.example.thirdeye.billing.BillingManager
 import com.example.thirdeye.biometrics.BiometricHelper
@@ -39,6 +41,7 @@ class SplashActivity : AppCompatActivity() {
     private lateinit var binding: ActivitySplashBinding
     private lateinit var purchasePrefs: PurchasePrefs
     private lateinit var billingManager: BillingManager
+    private lateinit var  NativeAdController: NativeAdController
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -48,9 +51,13 @@ class SplashActivity : AppCompatActivity() {
 
         purchasePrefs = PurchasePrefs(this)
         billingManager = BillingManager(this, purchasePrefs)
+        NativeAdController=NativeAdController(this)
         billingManager.startConnection {
             AdController.init(billingManager)
         }
+
+
+
 
 
 
@@ -63,6 +70,7 @@ class SplashActivity : AppCompatActivity() {
 
     override fun onResume() {
         super.onResume()
+        NativeAdController.loadNativeAd(binding.nativeAdRoot, NativeAdType.SMALL)
 
 
 
@@ -96,7 +104,7 @@ class SplashActivity : AppCompatActivity() {
     }
 
     private fun startMain() {
-        window.decorView.post {
+        window.decorView.postDelayed( {
             if (!NetworkUtils.isInternetAvailable(this)) {
                 val noInternet = NoInternetDialog()
                 noInternet.setTitle(getString(R.string.no_internet_connection))
@@ -126,13 +134,13 @@ class SplashActivity : AppCompatActivity() {
                     }
                 noInternet.show(supportFragmentManager, "NoInternetDialog")
             } else {
-                if (!navigated) { // only navigate if not already
+                if (!navigated) {
                     navigated = true
                     startActivity(Intent(this, MainActivity::class.java))
                     finish()
                 }
             }
-        }
+        },2000L)
     }
 
 }

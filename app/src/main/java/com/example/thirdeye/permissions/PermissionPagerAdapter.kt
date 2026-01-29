@@ -24,6 +24,14 @@ class PermissionPagerAdapter(
         )
         return ViewHolder(binding)
     }
+    override fun getItemViewType(position: Int): Int {
+        return if (position == permissions.size - 1) {
+            Int.MAX_VALUE
+        } else {
+            super.getItemViewType(position)
+        }
+    }
+
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val permission = permissions[position]

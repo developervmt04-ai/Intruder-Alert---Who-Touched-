@@ -3,8 +3,10 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-
     android:layout_gravity="bottom"
+    android:layout_margin="2dp"
+    app:cardElevation="8dp"
+
     app:cardBackgroundColor="@color/white"
     app:shapeAppearanceOverlay="@style/TopRoundedCard"
     app:useCompatPadding="true">
@@ -12,8 +14,9 @@
     <RelativeLayout
         android:background="@color/white"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:padding="24dp">
+        android:layout_height="wrap_content"
+      android:padding="24dp"
+     >
 
         <ImageView
             android:id="@+id/closeButton"
@@ -36,15 +39,12 @@
 
                 android:layout_margin="4dp"
                 android:id="@+id/title"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                style="@style/widgetDialoTitle"
+                android:textColor="@color/black"
                 android:text="@string/alarmtitle"
-                android:textSize="18sp"
                 android:textStyle="bold"/>
             <TextView
                 android:id="@+id/description"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
                 style="@style/dialogDes"
                 android:text="@string/attempt"
                 />
@@ -67,8 +67,8 @@
 
 
             <ImageView
-                android:layout_width="150dp"
-                android:layout_height="200dp"
+                android:layout_width="@dimen/_150sdp"
+                android:layout_height="@dimen/_150sdp"
                 android:layout_centerInParent="true"
                 android:layout_margin="20dp"
                 android:src="@drawable/alramimg"
@@ -77,10 +77,10 @@
         </LinearLayout>
 
         <Button
-            android:layout_below="@id/fingerprintContainer"
+            android:id="@+id/addWidget"
             style="@style/Button"
-            android:text="@string/enable_now"
-            android:id="@+id/addWidget"/>
+            android:layout_below="@id/fingerprintContainer"
+            android:text="@string/enable_now" />
 
 
 

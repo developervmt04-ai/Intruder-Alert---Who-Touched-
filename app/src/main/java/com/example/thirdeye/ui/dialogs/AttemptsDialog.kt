@@ -28,7 +28,7 @@ object AttemptsDialog {
         options.forEachIndexed { index, number ->
             val radioButton = RadioButton(context).apply {
                 id = number
-                text = " $number Wrong Attempts "
+                text = context.getString(R.string.wrong_attempts, number)
                 isChecked = number == savedAttempts
             }
             rbUtils.applyRbStyle(context, radioButton)

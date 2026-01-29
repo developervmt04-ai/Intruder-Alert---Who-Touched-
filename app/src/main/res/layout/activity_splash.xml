@@ -4,7 +4,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_margin="15dp"
+    android:layout_margin="10dp"
     android:background="@color/appBgColor"
     android:fitsSystemWindows="true"
     android:padding="10dp">
@@ -33,7 +33,7 @@
             android:layout_width="60dp"
             android:layout_height="60dp"
 
-            android:layout_marginTop="15dp"
+            android:layout_marginTop="@dimen/_18sdp"
             android:contentDescription="@null"
             android:src="@drawable/intrudericon" />
 
@@ -61,14 +61,13 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="10dp"
-        android:padding="5dp"
-
         android:gravity="center"
         android:orientation="vertical"
-        app:layout_constraintBottom_toTopOf="@+id/adView"
+        android:padding="5dp"
+        ads:layout_constraintBottom_toTopOf="@+id/nativeAdRoot"
+        ads:layout_constraintTop_toBottomOf="@+id/splashContainer"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        >
+        app:layout_constraintStart_toStartOf="parent">
 
         <com.airbnb.lottie.LottieAnimationView
             android:id="@+id/lottie_view"
@@ -91,17 +90,17 @@
     </LinearLayout>
 
 
-    <com.google.android.gms.ads.AdView
-        android:id="@+id/adView"
+    <FrameLayout
+        android:id="@+id/nativeAdRoot"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        ads:adSize="BANNER"
-        ads:adUnitId="ca-app-pub-3940256099942544/6300978111"
-        ads:layout_editor_absoluteX="10dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        android:layout_height="@dimen/_50sdp"
+        ads:layout_constraintBottom_toBottomOf="parent"
+        ads:layout_constraintEnd_toEndOf="parent"
+        ads:layout_constraintStart_toStartOf="parent">
+
+
+    </FrameLayout>
+
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -7,6 +7,7 @@ import com.android.billingclient.api.BillingClient
 import com.example.thirdeye.billing.BillingManager
 import com.example.thirdeye.data.localData.LockImagePrefs
 import com.example.thirdeye.data.localData.PurchasePrefs
+import com.example.thirdeye.data.localData.badgePrefs
 import com.example.thirdeye.data.localData.db.IntruderDB
 import com.example.thirdeye.data.localData.db.IntruderDao
 import com.example.thirdeye.ui.intruders.IntruderRepo
@@ -47,6 +48,12 @@ object AppModule {
     fun providesLockImagePrefs(
         @ApplicationContext app: Context
     ): LockImagePrefs = LockImagePrefs(app)
+
+    @Provides
+    @Singleton
+    fun providesBadgePrefs(
+        @ApplicationContext app: Context
+    ): badgePrefs = badgePrefs(app)
     @Provides
     @Singleton
     fun providePlansRepo(): PlansRepo = PlansRepo()

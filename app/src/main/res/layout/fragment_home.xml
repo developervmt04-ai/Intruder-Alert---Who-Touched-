@@ -336,7 +336,7 @@
 
         android:layout_centerHorizontal="true"
 
-        android:layout_margin="12dp"
+        android:layout_margin="@dimen/_8sdp"
         android:orientation="horizontal">
 
         <TextView
@@ -347,6 +347,7 @@
             android:background="@drawable/red_squre"
             android:gravity="center"
             android:text="1"
+            android:visibility="gone"
             android:textColor="@color/white" />
 
         <TextView
@@ -394,10 +395,10 @@
 
     <FrameLayout
         android:id="@+id/nativeAdRoot"
+        android:layout_marginTop="@dimen/_4sdp"
         android:layout_width="match_parent"
-        android:layout_height="55dp"
+        android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-
         ads:layout_constraintEnd_toEndOf="parent"
         ads:layout_constraintStart_toStartOf="parent">
 

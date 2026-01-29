@@ -9,6 +9,7 @@ import com.example.thirdeye.R
 import com.example.thirdeye.data.encryptedStorage.EncryptedStorageRepository
 import com.example.thirdeye.data.models.IntrudersImages
 import com.example.thirdeye.data.localData.LockImagePrefs
+import com.example.thirdeye.data.localData.badgePrefs
 import com.example.thirdeye.data.models.IntruderImageMetaData
 import com.example.thirdeye.ui.widget.IntruderWidget
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -18,19 +19,25 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import java.io.File
+
 @HiltViewModel
 class IntruderPhotosViewModel @Inject constructor(
     application: Application,
     private val intruderRepo: IntruderRepo,
-    private val lockedPref: LockImagePrefs
+    private val lockedPref: LockImagePrefs,
+    private val badgePrefs: badgePrefs
 ) : AndroidViewModel(application) {
 
     private val repo = EncryptedStorageRepository(application.applicationContext)
 
     private val _images = MutableStateFlow<List<IntrudersImages>>(emptyList())
     val images = _images.asStateFlow()
+    private val IMAGE_LIMIT = 3
 
+
+    val intruderOpened=MutableStateFlow(false)
 
 
     fun loadImages() {
@@ -39,7 +46,7 @@ class IntruderPhotosViewModel @Inject constructor(
             val files = repo.listOfImages().sortedByDescending { it.lastModified() }
 
 
-            if (files.size >3) {
+            if (files.size > 3) {
                 val fourthImage = files[0]
                 if (!lockedPref.isLocked(fourthImage.name) &&
                     !lockedPref.isManuallyUnlocked(fourthImage.name)
@@ -117,6 +124,7 @@ class IntruderPhotosViewModel @Inject constructor(
             loadImages()
         }
     }
+
     fun unlockAllImages() {
         viewModelScope.launch {
             _images.value.forEach { lockedPref.removeLocked(it.id) }
@@ -139,8 +147,24 @@ class IntruderPhotosViewModel @Inject constructor(
             }
         }
     }
+
     private fun formatTime(timestamp: Long): String {
         val sdf = java.text.SimpleDateFormat("HH:mm dd/MM/yyyy", java.util.Locale.getDefault())
         return sdf.format(java.util.Date(timestamp))
     }
+    fun markImagesSeen(ids: List<String>) {
+        viewModelScope.launch {
+            badgePrefs.markIntruderSeen(ids)
+            intruderOpened.value = true
+        }
+    }
+
+
+    suspend fun isIntruderLimitReached(): Boolean {
+        return withContext(Dispatchers.IO) {
+            repo.listOfImages().size > IMAGE_LIMIT
+        }
+    }
+
+
 }

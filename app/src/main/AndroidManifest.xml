@@ -16,8 +16,8 @@
     <uses-permission android:name="android.permission.WAKE_LOCK" />
 
     <application
-        android:allowBackup="false"
         android:name=".ThirdEye"
+        android:allowBackup="false"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="false"
         android:icon="@mipmap/ic_launcher"
@@ -28,15 +28,14 @@
         android:theme="@style/Theme.ThirdEye">
         <meta-data
             android:name="com.google.android.gms.ads.APPLICATION_ID"
-            android:value="ca-app-pub-3940256099942544~3347511713"/>
+            android:value="ca-app-pub-3940256099942544~3347511713" />
 
 
-
-        <activity android:name=".ui.splash.SplashActivity"
+        <activity
+            android:name=".ui.splash.SplashActivity"
             android:exported="true">
 
         </activity>
-
 
 
         <activity
@@ -44,6 +43,7 @@
             android:exported="true">
 
         </activity>
+
         <activity-alias
             android:name=".defaultIcon"
             android:enabled="true"
@@ -59,13 +59,12 @@
         </activity-alias>
 
 
-
         <activity-alias
             android:name=".calculatorIcon"
             android:enabled="false"
             android:exported="true"
             android:icon="@drawable/calculatoricon"
-            android:label="Intruder Alert_ Who Touched "
+            android:label="Calculator"
             android:targetActivity=".ui.splash.SplashActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -78,7 +77,7 @@
             android:enabled="false"
             android:exported="true"
             android:icon="@drawable/weathericon"
-            android:label="Intruder Alert_ Who Touched "
+            android:label="Weather "
             android:targetActivity=".ui.splash.SplashActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -92,7 +91,7 @@
             android:enabled="false"
             android:exported="true"
             android:icon="@drawable/notesicon"
-            android:label="Intruder Alert_ Who Touched "
+            android:label="Notes"
             android:targetActivity=".ui.splash.SplashActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -106,7 +105,7 @@
             android:enabled="false"
             android:exported="true"
             android:icon="@drawable/compass"
-            android:label="Intruder Alert_ Who Touched "
+            android:label="Compass"
             android:targetActivity=".ui.splash.SplashActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -116,41 +115,39 @@
 
         </activity-alias>
         <activity-alias
-            android:name=".music"
+            android:name=".musicIcon"
             android:enabled="false"
             android:exported="true"
-            android:icon="@drawable/compass"
-            android:label="Intruder Alert_ Who Touched "
+            android:icon="@drawable/musicicon"
+            android:label="Music"
             android:targetActivity=".ui.splash.SplashActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-
 
 
         </activity-alias>
         <activity-alias
-            android:name=".health"
+            android:name=".healthIcon"
             android:enabled="false"
             android:exported="true"
-            android:icon="@drawable/compass"
-            android:label="Intruder Alert_ Who Touched "
+            android:icon="@drawable/health_icon"
+            android:label="Health"
             android:targetActivity=".ui.splash.SplashActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-
 
 
         </activity-alias>
         <activity-alias
-            android:name=".book"
+            android:name=".bookIcon"
             android:enabled="false"
             android:exported="true"
-            android:icon="@drawable/compass"
-            android:label="Intruder Alert_ Who Touched "
+            android:icon="@drawable/books_icon"
+            android:label="Books"
             android:targetActivity=".ui.splash.SplashActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -158,20 +155,96 @@
             </intent-filter>
 
 
+        </activity-alias>
+        <activity-alias
+            android:name=".galleryIcon"
+            android:enabled="false"
+            android:exported="true"
+            android:icon="@drawable/gallery_icon"
+            android:label="Gallery"
+            android:targetActivity=".ui.splash.SplashActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
 
+
+        </activity-alias>
+        <activity-alias
+            android:name=".calenderIcon"
+            android:enabled="false"
+            android:exported="true"
+            android:icon="@drawable/calender_icon"
+            android:label="Calender"
+            android:targetActivity=".ui.splash.SplashActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity-alias>
+
+        <activity-alias
+            android:name=".themesIcon"
+            android:enabled="false"
+            android:exported="true"
+            android:icon="@drawable/themes_icon"
+            android:label="Themes"
+            android:targetActivity=".ui.splash.SplashActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity-alias>
+
+        <activity-alias
+            android:name=".journalIcon"
+            android:enabled="false"
+            android:exported="true"
+            android:icon="@drawable/journal_icon"
+            android:label="Journal"
+            android:targetActivity=".ui.splash.SplashActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity-alias>
+
+        <activity-alias
+            android:name=".browserIcon"
+            android:enabled="false"
+            android:exported="true"
+            android:icon="@drawable/browser_icon"
+            android:label="Browser"
+            android:targetActivity=".ui.splash.SplashActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity-alias>
+        <activity-alias
+            android:name=".translateIcon"
+            android:enabled="false"
+            android:exported="true"
+            android:icon="@drawable/translate_icon"
+            android:label="Translate"
+            android:targetActivity=".ui.splash.SplashActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
         </activity-alias>
 
 
-
-
-        <receiver android:name=".ui.widget.IntruderWidget"
+        <receiver
+            android:name=".ui.widget.IntruderWidget"
             android:exported="true">
 
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
             </intent-filter>
-            <meta-data android:name="android.appwidget.provider"
-                android:resource="@xml/intruder_widget_info"/>
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/intruder_widget_info" />
 
 
         </receiver>
@@ -196,15 +269,16 @@
             android:exported="true"
             android:foregroundServiceType="camera" />
         <provider
-            android:authorities="${applicationId}.fileprovider"
             android:name="androidx.core.content.FileProvider"
+            android:authorities="${applicationId}.fileprovider"
             android:exported="false"
             android:grantUriPermissions="true">
             <meta-data
                 android:name="android.support.FILE_PROVIDER_PATHS"
-                android:resource="@xml/file_paths"/>
+                android:resource="@xml/file_paths" />
 
         </provider>
+
 
     </application>
 

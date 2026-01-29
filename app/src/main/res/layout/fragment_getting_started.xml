@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     xmlns:tools="http://schemas.android.com/tools"
     android:fitsSystemWindows="true"
-    android:padding="10dp"
+    android:padding="@dimen/_10sdp"
     tools:context=".ui.onboarding.GettingStartedFragment">
 
     <LinearLayout
@@ -59,7 +59,6 @@
         style="@style/Button2"
         android:text="@string/get_started"
         android:textStyle="bold"
-
         app:layout_constraintBottom_toTopOf="@+id/tvPolicyTerms"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
@@ -68,24 +67,24 @@
         android:id="@+id/tvPolicyTerms"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_margin="15dp"
         android:gravity="center_horizontal"
-        android:lineSpacingExtra="2dp"
         android:linksClickable="true"
-        android:padding="12dp"
+        android:padding="@dimen/_10sdp"
         android:text="@string/policy_terms_html"
         android:textColor="@color/white"
         android:textColorLink="@color/dividerColor"
-        android:textSize="14sp"
+        android:textSize="12sp"
         ads:layout_constraintBottom_toTopOf="@id/adView"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
+
     <FrameLayout
         app:layout_constraintBottom_toBottomOf="parent"
 
+
         android:id="@+id/adView"
         android:layout_width="match_parent"
-        android:layout_height="60dp"
+        android:layout_height="@dimen/_45sdp"
         android:layout_alignParentBottom="true"
 
         />

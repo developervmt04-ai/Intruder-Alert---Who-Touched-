@@ -17,6 +17,7 @@ import com.example.thirdeye.R
 import com.example.thirdeye.ads.NativeAdController
 import com.example.thirdeye.ads.NativeAdType
 import com.example.thirdeye.data.localData.RingtonePrefs
+import com.example.thirdeye.data.localData.SecurityPrefs
 import com.example.thirdeye.databinding.FragmentAlarmBinding
 import com.google.android.gms.ads.nativead.NativeAdView
 
@@ -24,6 +25,7 @@ import com.google.android.gms.ads.nativead.NativeAdView
 class AlarmFragment : Fragment() {
     private lateinit var binding: FragmentAlarmBinding
     private lateinit var ringtonePrefs: RingtonePrefs
+
 
     private lateinit var nativeAdController: NativeAdController
 
@@ -73,6 +75,10 @@ class AlarmFragment : Fragment() {
         }
 
         binding.alarmSwitch.isChecked = ringtonePrefs.isAlarmEnabled()
+        binding.alarmState.text = getString(
+            if (ringtonePrefs.isAlarmEnabled()) R.string.enabled else R.string.disabled
+        )
+
 
 
 

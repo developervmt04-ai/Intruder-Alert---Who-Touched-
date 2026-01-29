@@ -36,12 +36,11 @@
 
                     <ImageView
                         android:id="@+id/permissionIcon"
-                        android:layout_width="100dp"
-                        android:layout_height="100dp"
+                        android:layout_width="120dp"
+                        android:layout_height="120dp"
                         android:background="@color/appBgColor"
                         android:src="@drawable/solar_camera_bold"/>
 
-                <!-- Title below image -->
                 <TextView
                     android:id="@+id/permissionTitle"
                     android:layout_width="match_parent"
@@ -53,7 +52,6 @@
                     android:textStyle="bold"
                     android:text="@string/notifDesc"/>
 
-                <!-- Description below title -->
                 <TextView
                     android:id="@+id/permissionDescription"
                     android:layout_width="match_parent"

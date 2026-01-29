@@ -51,7 +51,7 @@ class IconsAdapter : RecyclerView.Adapter<IconsAdapter.ViewHolder>() {
         }
 
         holder.binding.root.setOnClickListener {
-            if (position == selectedPosition) return@setOnClickListener // already selected
+            if (position == selectedPosition) return@setOnClickListener
 
             val previousPosition = selectedPosition
             selectedPosition = position

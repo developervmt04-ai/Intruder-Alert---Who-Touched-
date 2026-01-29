@@ -50,6 +50,9 @@ class PermissionDialog(
             adapter.addAdminPage(binding.permissionPager)
         }
        binding. tabDots.attachTo(binding.permissionPager)
+        binding.permissionPager.isUserInputEnabled=false
+        binding.permissionPager.offscreenPageLimit = mutablePermissions.size
+
 
 
 
@@ -62,11 +65,12 @@ class PermissionDialog(
 
             if (currentPermission == "DEVICE_ADMIN") {
                 dm.requestDeviceAdmin()
-                dismiss()
                 return@setOnClickListener
             }
 
             onRequest(currentPermission)
+
+
         }
     }
 
@@ -96,11 +100,11 @@ class PermissionDialog(
     }
     fun moveToNext() {
         val currentItem = binding.permissionPager.currentItem
-        if (currentItem < mutablePermissions.size - 1) {
+        val lastItem = (binding.permissionPager.adapter?.itemCount ?: 0) - 1
+
+        if (currentItem < lastItem) {
             binding.permissionPager.setCurrentItem(currentItem + 1, true)
         } else {
-
-            binding.permissionPager.setCurrentItem(currentItem, false)
             dismiss()
         }
     }

@@ -1,41 +1,81 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/widget"
     android:layout_width="125dp"
     android:layout_height="125dp"
-    android:clickable="true"
-    android:focusable="true"
     android:background="@drawable/widget_card_bg">
 
     <ImageView
         android:id="@+id/ivIntruder"
-        android:layout_width="125dp"
-        android:layout_height="125dp"
-        android:scaleType="centerCrop"
-        android:src="@drawable/blurbg" />
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scaleType="fitXY"
+        android:src="@drawable/blurbg"/>
 
     <LinearLayout
-        android:layout_margin="5dp"
-        android:layout_gravity="bottom"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
+
+
+        android:id="@+id/emptyIcon"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+
+        android:orientation="vertical"
+        android:gravity="center"
+      >
+
+        <ImageView
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:src="@drawable/emptyicon"/>
 
         <TextView
             android:id="@+id/tvIntrusionState"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/no_intrusions"
-            android:textSize="10sp"
-            android:textColor="@color/white" />
-
-        <TextView
-            android:id="@+id/tvLastIntrusionTime"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text=""
-            android:textSize="8sp"
             android:textColor="@color/white"
-            android:layout_marginTop="2dp" />
+            android:textSize="10sp"
+            android:text="No Intrusions"/>
     </LinearLayout>
 
-</FrameLayout>
+    <LinearLayout
+        android:id="@+id/intruderWidgetDetails"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        android:layout_alignParentBottom="true"
+        android:orientation="horizontal"
+        android:padding="5dp"
+        android:gravity="center_vertical">
+
+        <!-- Texts stacked vertically -->
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Detail"
+                android:textSize="12sp"
+                android:textColor="@color/white" />
+
+            <TextView
+                android:id="@+id/widget_time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/white"
+                android:textSize="10sp"
+                android:text="12:00" />
+
+
+        </LinearLayout>
+
+        <!-- Image on the right -->
+        <ImageView
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:src="@drawable/moreicon"
+            android:layout_gravity="center_vertical" />
+    </LinearLayout>
+</RelativeLayout>

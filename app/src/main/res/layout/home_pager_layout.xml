@@ -9,12 +9,14 @@
     <androidx.cardview.widget.CardView
 
         android:id="@+id/lokcedCard"
+        android:visibility="gone"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:cardCornerRadius="12dp"
         app:cardElevation="4dp">
 
         <FrameLayout
+            android:layout_gravity="center"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
@@ -36,11 +38,12 @@
                 android:divider="@drawable/vertical_spacing"
                 android:gravity="center"
                 android:orientation="vertical"
-                android:padding="9dp"
+                android:padding="@dimen/_12sdp"
                 android:showDividers="middle">
 
                 <ImageView
                     android:id="@+id/img"
+                    android:layout_marginBottom="@dimen/_12sdp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:src="@drawable/lockicon" />
@@ -50,19 +53,56 @@
                     android:layout_height="wrap_content"
                     android:text="@string/lockeImg"
                     android:textColor="@color/white"
-                    android:textSize="16sp"
+                    android:textSize="18sp"
+                    android:gravity="center"
                     android:textStyle="bold" />
 
 
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/watchAdBtn"
                     style="@style/transparentButton"
-                    android:gravity="center"
                     android:text="@string/watch_ad_to_unlock"
                     app:icon="@drawable/videoicon"
+                    android:textAllCaps="false"
                     app:iconGravity="textStart"
                     app:iconPadding="8dp"
                     app:iconTint="@null" />
+
+                <LinearLayout
+
+                    android:gravity="center"
+                    android:layout_width="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_height="wrap_content">
+
+                    <View
+                        android:layout_weight="1"
+                        android:layout_marginRight="@dimen/_10sdp"
+                        android:layout_marginLeft="@dimen/_10sdp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="2dp"
+                        android:background="@color/lineColor"/>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="OR"
+
+                        android:textSize="12sp"
+                        android:textColor="@color/white"/>
+                    <View
+                        android:layout_marginLeft="@dimen/_10sdp"
+                        android:layout_marginRight="@dimen/_10sdp"
+                        android:layout_weight="1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="2dp"
+                        android:background="@color/lineColor"/>
+
+
+
+
+
+
+                </LinearLayout>
 
 
 
@@ -87,7 +127,7 @@
         android:id="@+id/unlockedCard"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:visibility="gone"
+
         app:cardCornerRadius="12dp"
         app:cardElevation="4dp">
 

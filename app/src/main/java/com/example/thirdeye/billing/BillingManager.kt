@@ -33,7 +33,8 @@ class BillingManager(
 
         billingClient.startConnection(object : BillingClientStateListener {
             override fun onBillingServiceDisconnected() {
-                TODO("Not yet implemented")
+                Log.w("BillingManager", "Billing service disconnected, will retry later.")
+
             }
 
             override fun onBillingSetupFinished(p0: BillingResult) {
@@ -47,7 +48,8 @@ class BillingManager(
             }
 
             private fun restorePurchase() {
-                TODO("Not yet implemented")
+                Log.w("BillingManager", "Purchase restored.")
+
             }
 
         })

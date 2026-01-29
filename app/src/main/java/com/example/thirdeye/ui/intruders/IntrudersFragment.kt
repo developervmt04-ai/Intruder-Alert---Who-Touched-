@@ -68,7 +68,6 @@ class IntrudersFragment : Fragment() {
             )
 
 
-
         }
 
 
@@ -76,7 +75,7 @@ class IntrudersFragment : Fragment() {
 
 
         binding.historyIcon.setOnClickListener {
-            findNavController().navigate(R.id.action_intruderDetailFragment_to_historyFragment)
+            findNavController().navigate(R.id.action_intrudersFragment_to_historyFragment)
         }
 
 
@@ -110,14 +109,27 @@ class IntrudersFragment : Fragment() {
 
                 }
                 intruderImageAdapter.differ.submitList(list)
+                if (viewModel.isIntruderLimitReached()){
+                    binding.premiumLayout.visibility=View.VISIBLE
+
+
+
+
+                }
             }
+
         }
 
         viewModel.loadImages()
+
     }
 
     override fun onResume() {
         super.onResume()
+
+        val currentImages = viewModel.images.value
+        val ids = currentImages.map { it.id }
+        viewModel.markImagesSeen(ids)
 
 
         if (AdController.shouldShowAdd()) {

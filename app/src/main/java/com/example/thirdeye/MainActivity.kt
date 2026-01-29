@@ -26,6 +26,7 @@ import com.google.android.gms.ads.interstitial.InterstitialAd
 import com.google.android.gms.ads.interstitial.InterstitialAdLoadCallback
 import dagger.hilt.android.AndroidEntryPoint
 import androidx.core.graphics.drawable.toDrawable
+import com.example.thirdeye.billing.AdController
 import com.example.thirdeye.ui.main.HomeFragment
 
 @AndroidEntryPoint
@@ -49,16 +50,7 @@ class MainActivity : AppCompatActivity() {
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
 
 
-        val startFragment = intent.getStringExtra("startFragment")
-        if (startFragment != null) {
-            val fragment = when (startFragment) {
-                "homeFragment" -> HomeFragment()
-                else -> HomeFragment()
-            }
-            supportFragmentManager.beginTransaction()
-                .replace(R.id.navHostFragment, fragment)
-                .commit()
-        }
+
 
         prefs = SecurityPrefs(this)
         deviceAdminManager = DeviceAdminManager(this)
@@ -81,7 +73,6 @@ class MainActivity : AppCompatActivity() {
             }
         }
     }
-
 
     private fun handleBackPress() {
 
@@ -140,16 +131,24 @@ class MainActivity : AppCompatActivity() {
 
             supportFragmentManager.findFragmentById(R.id.navHostFragment) as NavHostFragment
 
+        val startFragment = intent.getStringExtra("startFragment")
+
         val navController = navHostFragment.navController
 
         val navGraph: NavGraph = navController.navInflater.inflate(R.navigation.app_nav_graph)
 
         navGraph.setStartDestination(
             when {
+                startFragment == "homeFragment" -> R.id.homeFragment
+
 
                 prefs.isFirstLaunch -> R.id.gettingStartedFragment
 
-                else -> R.id.payWallFragment
+                else -> {
+
+                        R.id.payWallFragment
+
+                }
             }
         )
 

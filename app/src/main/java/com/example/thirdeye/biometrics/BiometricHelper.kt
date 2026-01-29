@@ -135,6 +135,11 @@ class BiometricHelper(private val activity: FragmentActivity) {
             }
         )
     }
+    fun isFingerprintEnrolled(): Boolean {
+        val bm = BiometricManager.from(activity)
+        return bm.canAuthenticate(BiometricManager.Authenticators.BIOMETRIC_STRONG) ==
+                BiometricManager.BIOMETRIC_SUCCESS
+    }
 
 
 }

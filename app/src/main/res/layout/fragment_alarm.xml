@@ -1,10 +1,11 @@
-<?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:ads="http://schemas.android.com/apk/res-auto"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/appBgColor"
+
     android:fitsSystemWindows="true">
 
     <com.google.android.material.appbar.MaterialToolbar
@@ -15,7 +16,7 @@
         ads:layout_constraintStart_toStartOf="parent"
         ads:layout_constraintTop_toTopOf="parent"
         app:contentInsetEnd="0dp"
-        app:contentInsetStart="8dp">
+        app:contentInsetStart="@dimen/_7sdp">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -38,7 +39,6 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="12dp"
                 android:text="@string/Alarm" />
-
         </LinearLayout>
     </com.google.android.material.appbar.MaterialToolbar>
 
@@ -49,104 +49,116 @@
         android:background="@color/strokeColor"
         app:layout_constraintTop_toBottomOf="@id/mainToolbar" />
 
+
     <LinearLayout
         android:id="@+id/Alarm"
+        android:padding="@dimen/_5sdp"
         style="@style/BaseCard"
         android:orientation="vertical"
-        ads:layout_constraintStart_toStartOf="parent"
+
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/mainToolbar">
 
-        <androidx.cardview.widget.CardView style="@style/BaseCard">
+        <com.google.android.material.card.MaterialCardView
+            style="@style/BaseCard"
+            ads:strokeColor="@color/strokeColor"
+
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:cardUseCompatPadding="false"
+            android:layout_margin="0dp">
 
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:padding="10dp">
+                android:padding="16dp">
 
                 <ImageView
                     android:id="@+id/alarmImg"
                     android:layout_width="40dp"
                     android:layout_height="40dp"
-                    android:layout_centerVertical="true"
+                    android:layout_alignParentStart="true"
+                    android:layout_marginTop="8dp"
                     android:src="@drawable/alram_icon"
                     ads:tint="@color/white" />
-
-                <LinearLayout
-                    android:id="@+id/textContainer"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:layout_marginStart="16dp"
-                    android:layout_toEndOf="@id/alarmImg"
-                    android:orientation="vertical">
-
-                    <TextView
-                        android:id="@+id/fingerTitle"
-                        style="@style/SettingTitleText"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/audible_alarm" />
-
-
-                </LinearLayout>
-
 
                 <com.google.android.material.switchmaterial.SwitchMaterial
                     android:id="@+id/alarmSwitch"
                     android:layout_width="wrap_content"
-                    android:layout_height="20dp"
+                    android:layout_height="wrap_content"
                     android:layout_alignParentEnd="true"
-                    android:layout_centerVertical="true"
                     android:checked="false"
-                    android:scaleX="0.85"
+                    android:scaleX="0.8"
                     android:scaleY="0.8"
                     app:thumbTint="@color/white"
                     app:track="@drawable/swtich_toggle"
                     app:trackTint="@color/switch_track" />
 
-
-                <TextView
-
-                    style="@style/DescriptionText"
-                    android:layout_width="wrap_content"
+                <!-- Text Container -->
+                <LinearLayout
+                    android:id="@+id/textContainer"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_below="@id/alarmImg"
-                    android:layout_alignStart="@+id/textContainer"
+                    android:layout_toEndOf="@id/alarmImg"
+                    android:layout_marginStart="12dp"
+                    android:orientation="vertical">
 
-                    android:text="If someone enter wrong pass" />
+                    <TextView
+                        android:id="@+id/fingerTitle"
+                        style="@style/SettingTitleText"
+                        android:text="@string/audible_alarm" />
 
+                    <TextView
+                        android:id="@+id/alarmState"
+                        style="@style/dialogDes"
+                        android:text="Enabled" />
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="0.7dp"
+                        android:layout_marginTop="2dp"
+                        android:background="@color/offwhite" />
+                </LinearLayout>
+
+                <!-- Description below all -->
+                <TextView
+                    android:id="@+id/alarmDescription"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/textContainer"
+                    android:layout_marginTop="8dp"
+                    android:text="@string/alramdes"
+                    style="@style/DescriptionText"/>
             </RelativeLayout>
-
-        </androidx.cardview.widget.CardView>
-
+        </com.google.android.material.card.MaterialCardView>
     </LinearLayout>
 
+    <!-- Ringtone Selection Card -->
     <LinearLayout
-
+        android:padding="@dimen/_5sdp"
         android:id="@+id/linearLayout3"
-
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:padding="5dp"
+
         app:layout_constraintTop_toBottomOf="@id/Alarm">
 
         <TextView
             style="@style/subtitle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="8dp"
+            android:layout_marginStart="@dimen/_4sdp"
             android:text="@string/configuration" />
 
         <LinearLayout style="@style/BaseCard">
-
-            <androidx.cardview.widget.CardView
+            <com.google.android.material.card.MaterialCardView
                 android:id="@+id/selectRingtone"
                 android:layout_width="match_parent"
+                ads:strokeColor="@color/strokeColor"
                 android:layout_height="wrap_content"
                 android:backgroundTint="@color/cardBgColor"
                 app:cardCornerRadius="12dp"
-                app:cardElevation="4dp">
+                app:cardElevation="4dp"
+                app:cardUseCompatPadding="false"
+                android:layout_margin="0dp">
 
                 <RelativeLayout
                     android:layout_width="match_parent"
@@ -165,45 +177,35 @@
                         android:id="@+id/Container"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_centerVertical="true"
-                        android:layout_marginStart="16dp"
                         android:layout_toEndOf="@id/musicImg"
+                        android:layout_centerVertical="true"
+                        android:layout_marginStart="12dp"
                         android:orientation="vertical">
 
                         <TextView
                             style="@style/SettingTitleText"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
                             android:text="@string/select_alarm" />
 
                         <TextView
                             android:id="@+id/ringTonename"
                             style="@style/DescriptionText"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
                             android:text="@string/beep" />
                     </LinearLayout>
-
-
+                    <ImageView
+                        style="@style/CardNextIcon"
+                        android:layout_alignParentEnd="true"
+                        android:layout_centerInParent="true"
+                        android:src="@drawable/nexticon" />
                 </RelativeLayout>
-
-            </androidx.cardview.widget.CardView>
-
+            </com.google.android.material.card.MaterialCardView>
         </LinearLayout>
-
     </LinearLayout>
-
 
     <FrameLayout
         android:id="@+id/nativeAdRoot"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        ads:layout_constraintBottom_toBottomOf="parent"
-        ads:layout_constraintEnd_toEndOf="parent"
-        ads:layout_constraintStart_toStartOf="parent">
-
-
-    </FrameLayout>
-
-
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>

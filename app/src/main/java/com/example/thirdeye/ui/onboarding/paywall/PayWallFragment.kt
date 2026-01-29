@@ -21,28 +21,22 @@ import com.example.thirdeye.constants.Constants.TERMS
 import com.example.thirdeye.data.localData.PlansData
 import com.example.thirdeye.data.localData.SecurityPrefs
 import com.example.thirdeye.databinding.FragmentPayWallBinding
+import com.google.android.material.card.MaterialCardView
 import kotlinx.coroutines.launch
 
 class PayWallFragment : Fragment() {
 
     private lateinit var binding: FragmentPayWallBinding
-    private var plans: List<PlansData> = emptyList()
-
-    private var selectedPlan: PlansData? = null
-    private var selectedRadioButton: RadioButton? = null
-
-
-    private var isPlansRendered = false
 
     private val planViewModel: PlanViewModel by activityViewModels()
     private lateinit var prefs: SecurityPrefs
 
-    private var selectedCard: com.google.android.material.card.MaterialCardView? = null
-
+    private var selectedPlan: PlansData? = null
+    private var selectedRadioButton: RadioButton? = null
+    private var selectedCard: MaterialCardView? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
         planViewModel.loadPlans()
     }
 
@@ -58,74 +52,63 @@ class PayWallFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-
         prefs = SecurityPrefs(requireContext())
 
-
-
-        binding.privacyPolicyText.setOnClickListener {
-            val privacy = Intent(Intent.ACTION_PICK, Uri.parse(PRIVACY))
-            requireContext().startActivity(privacy)
-
-
-        }
-        binding.termsText.setOnClickListener {
-            val terms = Intent(Intent.ACTION_PICK, Uri.parse(TERMS))
-            requireContext().startActivity(terms)
-
-
-        }
-
-        binding.detailsText.setOnClickListener {
-            val details = Intent(Intent.ACTION_PICK, Uri.parse(DETAILS))
-            requireContext().startActivity(details)
-
-
-        }
-
-
-        binding.cancel.setOnClickListener {
-
-
-            if (findNavController().previousBackStackEntry != null) {
-
-                findNavController().navigateUp()
-            } else {
-                findNavController().navigate(
-                    R.id.homeFragment,
-                    null,
-                    NavOptions.Builder().setLaunchSingleTop(true)
-                        .build()
-                )
-
-
-            }
-        }
-
+        setupLinks()
+        setupCancel()
 
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(
                 androidx.lifecycle.Lifecycle.State.STARTED
             ) {
-                planViewModel.plans.collect { planList ->
-
-                    plans = planList
-                    populatePlans()
+                planViewModel.plans.collect { plans ->
+                    populatePlans(plans)
                 }
             }
         }
     }
 
-    private fun populatePlans() {
-        if (isPlansRendered) return
-        isPlansRendered = true
+    private fun setupLinks() {
+        binding.privacyPolicyText.setOnClickListener {
+            startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(PRIVACY)))
+        }
+
+        binding.termsText.setOnClickListener {
+            startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(TERMS)))
+        }
+
+        binding.detailsText.setOnClickListener {
+            startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(DETAILS)))
+        }
+    }
+
+    private fun setupCancel() {
+        binding.cancel.setOnClickListener {
+            if (findNavController().previousBackStackEntry != null) {
+                findNavController().navigateUp()
+            } else {
+                findNavController().navigate(
+                    R.id.homeFragment,
+                    null,
+                    NavOptions.Builder()
+                        .setLaunchSingleTop(true)
+                        .build()
+                )
+            }
+        }
+    }
+
+    private fun populatePlans(plans: List<PlansData>) {
 
         binding.rgPlans.removeAllViews()
 
         plans.forEachIndexed { index, plan ->
-            val row =
-                layoutInflater.inflate(R.layout.paywall_item, binding.rgPlans, false)
-            val card = row as com.google.android.material.card.MaterialCardView
+
+            val row = layoutInflater.inflate(
+                R.layout.paywall_item,
+                binding.rgPlans,
+                false
+            ) as MaterialCardView
 
             val radioBtn = row.findViewById<RadioButton>(R.id.rbPlans)
             val duration = row.findViewById<TextView>(R.id.tvDuration)
@@ -133,52 +116,42 @@ class PayWallFragment : Fragment() {
             val price = row.findViewById<TextView>(R.id.price)
 
             radioBtn.id = View.generateViewId()
-            duration.text = buildString {
-                append(plan.duration)
-                append(getString(R.string.week_1))
-            }
+
+            duration.text = "${plan.duration}${getString(R.string.week_1)}"
             description.text = plan.description
             price.text = plan.price
 
             row.setOnClickListener {
-
-                handleSelection(card, radioBtn, plan)
+                handleSelection(row, radioBtn, plan)
             }
 
             radioBtn.setOnClickListener {
-                handleSelection(card, radioBtn, plan)
+                handleSelection(row, radioBtn, plan)
             }
 
             binding.rgPlans.addView(row)
+
             if (index == 2 && selectedPlan == null) {
-                handleSelection(card, radioBtn, plan)
+                handleSelection(row, radioBtn, plan)
             }
         }
     }
 
-
     private fun handleSelection(
-        card: com.google.android.material.card.MaterialCardView,
+        card: MaterialCardView,
         rb: RadioButton,
         plan: PlansData
     ) {
-
         selectedRadioButton?.isChecked = false
-        selectedCard?.strokeColor = resources.getColor(
-            R.color.strokeColor,
-            null
-        )
-
+        selectedCard?.strokeColor =
+            resources.getColor(R.color.strokeColor, null)
 
         rb.isChecked = true
-        card.strokeColor = resources.getColor(
-            R.color.dividerColor,
-            null
-        )
+        card.strokeColor =
+            resources.getColor(R.color.dividerColor, null)
 
         selectedRadioButton = rb
         selectedCard = card
         selectedPlan = plan
     }
-
 }

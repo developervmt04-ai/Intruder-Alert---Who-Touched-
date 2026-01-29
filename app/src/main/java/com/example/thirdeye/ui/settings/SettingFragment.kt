@@ -17,6 +17,7 @@ import com.example.thirdeye.MainActivity
 import com.example.thirdeye.R
 import com.example.thirdeye.ads.NativeAdController
 import com.example.thirdeye.ads.NativeAdType
+import com.example.thirdeye.billing.AdController
 import com.example.thirdeye.biometrics.BiometricHelper
 import com.example.thirdeye.constants.Constants.PACKAGE
 import com.example.thirdeye.constants.Constants.PLAY_STORE
@@ -70,6 +71,16 @@ class SettingFragment : Fragment() {
 
     private fun setupUi() {
 
+        if (AdController.shouldShowAdd()){
+
+            binding.premiumLayout.visibility=View.VISIBLE
+        }
+        else{
+
+            binding.premiumLayout.visibility=View.GONE
+        }
+
+
         binding.backIcon.setOnClickListener {
             findNavController().navigateUp()
         }
@@ -107,7 +118,10 @@ class SettingFragment : Fragment() {
             DelayDialog.showDelayDialog(requireContext()) { selectedDelay ->
                 val delay = delayPrefs.getCaptureDelay()
                 binding.delayDescription.text =
-                    "Current Delay is ${delay}Setting this value to less than 1000ms may cause"
+                    getString(
+                        R.string.current_delay_is_setting_this_value_to_less_than_1000ms_may_cause,
+                        delay
+                    )
             }
         }
 
@@ -117,7 +131,7 @@ class SettingFragment : Fragment() {
                 selfiePrefs.setWrongTries(selectNumber)
                 val tries = selfiePrefs.getWrongAttempts()
                 binding.selfieDescription.text =
-                    "Selfie will be taken after $tries wrong tries"
+                    getString(R.string.selfie_will_be_taken_after_wrong_tries, tries)
             }
         }
 
@@ -180,6 +194,8 @@ class SettingFragment : Fragment() {
 
     override fun onResume() {
         super.onResume()
+
+
 
         nativeAdController.loadNativeAd(
             binding
